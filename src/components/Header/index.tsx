@@ -7,8 +7,13 @@ import {
   MenuItem,
   ToggleDarkMode,
 } from "./style";
+import { useDarkModeStore } from "../../stores/darkModeStore";
+import { MdOutlineNightsStay } from "react-icons/md";
 
 const Header = () => {
+  const isDarkMode = useDarkModeStore((state) => state.isDarkMode);
+  const toggleDarkMode = useDarkModeStore((state) => state.toggleDarkMode);
+
   return (
     <Container>
       <Logo>
@@ -19,11 +24,12 @@ const Header = () => {
         <MenuItem to="/">Home</MenuItem>
         <MenuItem to="/about">About</MenuItem>
         <MenuItem to="/awards">Awards</MenuItem>
+        <MenuItem to="/contacts">Contacts</MenuItem>
         <MenuItem to="/projects">Projects</MenuItem>
       </Menu>
 
-      <ToggleDarkMode>
-        <IoSunnyOutline />
+      <ToggleDarkMode onClick={toggleDarkMode}>
+        {isDarkMode ? <MdOutlineNightsStay /> : <IoSunnyOutline />}
       </ToggleDarkMode>
     </Container>
   );

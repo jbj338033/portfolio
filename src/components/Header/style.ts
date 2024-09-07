@@ -44,9 +44,10 @@ export const Menu = styled.div`
 export const MenuItem = styled(NavLink)`
     padding: 1rem;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: all 0.3s;
     text-decoration: none;
     color: black;
+    border-radius: 1rem;
 
     &:hover {
         color: gray;

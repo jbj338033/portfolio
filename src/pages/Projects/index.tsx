@@ -1,7 +1,11 @@
-import { Container } from "./style";
+import { Container, Title } from "./style";
 
 const Projects = () => {
-  return <Container>Projects</Container>;
+  return (
+    <Container>
+      <Title>Projects</Title>
+    </Container>
+  );
 };
 
 export default Projects;

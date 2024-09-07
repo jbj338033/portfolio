@@ -1,11 +1,11 @@
 import { Container, Title } from "./style";
 
-const About = () => {
+const Contacts = () => {
   return (
     <Container>
-      <Title>About</Title>
+      <Title>Contacts</Title>
     </Container>
   );
 };
 
-export default About;
+export default Contacts;
