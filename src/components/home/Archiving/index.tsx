@@ -4,7 +4,7 @@ import { BsLink45Deg, BsGithub, BsInstagram } from "react-icons/bs";
 const ARCHIVE_DATA = [
   {
     title: "GitHub",
-    url: "github.com/hjcdg1",
+    url: "github.com/jbj338033",
     description: "소스 코드 저장소",
     icon: <BsGithub />,
   },

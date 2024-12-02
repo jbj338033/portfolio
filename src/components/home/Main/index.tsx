@@ -2,7 +2,7 @@ import * as S from "./style";
 import background from "../../assets/images/background.jpg";
 import { BsArrowRight } from "react-icons/bs";
 
-const Home = () => {
+const Main = () => {
   const handleLearnMore = () => {
     const aboutSection = document.getElementById("about");
     if (!aboutSection) return;
@@ -30,4 +30,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Main;

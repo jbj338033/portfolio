@@ -4,7 +4,7 @@ import { BsGithub, BsInstagram, BsEnvelope } from "react-icons/bs";
 const CONTACT_LINKS = [
   {
     icon: <BsGithub />,
-    href: "https://github.com/hjcdg1",
+    href: "https://github.com/jbj338033",
     label: "GitHub",
   },
   {
