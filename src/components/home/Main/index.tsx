@@ -1,5 +1,5 @@
 import * as S from "./style";
-import background from "../../assets/images/background.jpg";
+import background from "../../../assets/images/background.jpg";
 import { BsArrowRight } from "react-icons/bs";
 
 const Main = () => {

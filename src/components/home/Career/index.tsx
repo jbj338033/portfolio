@@ -1,6 +1,6 @@
 import * as S from "./style";
 import { BsLink45Deg } from "react-icons/bs";
-import juniorDeveloper from "../../assets/images/junior-developer.png";
+import juniorDeveloper from "../../../assets/images/junior-developer.png";
 
 interface CareerDetail {
   title: string;
