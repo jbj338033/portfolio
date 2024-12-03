@@ -1,42 +1,40 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as S from "./style";
-import { BsCalendarWeek } from "react-icons/bs";
-import { NarshaEntry } from "../../../types/narsha";
+import { BsCalendarRange } from "react-icons/bs";
+import { NARSHA_PROJECTS } from "../../../constants/narsha";
 
-interface Props {
-  entries: NarshaEntry[];
-  compact?: boolean;
-}
-
-const NarshaList = ({ entries, compact = false }: Props) => {
+const NarshaList = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const currentId = location.pathname.split("/").pop();
 
-  const handleEntryClick = (id: number) => {
+  const handleProjectClick = (id: number) => {
     navigate(`/narsha/${id}`);
   };
 
   return (
-    <S.Container $compact={compact}>
-      {entries.map((entry) => (
-        <S.EntryCard
-          key={entry.id}
-          onClick={() => handleEntryClick(entry.id)}
-          $isActive={entry.id === Number(currentId)}
-          $compact={compact}
-        >
-          <S.EntryHeader $compact={compact}>
-            <S.WeekBadge>
-              <BsCalendarWeek />
-              {entry.week}주차
-            </S.WeekBadge>
-            <S.Date>{entry.date}</S.Date>
-          </S.EntryHeader>
-          <S.EntryTitle $compact={compact}>{entry.title}</S.EntryTitle>
-          {!compact && <S.EntrySummary>{entry.summary}</S.EntrySummary>}
-        </S.EntryCard>
-      ))}
+    <S.Container>
+      <S.Title>나르샤 프로젝트</S.Title>
+      <S.Description>
+        진행했던 나르샤 프로젝트들의 활동 기록을 확인할 수 있습니다.
+      </S.Description>
+
+      <S.ProjectGrid>
+        {NARSHA_PROJECTS.map((project) => (
+          <S.ProjectCard
+            key={project.id}
+            onClick={() => handleProjectClick(project.id)}
+          >
+            <S.ProjectHeader>
+              <S.Period>
+                <BsCalendarRange />
+                {project.period}
+              </S.Period>
+              <S.EntryCount>{project.entries.length}개의 활동</S.EntryCount>
+            </S.ProjectHeader>
+            <S.ProjectTitle>{project.title}</S.ProjectTitle>
+            <S.ProjectDescription>{project.description}</S.ProjectDescription>
+          </S.ProjectCard>
+        ))}
+      </S.ProjectGrid>
     </S.Container>
   );
 };

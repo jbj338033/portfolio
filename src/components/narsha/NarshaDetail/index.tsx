@@ -1,22 +1,34 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import * as S from "./style";
 import { BsCalendarWeek, BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { BiGroup } from "react-icons/bi";
-import { NARSHA_ENTRIES } from "../../../constants/narsha";
+import { NARSHA_PROJECTS } from "../../../constants/narsha";
 
 const NarshaDetail = () => {
-  const { id } = useParams();
-  const currentEntry = NARSHA_ENTRIES.find((entry) => entry.id === Number(id));
-  const currentIndex = NARSHA_ENTRIES.findIndex(
-    (entry) => entry.id === Number(id)
-  );
-  const prevEntry = currentIndex > 0 ? NARSHA_ENTRIES[currentIndex - 1] : null;
-  const nextEntry =
-    currentIndex < NARSHA_ENTRIES.length - 1
-      ? NARSHA_ENTRIES[currentIndex + 1]
-      : null;
+  const { projectId, entryId } = useParams();
+  const navigate = useNavigate();
 
-  if (!currentEntry) return null;
+  const currentProject = NARSHA_PROJECTS.find(
+    (project) => project.id === Number(projectId)
+  );
+
+  const currentEntry = currentProject?.entries.find(
+    (entry) => entry.id === Number(entryId)
+  );
+
+  const currentIndex =
+    currentProject?.entries.findIndex(
+      (entry) => entry.id === Number(entryId)
+    ) ?? -1;
+
+  const prevEntry =
+    currentIndex > 0 ? currentProject?.entries[currentIndex - 1] : null;
+  const nextEntry = currentProject?.entries[currentIndex + 1] ?? null;
+
+  if (!currentEntry || !currentProject) {
+    navigate("/narsha");
+    return null;
+  }
 
   return (
     <S.Container>
@@ -59,7 +71,10 @@ const NarshaDetail = () => {
 
         <S.Navigation>
           {prevEntry && (
-            <S.NavLink to={`/narsha/${prevEntry.id}`} $direction="prev">
+            <S.NavLink
+              to={`/narsha/${projectId}/${prevEntry.id}`}
+              direction="prev"
+            >
               <S.NavContent>
                 <BsArrowLeft />
                 <div>
@@ -73,7 +88,10 @@ const NarshaDetail = () => {
             </S.NavLink>
           )}
           {nextEntry && (
-            <S.NavLink to={`/narsha/${nextEntry.id}`} $direction="next">
+            <S.NavLink
+              to={`/narsha/${projectId}/${nextEntry.id}`}
+              direction="next"
+            >
               <S.NavContent>
                 <div>
                   <S.NavLabel>다음 주차</S.NavLabel>

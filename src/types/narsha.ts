@@ -1,15 +1,24 @@
+export interface NarshaContent {
+  title: string;
+  description: string[];
+}
+
 export interface NarshaEntry {
   id: number;
   week: number;
-  date: string;
   title: string;
-  summary: string;
+  date: string;
   teamMembers: string[];
-  contents: {
-    title: string;
-    description: string[];
-  }[];
+  contents: NarshaContent[];
   achievement: string;
   nextPlan: string;
-  images?: string[];
+  summary?: string;
+}
+
+export interface NarshaProject {
+  id: number;
+  title: string;
+  description: string;
+  period: string;
+  entries: NarshaEntry[];
 }

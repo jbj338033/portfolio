@@ -16,7 +16,7 @@ const DatabaseLayout = () => {
           <S.Nav>
             <S.HomeLink to="/">
               <IoMdHome />
-              메인으로
+              홈으로 이동
             </S.HomeLink>
             <S.IconButton
               onClick={() => setIsSidebarOpen(false)}

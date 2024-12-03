@@ -169,7 +169,7 @@ export const Navigation = styled.div`
   }
 `;
 
-export const NavLink = styled(Link)<{ $direction: "prev" | "next" }>`
+export const NavLink = styled(Link)<{ direction: "prev" | "next" }>`
   flex: 1;
   text-decoration: none;
   padding: 20px;

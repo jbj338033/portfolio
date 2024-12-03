@@ -1,53 +1,99 @@
-import { Outlet } from "react-router-dom";
-import * as S from "./style";
-import NarshaList from "../NarshaList";
-import { NARSHA_ENTRIES } from "../../../constants/narsha";
-import { useState } from "react";
+import { Outlet, useLocation, useParams } from "react-router-dom";
+import { memo, useCallback, useEffect, useState } from "react";
 import { IoMdArrowBack, IoMdMenu, IoMdHome } from "react-icons/io";
+import * as S from "./style";
+import NarshaDiary from "../NarshaDiary";
+import { NARSHA_PROJECTS } from "../../../constants/narsha";
+
+interface SidebarProps {
+  project: (typeof NARSHA_PROJECTS)[0] | null | undefined;
+  onClose: () => void;
+}
+
+const Sidebar = memo(({ project, onClose }: SidebarProps) => (
+  <S.SidebarHeader>
+    <S.Nav>
+      <S.HomeLink to="/narsha">
+        <IoMdHome />
+        프로젝트 목록
+      </S.HomeLink>
+      <S.Button onClick={onClose} aria-label="사이드바 접기">
+        <IoMdArrowBack />
+      </S.Button>
+    </S.Nav>
+    <S.SidebarTitle>{project?.title || "나르샤 활동 일지"}</S.SidebarTitle>
+    <S.Period>{project?.period}</S.Period>
+  </S.SidebarHeader>
+));
+
+Sidebar.displayName = "Sidebar";
 
 const NarshaLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const location = useLocation();
+  const { projectId } = useParams();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const isProjectListPage = location.pathname === "/narsha";
+  const currentProject = projectId
+    ? NARSHA_PROJECTS.find((p) => p.id === Number(projectId)) ?? null
+    : null;
+
+  const handleSidebarClose = useCallback(() => {
+    setIsSidebarOpen(false);
+  }, []);
+
+  const handleOverlayClick = useCallback(() => {
+    setIsSidebarOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (isProjectListPage) {
+      setIsSidebarOpen(false);
+    }
+  }, [isProjectListPage]);
 
   return (
     <S.Container>
-      <S.Sidebar isOpen={isSidebarOpen}>
-        <S.SidebarHeader>
-          <S.Nav>
-            <S.HomeLink to="/">
-              <IoMdHome />
-              홈으로 이동
-            </S.HomeLink>
-            <S.IconButton
-              onClick={() => setIsSidebarOpen(false)}
-              aria-label="사이드바 접기"
-            >
-              <IoMdArrowBack />
-            </S.IconButton>
-          </S.Nav>
-          <S.SidebarTitle>나르샤 활동 일지</S.SidebarTitle>
-        </S.SidebarHeader>
-        <S.SidebarContent>
-          <NarshaList entries={NARSHA_ENTRIES} compact />
-        </S.SidebarContent>
-      </S.Sidebar>
+      <S.HomeNav>
+        <S.HomeLink to="/">
+          <IoMdHome />
+        </S.HomeLink>
+      </S.HomeNav>
 
-      {!isSidebarOpen && (
-        <S.MinimalSidebar>
-          <S.MinimalNav>
-            <S.IconButton
-              onClick={() => setIsSidebarOpen(true)}
-              aria-label="사이드바 펼치기"
-            >
-              <IoMdMenu />
-            </S.IconButton>
-            <S.MinimalHomeLink to="/">
-              <IoMdHome />
-            </S.MinimalHomeLink>
-          </S.MinimalNav>
-        </S.MinimalSidebar>
+      {!isProjectListPage && (
+        <>
+          <S.Overlay isVisible={isSidebarOpen} onClick={handleOverlayClick} />
+
+          <S.Sidebar isOpen={isSidebarOpen}>
+            <Sidebar project={currentProject} onClose={handleSidebarClose} />
+            <S.SidebarContent>
+              {currentProject && (
+                <NarshaDiary
+                  entries={currentProject.entries}
+                  projectId={currentProject.id}
+                  compact
+                />
+              )}
+            </S.SidebarContent>
+          </S.Sidebar>
+
+          <S.MinimalSidebar isOpen={!isSidebarOpen}>
+            <S.MinimalNav>
+              <S.Button
+                onClick={() => setIsSidebarOpen(true)}
+                aria-label="사이드바 펼치기"
+              >
+                <IoMdMenu />
+              </S.Button>
+              <S.MinimalHomeLink to="/narsha">
+                <IoMdHome />
+              </S.MinimalHomeLink>
+            </S.MinimalNav>
+          </S.MinimalSidebar>
+        </>
       )}
 
-      <S.Main isSidebarOpen={isSidebarOpen}>
+      <S.Main isOpen={isSidebarOpen} isProjectListPage={isProjectListPage}>
         <S.ContentWrapper>
           <Outlet />
         </S.ContentWrapper>

@@ -35,7 +35,7 @@ const activities: ActivityItem[] = [
     id: "data-structure",
     name: "자료구조 수업",
     description: "교내 IT 프로젝트",
-    path: "/data-structure-class",
+    path: "/data-structure",
     icon: <HiOutlineAcademicCap />,
     color: "#74c0fc",
   },
