@@ -229,4 +229,11 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       },
     ],
   },
+  {
+    id: 2,
+    title: "2025 나르샤 프로젝트",
+    description: "2025년도 나르샤 프로젝트 활동 내역입니다.",
+    period: "2025.01 - 2025.12",
+    entries: [],
+  },
 ];

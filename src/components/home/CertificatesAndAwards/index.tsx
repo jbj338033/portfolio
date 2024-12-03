@@ -45,6 +45,20 @@ const AWARDS: Award[] = [
     rank: "은상",
     description: "켐프 프로젝트로 우수한 성과 달성",
   },
+  {
+    name: "Topcit 21회",
+    organization: "정보통신기획평가원",
+    date: "2024.5",
+    rank: "3수준",
+    description: "484점",
+  },
+  {
+    name: "Topcit 22회",
+    organization: "정보통신기획평가원",
+    date: "2024.11",
+    rank: "3수준",
+    description: "560점",
+  },
 ];
 
 const CertificatesAndAwards = () => {
