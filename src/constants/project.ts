@@ -8,9 +8,45 @@ import finder from "../assets/images/finder.png";
 
 export const PROJECTS: Project[] = [
   {
+    category: "코딩 테스트 플랫폼",
+    startDate: "2024.10",
+    featured: true,
+    title: '자유롭게 문제를 출제하고 풀 수 있는 코딩 테스트 플랫폼 "Solve"',
+    description: [
+      "1학년 학생들을 위한 맞춤형 코딩 테스트 플랫폼 개발",
+      "Docker를 활용한 코드 샌드박스 구현으로 안전한 코드 실행 환경 구축",
+      "Spring Boot와 JPA를 활용한 문제 출제 및 채점 시스템 개발",
+      "GCP Cloud Run을 활용한 서버리스 아키텍처 구현",
+      "실시간 채점 결과 확인을 위한 WebSocket 기반 알림 시스템 구현",
+      "QueryDSL을 활용한 동적 쿼리 최적화로 문제 검색 기능 고도화",
+      "다양한 프로그래밍 언어(Python, Java, C++) 지원을 위한 컴파일러 통합",
+    ],
+    thumbnail: solveTitle,
+    url: {
+      link: "https://solve.kr",
+    },
+    team: "5인 팀 프로젝트",
+    skills: [
+      "Spring Boot",
+      "Docker",
+      "JPA",
+      "QueryDSL",
+      "MySQL",
+      "GCP",
+      "WebSocket",
+      "Redis",
+      "Nginx",
+    ],
+    links: {
+      readme: "https://github.com/NameOfTeam/solve-server#readme",
+      github: "https://github.com/NameOfTeam/solve-server",
+    },
+  },
+  {
     category: "음악 플랫폼",
     startDate: "2024.04",
     endDate: "2024.06",
+    featured: true,
     title: '사용자가 직접 음악을 올릴 수 있는 음악 플랫폼 "OpenMusic"',
     description: [
       "Spring Boot를 활용한 RESTful API 설계 및 구현",
@@ -41,40 +77,6 @@ export const PROJECTS: Project[] = [
     ],
     links: {
       readme: "https://github.com/Open3r/openmusic-server",
-    },
-  },
-  {
-    category: "코딩 테스트 플랫폼",
-    startDate: "2024.10",
-    title: '자유롭게 문제를 출제하고 풀 수 있는 코딩 테스트 플랫폼 "Solve"',
-    description: [
-      "1학년 학생들을 위한 맞춤형 코딩 테스트 플랫폼 개발",
-      "Docker를 활용한 코드 샌드박스 구현으로 안전한 코드 실행 환경 구축",
-      "Spring Boot와 JPA를 활용한 문제 출제 및 채점 시스템 개발",
-      "GCP Cloud Run을 활용한 서버리스 아키텍처 구현",
-      "실시간 채점 결과 확인을 위한 WebSocket 기반 알림 시스템 구현",
-      "QueryDSL을 활용한 동적 쿼리 최적화로 문제 검색 기능 고도화",
-      "다양한 프로그래밍 언어(Python, Java, C++) 지원을 위한 컴파일러 통합",
-    ],
-    thumbnail: solveTitle,
-    url: {
-      link: "https://solve.kr",
-    },
-    team: "5인 팀 프로젝트",
-    skills: [
-      "Spring Boot",
-      "Docker",
-      "JPA",
-      "QueryDSL",
-      "MySQL",
-      "GCP",
-      "WebSocket",
-      "Redis",
-      "Nginx",
-    ],
-    links: {
-      readme: "https://github.com/NameOfTeam/solve-server#readme",
-      github: "https://github.com/NameOfTeam/solve-server",
     },
   },
   {

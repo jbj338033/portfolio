@@ -1,5 +1,5 @@
 import * as S from "./style";
-import { BsLink45Deg, BsGithub } from "react-icons/bs";
+import { BsLink45Deg, BsGithub, BsStarFill } from "react-icons/bs";
 import { BiLinkExternal } from "react-icons/bi";
 import { VscLock } from "react-icons/vsc";
 import { SlCalender } from "react-icons/sl";
@@ -16,6 +16,9 @@ const Projects = () => {
   const [touchEnd, setTouchEnd] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
+
+  const featuredProjects = PROJECTS.filter((p) => p.featured);
+  const regularProjects = PROJECTS.filter((p) => !p.featured);
 
   useEffect(() => {
     if (selectedProject) {
@@ -113,63 +116,88 @@ const Projects = () => {
     };
   }, [handleKeyPress, selectedProject]);
 
+  const renderProjectCard = (project: Project, isMain = false) => (
+    <S.ProjectCard
+      onClick={() => {
+        setSelectedProject(project);
+        setCurrentImageIndex(0);
+      }}
+    >
+      {project.featured && !isMain && (
+        <S.FeaturedBadge>
+          <BsStarFill />
+          대표작
+        </S.FeaturedBadge>
+      )}
+      <div className="image-section">
+        {project.thumbnail && (
+          <S.ImageContainer>
+            <S.ProjectImage
+              src={project.thumbnail}
+              alt={project.title}
+              style={{ transform: "scale(1)" }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+              }}
+            />
+          </S.ImageContainer>
+        )}
+      </div>
+
+      <div className="content-section">
+        <S.ProjectHeader>
+          <S.Category>{project.category}</S.Category>
+          {formatPeriod(project.startDate, project.endDate)}
+        </S.ProjectHeader>
+
+        <S.ProjectTitle>{project.title}</S.ProjectTitle>
+
+        <S.DescriptionList>
+          {project.description.slice(0, isMain ? 3 : 2).map((desc, i) => (
+            <S.DescriptionItem key={i}>{desc}</S.DescriptionItem>
+          ))}
+          {!isMain && project.description.length > 2 && (
+            <S.DescriptionItem>더보기...</S.DescriptionItem>
+          )}
+        </S.DescriptionList>
+
+        <S.SkillsList>
+          {project.skills.slice(0, isMain ? 6 : 4).map((skill) => (
+            <S.SkillItem key={skill}>{skill}</S.SkillItem>
+          ))}
+          {!isMain && project.skills.length > 4 && (
+            <S.SkillItem>+{project.skills.length - 4}</S.SkillItem>
+          )}
+        </S.SkillsList>
+      </div>
+    </S.ProjectCard>
+  );
+
   return (
     <S.Container id="projects">
       <S.TitleWrapper>
         <BsLink45Deg />
         <S.Title>PROJECTS</S.Title>
       </S.TitleWrapper>
-      <S.Content>
-        {PROJECTS.map((project, index) => (
-          <S.ProjectCard
-            key={index}
-            onClick={() => {
-              setSelectedProject(project);
-              setCurrentImageIndex(0);
-            }}
-          >
-            {project.thumbnail && (
-              <S.ImageContainer>
-                <S.ProjectImage
-                  src={project.thumbnail}
-                  alt={project.title}
-                  style={{ transform: "scale(1)" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.05)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
-                  }}
-                />
-              </S.ImageContainer>
-            )}
-            <S.ProjectHeader>
-              <S.Category>{project.category}</S.Category>
-              {formatPeriod(project.startDate, project.endDate)}
-            </S.ProjectHeader>
 
-            <S.ProjectTitle>{project.title}</S.ProjectTitle>
+      <S.GridContainer>
+        {featuredProjects[0] && (
+          <S.MainProject>
+            {renderProjectCard(featuredProjects[0], true)}
+          </S.MainProject>
+        )}
 
-            <S.DescriptionList>
-              {project.description.slice(0, 2).map((desc, i) => (
-                <S.DescriptionItem key={i}>{desc}</S.DescriptionItem>
-              ))}
-              {project.description.length > 2 && (
-                <S.DescriptionItem>더보기...</S.DescriptionItem>
-              )}
-            </S.DescriptionList>
-
-            <S.SkillsList>
-              {project.skills.slice(0, 4).map((skill) => (
-                <S.SkillItem key={skill}>{skill}</S.SkillItem>
-              ))}
-              {project.skills.length > 4 && (
-                <S.SkillItem>+{project.skills.length - 4}</S.SkillItem>
-              )}
-            </S.SkillsList>
-          </S.ProjectCard>
-        ))}
-      </S.Content>
+        <S.ProjectsGrid>
+          {[...featuredProjects.slice(1), ...regularProjects].map(
+            (project, index) => (
+              <div key={index}>{renderProjectCard(project)}</div>
+            )
+          )}
+        </S.ProjectsGrid>
+      </S.GridContainer>
 
       {selectedProject && (
         <S.Modal onClick={() => setSelectedProject(null)}>

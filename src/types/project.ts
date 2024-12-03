@@ -16,4 +16,5 @@ export interface Project {
     readme?: string;
     github?: string;
   };
+  featured?: boolean;
 }

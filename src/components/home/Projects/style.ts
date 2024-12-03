@@ -26,11 +26,45 @@ export const Title = styled.h2`
   letter-spacing: -0.5px;
 `;
 
-export const Content = styled.div`
+export const GridContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 48px;
+`;
+
+export const MainProject = styled.div`
+  grid-column: 1 / -1;
+
+  .image-section {
+    flex: 1.2;
+    min-height: 400px;
+  }
+
+  .content-section {
+    flex: 1;
+    padding: 40px;
+  }
+
+  > div {
+    display: flex;
+    padding: 0;
+    gap: 40px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 24px;
+
+      .content-section {
+        padding: 24px;
+      }
+    }
+  }
+`;
+
+export const ProjectsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 32px;
 
   @media (max-width: 768px) {
@@ -45,6 +79,8 @@ export const ProjectCard = styled.div`
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  height: 100%;
 
   &:hover {
     transform: translateY(-4px);
@@ -54,7 +90,8 @@ export const ProjectCard = styled.div`
 
 export const ImageContainer = styled.div`
   width: 100%;
-  height: 200px;
+  height: 100%;
+  min-height: 200px;
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 24px;
@@ -154,6 +191,26 @@ export const SkillItem = styled.span`
 
   &:hover {
     background-color: #e9ecef;
+  }
+`;
+
+export const FeaturedBadge = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 1;
+
+  svg {
+    color: #ffd700;
   }
 `;
 
@@ -385,10 +442,12 @@ export const ImageNavButton = styled.button`
   }
 `;
 
-export const ModalTitle = styled(ProjectTitle)`
+export const ModalTitle = styled.h3`
   font-size: 32px;
-  margin-bottom: 16px;
+  font-weight: 700;
   color: #191919;
+  margin-bottom: 16px;
+  line-height: 1.4;
 `;
 
 export const ModalTeam = styled.div`
@@ -402,7 +461,9 @@ export const ModalTeam = styled.div`
   margin-bottom: 40px;
 `;
 
-export const ModalDescription = styled(DescriptionList)`
+export const ModalDescription = styled.ul`
+  list-style-type: none;
+  padding: 0;
   margin: 0 0 40px 0;
 
   li {
