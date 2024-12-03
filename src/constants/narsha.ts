@@ -198,7 +198,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 11,
         week: 11,
-        date: "2024.10.26",
+        date: "2024.11.26",
         title: "프로젝트 마무리",
         summary: "프로젝트 마무리",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
