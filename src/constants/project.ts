@@ -2,6 +2,7 @@ import { Project } from "../types/project";
 import openmusic from "../assets/images/openmusic.png";
 import background from "../assets/images/background.jpg";
 import juniorDeveloper from "../assets/images/junior-developer.png";
+import solveTitle from "../assets/images/solve-title.png";
 
 export const PROJECTS: Project[] = [
   {
@@ -36,6 +37,7 @@ export const PROJECTS: Project[] = [
       "백준과 같은 사이트는 직접 문제를 출제하기가 까다로움",
       "그래서 직접 문제를 출제하고 풀 수 있는 플랫폼을 만들어보자는 취지",
     ],
+    thumbnail: solveTitle,
     url: {
       link: "https://solve.kr",
     },
