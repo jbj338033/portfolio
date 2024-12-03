@@ -6,6 +6,16 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
     title: "2024 나르샤 프로젝트",
     description: "2024년도 나르샤 프로젝트 활동 내역입니다.",
     period: "2024.08 - 2024.12",
+    status: "completed",
+    techStack: [
+      "React.js",
+      "TypeScript",
+      "Node.js",
+      "Express",
+      "Socket.io",
+      "Tailwind CSS",
+    ],
+    teamSize: 5,
     entries: [
       {
         id: 1,
@@ -32,54 +42,35 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
         week: 2,
         date: "2024.08.27",
         title: "기술 스택 조사",
-        summary: "프로젝트에 사용할 기술 스택 조사",
+        summary: "기술 스택 조사 및 선정",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
         contents: [
           {
-            title: "백엔드 기술 스택",
-            description: ["Node.js, Express.js, Socket.io, Typescript, Axios"],
-          },
-          {
-            title: "프론트엔드 기술 스택",
+            title: "기술 스택 조사",
             description: [
-              "React.js, TypeScript, Tailwind CSS, Axios, Vite, Framer Motion, React Icons, React Intersection Observer",
-              "UI/UX 디자인",
+              "React.js, TypeScript, Node.js, Express, Socket.io, Tailwind CSS",
             ],
           },
-          {
-            title: "디자인 기술 스택",
-            description: ["Figma"],
-          },
-          {
-            title: "협업 도구",
-            description: ["Discord, KakaoWork, GitHub"],
-          },
         ],
-        achievement: "기술 스택 선정 및 프로젝트 초기 세팅 완료",
-        nextPlan: "프로젝트 초기 구조 설계",
+        achievement: "기술 스택 선정",
+        nextPlan: "기능명세서 작성",
       },
       {
         id: 3,
         week: 3,
         date: "2024.09.03",
         title: "기능명세서 작성",
-        summary: "프로젝트 기능명세서 작성",
+        summary: "기능명세서 작성",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
         contents: [
           {
             title: "기능명세서 작성",
-            description: [
-              "화상 채팅 기능명세서 작성",
-              "화상 채팅방 목록 기능명세서 작성",
-              "화상 채팅방 생성 기능명세서 작성",
-              "화상 채팅방 입장 기능명세서 작성",
-            ],
+            description: ["화상 채팅방 목록", "화상 채팅방", "화상 채팅"],
           },
         ],
         achievement: "기능명세서 작성 완료",
-        nextPlan: "디자인 회의 및 디자인 작업",
+        nextPlan: "디자인 회의",
       },
-      // 디자인 회의
       {
         id: 4,
         week: 4,
@@ -100,7 +91,6 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
         achievement: "UI/UX 디자인 완료",
         nextPlan: "깃허브 프로젝트 생성 및 초기 커밋과 디자인 검토",
       },
-      // 깃허브 프로젝트 생성과 디자인 검토
       {
         id: 5,
         week: 5,
@@ -117,7 +107,6 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
         achievement: "깃허브 프로젝트 생성 및 초기 커밋 완료",
         nextPlan: "뷰 구현",
       },
-      // 뷰 구현
       {
         id: 6,
         week: 6,
@@ -134,7 +123,6 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
         achievement: "화상 채팅방 목록 뷰 구현 완료",
         nextPlan: "화상 채팅방 뷰 구현",
       },
-      // 서버 배포 시작
       {
         id: 7,
         week: 7,
@@ -151,7 +139,6 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
         achievement: "서버 배포 시작",
         nextPlan: "더 많은 뷰 구현과 서버 개발",
       },
-      // 더 많은 뷰 구현과 서버 개발 및 배포 완료
       {
         id: 8,
         week: 8,
@@ -172,7 +159,6 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
         achievement: "화상 채팅방 뷰 구현 및 서버 개발 완료",
         nextPlan: "UI/UX 디자인 수정 및 서버 배포",
       },
-      // UI/UX 디자인 수정 및 서버 배포
       {
         id: 9,
         week: 9,
@@ -193,7 +179,6 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
         achievement: "UI/UX 디자인 수정 및 서버 배포 완료",
         nextPlan: "프로젝트 마무리",
       },
-      // 코드를 merge하는 과정에서 충돌이 발생하여 해결하는 과정
       {
         id: 10,
         week: 10,
@@ -210,7 +195,6 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
         achievement: "코드 충돌 해결",
         nextPlan: "프로젝트 마무리",
       },
-      // 프로젝트 마무리
       {
         id: 11,
         week: 11,
@@ -234,6 +218,27 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
     title: "2025 나르샤 프로젝트",
     description: "2025년도 나르샤 프로젝트 활동 내역입니다.",
     period: "2025.01 - 2025.12",
-    entries: [],
+    status: "ongoing",
+    techStack: [],
+    teamSize: 0,
+    entries: [
+      {
+        id: 1,
+        week: 0,
+        date: "2025.01.01",
+        title: "팀 구성 및 프로젝트 주제 선정",
+        teamMembers: [],
+        achievement: "",
+        nextPlan: "",
+        summary: "팀 구성 및 프로젝트 주제 선정",
+        tags: ["팀 구성", "프로젝트 주제 선정"],
+        contents: [
+          {
+            title: "팀 구성",
+            description: ["팀원 모집 및 팀 구성", "프로젝트 주제 선정"],
+          },
+        ],
+      },
+    ],
   },
 ];

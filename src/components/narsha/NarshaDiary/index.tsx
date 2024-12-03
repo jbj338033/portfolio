@@ -1,45 +1,37 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import * as S from "./style";
+import { useNavigate } from "react-router-dom";
 import { BsCalendarWeek } from "react-icons/bs";
 import { NarshaEntry } from "../../../types/narsha";
+import * as S from "./style";
 
 interface Props {
   entries: NarshaEntry[];
   projectId: number;
-  compact?: boolean;
 }
 
-const NarshaDiary = ({ entries, projectId, compact = false }: Props) => {
+const NarshaDiary = ({ entries, projectId }: Props) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const currentId = location.pathname.split("/").pop();
 
   const handleEntryClick = (entryId: number) => {
     navigate(`/narsha/${projectId}/${entryId}`);
   };
 
   return (
-    <S.Container $compact={compact}>
-      {entries.map((entry) => (
-        <S.EntryCard
-          key={entry.id}
-          onClick={() => handleEntryClick(entry.id)}
-          $isActive={entry.id === Number(currentId)}
-          $compact={compact}
-        >
-          <S.EntryHeader $compact={compact}>
-            <S.WeekBadge>
-              <BsCalendarWeek />
-              {entry.week}주차
-            </S.WeekBadge>
-            <S.Date>{entry.date}</S.Date>
-          </S.EntryHeader>
-          <S.EntryTitle $compact={compact}>{entry.title}</S.EntryTitle>
-          {!compact && entry.summary && (
-            <S.EntrySummary>{entry.summary}</S.EntrySummary>
-          )}
-        </S.EntryCard>
-      ))}
+    <S.Container>
+      <S.EntryList>
+        {entries.map((entry) => (
+          <S.Entry key={entry.id} onClick={() => handleEntryClick(entry.id)}>
+            <S.EntryHeader>
+              <S.WeekBadge>
+                <BsCalendarWeek />
+                {entry.week}주차
+              </S.WeekBadge>
+              <S.Date>{entry.date}</S.Date>
+            </S.EntryHeader>
+            <S.Title>{entry.title}</S.Title>
+            {entry.summary && <S.Summary>{entry.summary}</S.Summary>}
+          </S.Entry>
+        ))}
+      </S.EntryList>
     </S.Container>
   );
 };

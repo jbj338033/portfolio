@@ -1,62 +1,72 @@
 import styled from "@emotion/styled";
 
-export const Container = styled.div<{ $compact: boolean }>`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ $compact }) => ($compact ? "12px" : "24px")};
-`;
+export const Container = styled.div`
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 
-export const EntryCard = styled.div<{ $isActive?: boolean; $compact: boolean }>`
-  background: ${({ $isActive }) => ($isActive ? "#2c2d32" : "#25262b")};
-  border-radius: 12px;
-  padding: ${({ $compact }) => ($compact ? "16px" : "24px")};
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid ${({ $isActive }) => ($isActive ? "#5c7cfa" : "#2c2d32")};
-
-  &:hover {
-    background: #2c2d32;
+  @media (max-width: 768px) {
+    padding: 24px;
   }
 `;
 
-export const EntryHeader = styled.div<{ $compact: boolean }>`
+export const EntryList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const Entry = styled.div`
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+  }
+`;
+
+export const EntryHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: ${({ $compact }) => ($compact ? "8px" : "16px")};
+  margin-bottom: 12px;
 `;
 
 export const WeekBadge = styled.div`
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
-  background: #2c2d32;
-  color: #e9ecef;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
   padding: 6px 12px;
   border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
 
   svg {
-    font-size: 13px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
   }
 `;
 
 export const Date = styled.span`
-  color: #868e96;
-  font-size: 13px;
-`;
-
-export const EntryTitle = styled.h3<{ $compact: boolean }>`
-  font-size: ${({ $compact }) => ($compact ? "15px" : "20px")};
-  font-weight: 600;
-  color: #e9ecef;
-  margin-bottom: ${({ $compact }) => ($compact ? "0" : "12px")};
-  line-height: 1.4;
-`;
-
-export const EntrySummary = styled.p`
-  color: #adb5bd;
+  color: rgba(255, 255, 255, 0.5);
   font-size: 14px;
-  line-height: 1.6;
+`;
+
+export const Title = styled.h3`
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+`;
+
+export const Summary = styled.p`
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  line-height: 1.5;
 `;

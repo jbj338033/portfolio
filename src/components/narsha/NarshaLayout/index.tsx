@@ -1,103 +1,90 @@
-import { Outlet, useLocation, useParams } from "react-router-dom";
-import { memo, useCallback, useEffect, useState } from "react";
-import { IoMdArrowBack, IoMdMenu, IoMdHome } from "react-icons/io";
-import * as S from "./style";
-import NarshaDiary from "../NarshaDiary";
+import { useParams, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { IoMdHome } from "react-icons/io";
+import { BsChevronDown } from "react-icons/bs";
+import { useState } from "react";
 import { NARSHA_PROJECTS } from "../../../constants/narsha";
-
-interface SidebarProps {
-  project: (typeof NARSHA_PROJECTS)[0] | null | undefined;
-  onClose: () => void;
-}
-
-const Sidebar = memo(({ project, onClose }: SidebarProps) => (
-  <S.SidebarHeader>
-    <S.Nav>
-      <S.HomeLink to="/narsha">
-        <IoMdHome />
-        프로젝트 목록
-      </S.HomeLink>
-      <S.Button onClick={onClose} aria-label="사이드바 접기">
-        <IoMdArrowBack />
-      </S.Button>
-    </S.Nav>
-    <S.SidebarTitle>{project?.title || "나르샤 활동 일지"}</S.SidebarTitle>
-    <S.Period>{project?.period}</S.Period>
-  </S.SidebarHeader>
-));
-
-Sidebar.displayName = "Sidebar";
+import * as S from "./style";
 
 const NarshaLayout = () => {
-  const location = useLocation();
-  const { projectId } = useParams();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { projectId, entryId } = useParams();
+  const navigate = useNavigate();
+  const [isProjectSelectorOpen, setProjectSelectorOpen] = useState(false);
 
-  const isProjectListPage = location.pathname === "/narsha";
   const currentProject = projectId
-    ? NARSHA_PROJECTS.find((p) => p.id === Number(projectId)) ?? null
+    ? NARSHA_PROJECTS.find((p) => p.id === Number(projectId))
     : null;
 
-  const handleSidebarClose = useCallback(() => {
-    setIsSidebarOpen(false);
-  }, []);
-
-  const handleOverlayClick = useCallback(() => {
-    setIsSidebarOpen(false);
-  }, []);
-
-  useEffect(() => {
-    if (isProjectListPage) {
-      setIsSidebarOpen(false);
-    }
-  }, [isProjectListPage]);
+  const handleProjectSelect = (id: number) => {
+    navigate(`/narsha/${id}`);
+    setProjectSelectorOpen(false);
+  };
 
   return (
     <S.Container>
-      <S.HomeNav>
-        <S.HomeLink to="/">
-          <IoMdHome />
-        </S.HomeLink>
-      </S.HomeNav>
-
-      {!isProjectListPage && (
+      {currentProject ? (
         <>
-          <S.Overlay isVisible={isSidebarOpen} onClick={handleOverlayClick} />
-
-          <S.Sidebar isOpen={isSidebarOpen}>
-            <Sidebar project={currentProject} onClose={handleSidebarClose} />
+          <S.Sidebar>
+            <S.SidebarHeader>
+              <S.HomeLink to="/">
+                <IoMdHome />
+                홈으로
+              </S.HomeLink>
+              <S.ProjectSelector>
+                <S.ProjectButton
+                  onClick={() => setProjectSelectorOpen(!isProjectSelectorOpen)}
+                  isOpen={isProjectSelectorOpen}
+                >
+                  <span>{currentProject.title}</span>
+                  <BsChevronDown />
+                </S.ProjectButton>
+                {isProjectSelectorOpen && (
+                  <S.ProjectDropdown>
+                    {NARSHA_PROJECTS.map((project) => (
+                      <S.ProjectOption
+                        key={project.id}
+                        onClick={() => handleProjectSelect(project.id)}
+                        isSelected={project.id === currentProject.id}
+                      >
+                        <div>
+                          <S.ProjectName>{project.title}</S.ProjectName>
+                          <S.ProjectPeriod>{project.period}</S.ProjectPeriod>
+                        </div>
+                        <S.ProjectStatus status={project.status}>
+                          {project.status === "ongoing" ? "진행중" : "완료"}
+                        </S.ProjectStatus>
+                      </S.ProjectOption>
+                    ))}
+                  </S.ProjectDropdown>
+                )}
+              </S.ProjectSelector>
+              <S.Period>{currentProject.period}</S.Period>
+            </S.SidebarHeader>
             <S.SidebarContent>
-              {currentProject && (
-                <NarshaDiary
-                  entries={currentProject.entries}
-                  projectId={currentProject.id}
-                  compact
-                />
-              )}
+              {currentProject.entries.map((entry) => (
+                <S.EntryLink
+                  key={entry.id}
+                  to={`/narsha/${projectId}/${entry.id}`}
+                  isActive={entry.id === Number(entryId)}
+                >
+                  <S.Week>{entry.week}주차</S.Week>
+                  <S.EntryTitle>{entry.title}</S.EntryTitle>
+                  {entry.summary && (
+                    <S.EntrySummary>{entry.summary}</S.EntrySummary>
+                  )}
+                </S.EntryLink>
+              ))}
             </S.SidebarContent>
           </S.Sidebar>
-
-          <S.MinimalSidebar isOpen={!isSidebarOpen}>
-            <S.MinimalNav>
-              <S.Button
-                onClick={() => setIsSidebarOpen(true)}
-                aria-label="사이드바 펼치기"
-              >
-                <IoMdMenu />
-              </S.Button>
-              <S.MinimalHomeLink to="/narsha">
-                <IoMdHome />
-              </S.MinimalHomeLink>
-            </S.MinimalNav>
-          </S.MinimalSidebar>
+          <S.Main withSidebar>
+            <Outlet />
+          </S.Main>
         </>
-      )}
-
-      <S.Main isOpen={isSidebarOpen} isProjectListPage={isProjectListPage}>
-        <S.ContentWrapper>
+      ) : (
+        <S.Main>
           <Outlet />
-        </S.ContentWrapper>
-      </S.Main>
+        </S.Main>
+      )}
     </S.Container>
   );
 };

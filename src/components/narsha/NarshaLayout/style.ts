@@ -1,191 +1,249 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
-const SIDEBAR_WIDTH = {
-  full: "360px",
-  minimal: "68px",
-} as const;
-
-const scrollbarStyle = `
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-`;
-
-const buttonBase = `
-  background: #2c2d32;
-  border: none;
-  border-radius: 8px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #e9ecef;
-
-  &:hover {
-    background: #228be6;
-    color: white;
-  }
-
-  svg {
-    font-size: 20px;
-  }
-`;
-
 export const Container = styled.div`
   display: flex;
   min-height: 100vh;
-  background-color: #1a1b1e;
-  position: relative;
+  background: #0a0a0b;
 `;
 
-export const HomeNav = styled.nav`
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
-`;
-
-export const Button = styled.button`
-  ${buttonBase}
-`;
-
-export const Nav = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-`;
-
-export const MinimalNav = styled.div`
+export const Sidebar = styled.aside`
+  width: 320px;
+  height: 100vh;
+  background: #141414;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 16px;
-`;
-
-export const HomeLink = styled(Link)`
-  ${buttonBase}
-  padding: 0 16px;
-  gap: 8px;
-  flex-grow: 1;
-  font-size: 14px;
-  text-decoration: none;
-
-  &:only-child {
-    padding: 0;
-    flex-grow: 0;
-  }
-`;
-
-export const MinimalHomeLink = styled(Link)`
-  ${buttonBase}
-  text-decoration: none;
-`;
-
-export const Overlay = styled.div<{ isVisible: boolean }>`
   position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  left: 0;
+  top: 0;
   z-index: 40;
-  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
-  pointer-events: ${({ isVisible }) => (isVisible ? "auto" : "none")};
-  transition: opacity 0.3s ease;
-
-  @media (min-width: 769px) {
-    display: none;
-  }
-`;
-
-export const Sidebar = styled.aside<{ isOpen: boolean }>`
-  background-color: #25262b;
-  width: ${SIDEBAR_WIDTH.full};
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  transform: translateX(${({ isOpen }) => (isOpen ? "0" : "-100%")});
-  transition: transform 0.3s ease;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
 
   @media (max-width: 768px) {
-    width: 300px;
-  }
-`;
-
-export const MinimalSidebar = styled.aside<{ isOpen: boolean }>`
-  background-color: #25262b;
-  width: ${SIDEBAR_WIDTH.minimal};
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 50;
-  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
-  pointer-events: ${({ isOpen }) => (isOpen ? "auto" : "none")};
-  transition: opacity 0.3s ease;
-
-  @media (max-width: 768px) {
-    display: none;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    &.active {
+      transform: translateX(0);
+    }
   }
 `;
 
 export const SidebarHeader = styled.div`
-  padding: 20px 24px;
-  border-bottom: 1px solid #2c2d32;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
-export const SidebarTitle = styled.h2`
-  font-size: 20px;
+export const HomeLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 16px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  svg {
+    font-size: 18px;
+  }
+`;
+
+export const ProjectTitle = styled.h1`
+  font-size: 18px;
   font-weight: 600;
-  color: #e9ecef;
-  margin: 0 0 8px 0;
+  color: #fff;
+  margin-bottom: 8px;
 `;
 
 export const Period = styled.div`
-  color: #868e96;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
 `;
 
 export const SidebarContent = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
-  ${scrollbarStyle}
+  padding: 20px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
 `;
 
-export const Main = styled.main<{
-  isOpen: boolean;
-  isProjectListPage: boolean;
-}>`
+export const EntryLink = styled(Link)<{ isActive?: boolean }>`
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  margin-bottom: 4px;
+  background: ${({ isActive }) =>
+    isActive ? "rgba(255, 255, 255, 0.1)" : "transparent"};
+  border-left: 3px solid
+    ${({ isActive }) => (isActive ? "#3B82F6" : "transparent")};
+
+  &:hover {
+    background: ${({ isActive }) =>
+      isActive ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.05)"};
+  }
+`;
+
+export const Week = styled.div`
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 4px;
+`;
+
+export const EntryTitle = styled.div`
+  font-size: 15px;
+  color: #fff;
+  font-weight: 500;
+`;
+
+export const Main = styled.main<{ withSidebar?: boolean }>`
   flex: 1;
-  margin-left: ${({ isOpen, isProjectListPage }) =>
-    isProjectListPage
-      ? "0"
-      : isOpen
-      ? SIDEBAR_WIDTH.full
-      : SIDEBAR_WIDTH.minimal};
+  min-width: 0;
+  margin-left: ${({ withSidebar }) => (withSidebar ? "320px" : "0")};
   transition: margin-left 0.3s ease;
-  min-height: 100vh;
 
   @media (max-width: 768px) {
     margin-left: 0;
   }
 `;
 
-export const ContentWrapper = styled.div`
-  padding: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
+export const MobileHeader = styled.header`
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #141414;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 30;
+  padding: 0 20px;
+  align-items: center;
+  justify-content: space-between;
 
   @media (max-width: 768px) {
-    padding: 20px;
+    display: flex;
   }
+`;
+
+export const MobileMenuButton = styled.button`
+  padding: 8px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+export const ProjectSelector = styled.div`
+  position: relative;
+  margin-bottom: 8px;
+`;
+
+export const ProjectButton = styled.button<{ isOpen: boolean }>`
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  svg {
+    transform: rotate(${({ isOpen }) => (isOpen ? "180deg" : "0deg")});
+    transition: transform 0.2s ease;
+  }
+`;
+
+export const ProjectDropdown = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 50;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+`;
+
+export const ProjectOption = styled.div<{ isSelected: boolean }>`
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: ${({ isSelected }) =>
+    isSelected ? "rgba(255, 255, 255, 0.1)" : "transparent"};
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+`;
+
+export const ProjectName = styled.div`
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+`;
+
+export const ProjectPeriod = styled.div`
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+`;
+
+export const ProjectStatus = styled.div<{ status: "ongoing" | "completed" }>`
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: ${({ status }) =>
+    status === "ongoing"
+      ? "rgba(52, 211, 153, 0.1)"
+      : "rgba(156, 163, 175, 0.1)"};
+  color: ${({ status }) => (status === "ongoing" ? "#34D399" : "#9CA3AF")};
+`;
+
+export const EntrySummary = styled.div`
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  margin-top: 4px;
 `;

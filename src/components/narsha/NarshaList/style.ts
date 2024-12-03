@@ -1,99 +1,135 @@
 import styled from "@emotion/styled";
 
-export const HomeButton = styled.button`
-  position: absolute;
-  left: 40px;
-  top: 40px;
-  background: #2c2d32;
-  border: none;
-  border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #e9ecef;
-  font-size: 20px;
+export const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
 
-  &:hover {
-    background: #363739;
-    transform: translateY(-2px);
+  @media (max-width: 768px) {
+    padding: 24px;
   }
 `;
 
-export const Container = styled.div`
-  padding: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
+export const Header = styled.div`
+  margin-bottom: 48px;
 `;
 
 export const Title = styled.h1`
   font-size: 32px;
   font-weight: 700;
-  color: #e9ecef;
-  margin-bottom: 16px;
+  color: #fff;
+  margin-bottom: 12px;
 `;
 
 export const Description = styled.p`
-  color: #adb5bd;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 16px;
-  margin-bottom: 40px;
+  line-height: 1.6;
 `;
 
 export const ProjectGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 24px;
 `;
 
 export const ProjectCard = styled.div`
-  background: #25262b;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 24px;
   cursor: pointer;
+  overflow: hidden;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #2c2d32;
     transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 `;
 
 export const ProjectHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
-export const Period = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #868e96;
-  font-size: 14px;
-`;
-
-export const EntryCount = styled.span`
-  background: #2c2d32;
-  color: #e9ecef;
-  padding: 4px 8px;
-  border-radius: 6px;
+export const StatusBadge = styled.div<{ status: "ongoing" | "completed" }>`
+  display: inline-flex;
+  padding: 6px 12px;
+  border-radius: 20px;
   font-size: 13px;
+  font-weight: 500;
+  background: ${({ status }) =>
+    status === "ongoing"
+      ? "rgba(52, 211, 153, 0.1)"
+      : "rgba(156, 163, 175, 0.1)"};
+  color: ${({ status }) => (status === "ongoing" ? "#34D399" : "#9CA3AF")};
+`;
+
+export const ProjectContent = styled.div`
+  padding: 20px;
 `;
 
 export const ProjectTitle = styled.h2`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  color: #e9ecef;
+  color: #fff;
   margin-bottom: 8px;
 `;
 
 export const ProjectDescription = styled.p`
-  color: #adb5bd;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
   line-height: 1.6;
+  margin-bottom: 16px;
+`;
+
+export const ProjectMeta = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+
+export const MetaItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+
+  svg {
+    font-size: 14px;
+  }
+`;
+
+export const TechStack = styled.div`
+  padding: 0 20px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+`;
+
+export const TechBadge = styled.span`
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+`;
+
+export const ProjectFooter = styled.div`
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.02);
+
+  svg {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 18px;
+  }
+`;
+
+export const EntryCount = styled.div`
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
 `;

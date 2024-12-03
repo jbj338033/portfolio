@@ -1,8 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
-import * as S from "./style";
-import { BsCalendarWeek, BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import { BiGroup } from "react-icons/bi";
+import {
+  BsCalendarWeek,
+  BsPeople,
+  BsArrowLeft,
+  BsArrowRight,
+} from "react-icons/bs";
 import { NARSHA_PROJECTS } from "../../../constants/narsha";
+import * as S from "./style";
 
 const NarshaDetail = () => {
   const { projectId, entryId } = useParams();
@@ -32,22 +36,31 @@ const NarshaDetail = () => {
 
   return (
     <S.Container>
-      <S.ContentWrapper>
-        <S.Header>
+      <S.Header>
+        <S.HeaderTop>
           <S.WeekBadge>
             <BsCalendarWeek />
             {currentEntry.week}주차
           </S.WeekBadge>
           <S.Date>{currentEntry.date}</S.Date>
-        </S.Header>
+        </S.HeaderTop>
 
         <S.Title>{currentEntry.title}</S.Title>
 
-        <S.TeamSection>
-          <BiGroup />
-          <S.TeamMembers>{currentEntry.teamMembers.join(", ")}</S.TeamMembers>
-        </S.TeamSection>
+        <S.TeamInfo>
+          <BsPeople />
+          <S.TeamMembers>
+            {currentEntry.teamMembers.map((member, index) => (
+              <S.Member key={member}>
+                {member}
+                {index < currentEntry.teamMembers.length - 1 && ", "}
+              </S.Member>
+            ))}
+          </S.TeamMembers>
+        </S.TeamInfo>
+      </S.Header>
 
+      <S.Content>
         {currentEntry.contents.map((content, index) => (
           <S.Section key={index}>
             <S.SectionTitle>{content.title}</S.SectionTitle>
@@ -59,53 +72,45 @@ const NarshaDetail = () => {
           </S.Section>
         ))}
 
-        <S.Section>
+        <S.Section variant="achievement">
           <S.SectionTitle>주요 성과</S.SectionTitle>
-          <S.Achievement>{currentEntry.achievement}</S.Achievement>
+          <S.AchievementContent>
+            {currentEntry.achievement}
+          </S.AchievementContent>
         </S.Section>
 
-        <S.Section>
+        <S.Section variant="plan">
           <S.SectionTitle>다음 계획</S.SectionTitle>
-          <S.NextPlan>{currentEntry.nextPlan}</S.NextPlan>
+          <S.PlanContent>{currentEntry.nextPlan}</S.PlanContent>
         </S.Section>
+      </S.Content>
 
-        <S.Navigation>
-          {prevEntry && (
-            <S.NavLink
-              to={`/narsha/${projectId}/${prevEntry.id}`}
-              direction="prev"
-            >
+      <S.Navigation>
+        {prevEntry && (
+          <S.NavLink to={`/narsha/${projectId}/${prevEntry.id}`}>
+            <S.NavCard>
+              <BsArrowLeft />
               <S.NavContent>
-                <BsArrowLeft />
-                <div>
-                  <S.NavLabel>이전 주차</S.NavLabel>
-                  <S.NavWeek>
-                    <BsCalendarWeek />
-                    {prevEntry.week}주차
-                  </S.NavWeek>
-                </div>
+                <S.NavLabel>이전 주차</S.NavLabel>
+                <S.NavTitle>{prevEntry.title}</S.NavTitle>
+                <S.NavWeek>{prevEntry.week}주차</S.NavWeek>
               </S.NavContent>
-            </S.NavLink>
-          )}
-          {nextEntry && (
-            <S.NavLink
-              to={`/narsha/${projectId}/${nextEntry.id}`}
-              direction="next"
-            >
+            </S.NavCard>
+          </S.NavLink>
+        )}
+        {nextEntry && (
+          <S.NavLink to={`/narsha/${projectId}/${nextEntry.id}`} isNext>
+            <S.NavCard>
               <S.NavContent>
-                <div>
-                  <S.NavLabel>다음 주차</S.NavLabel>
-                  <S.NavWeek>
-                    {nextEntry.week}주차
-                    <BsCalendarWeek />
-                  </S.NavWeek>
-                </div>
-                <BsArrowRight />
+                <S.NavLabel>다음 주차</S.NavLabel>
+                <S.NavTitle>{nextEntry.title}</S.NavTitle>
+                <S.NavWeek>{nextEntry.week}주차</S.NavWeek>
               </S.NavContent>
-            </S.NavLink>
-          )}
-        </S.Navigation>
-      </S.ContentWrapper>
+              <BsArrowRight />
+            </S.NavCard>
+          </S.NavLink>
+        )}
+      </S.Navigation>
     </S.Container>
   );
 };
