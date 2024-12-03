@@ -41,6 +41,13 @@ const AWARDS: Award[] = [
     description: "해커톤 대회에서 동상 수상",
   },
   {
+    name: "DGIST 코딩 오딧세이",
+    organization: "대구과학기술대학교",
+    date: "2024.08.15 ~ 2024.08.16",
+    rank: "금상",
+    description: "대구 고등학생 대상 해커톤 대회에서 금상 수상",
+  },
+  {
     name: "6회 청소년 ICT 칭압기 켐프 본선 대회",
     organization: "대구창의융합교육원",
     date: "2024.10.24 ~ 2024.10.25",
