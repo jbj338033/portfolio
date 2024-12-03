@@ -5,9 +5,11 @@ import * as S from "./style";
 const NAV_ITEMS = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
-  { id: "skills", label: "Skills" },
-  { id: "archiving", label: "Archiving" },
+  { id: "tech-stack", label: "Tech Stack" },
+  { id: "activities", label: "Activities" },
   { id: "projects", label: "Projects" },
+  { id: "certificates", label: "Certificates" },
+  { id: "archiving", label: "Archiving" },
   { id: "career", label: "Career" },
 ] as const;
 

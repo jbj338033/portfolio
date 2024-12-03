@@ -4,9 +4,10 @@ import { IoMdArrowBack, IoMdMenu, IoMdHome } from "react-icons/io";
 import * as S from "./style";
 import DataStructureList from "../DataStructureList";
 import { DATA_STRUCTURES } from "../../../constants/dataStructure";
+import { DataStructure } from "../../../types/dataStructure";
 
 interface SidebarProps {
-  structure: (typeof DATA_STRUCTURES)[0] | null | undefined;
+  structure: DataStructure | null | undefined;
   onClose: () => void;
 }
 

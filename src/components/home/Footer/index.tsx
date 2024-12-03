@@ -9,12 +9,12 @@ const CONTACT_LINKS = [
   },
   {
     icon: <BsInstagram />,
-    href: "https://instagram.com/youraccount",
+    href: "https://instagram.com/jbj338033",
     label: "Instagram",
   },
   {
     icon: <BsEnvelope />,
-    href: "mailto:hjcdg197@gmail.com",
+    href: "mailto:jbj338033@gmail.com",
     label: "Email",
   },
 ];

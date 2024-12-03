@@ -4,7 +4,7 @@ export const DATABASE_CLASS_ENTRIES: DatabaseClassEntry[] = [
   {
     id: 1,
     week: 1,
-    date: "2024-03-04",
+    date: "2024-11-20",
     topic: "데이터베이스 기초",
     title: "SQL 설계하기",
     summary: "데이터베이스의 기본 개념과 SQL 쿼리 작성 기초",
@@ -461,14 +461,7 @@ FROM employees
 GROUP BY department;`,
       },
     ],
-    assignments: [
-      {
-        title: "첫 번째 데이터베이스 설계하기",
-        description:
-          "학교 도서관 관리 시스템을 위한 데이터베이스를 설계해보세요.\n\n필요한 테이블:\n- 책\n- 회원\n- 대출 기록",
-        dueDate: "2024-03-11",
-      },
-    ],
+    assignments: [],
     resources: [
       {
         title: "SQL 기초 가이드",
@@ -477,65 +470,7 @@ GROUP BY department;`,
       },
       {
         title: "관계형 데이터베이스 디자인 원칙",
-        url: "https://example.com/db-design",
-        type: "article",
-      },
-    ],
-  },
-  {
-    id: 2,
-    week: 2,
-    date: "2024-03-11",
-    topic: "데이터 모델링",
-    title: "ERD 설계와 정규화",
-    summary: "엔티티 관계 다이어그램 작성과 데이터베이스 정규화 과정",
-    keywords: ["ERD", "정규화", "1NF", "2NF", "3NF"],
-    content: `# ERD 설계와 정규화
-
-## 엔티티 관계 다이어그램 (ERD)
-
-ERD는 데이터베이스의 논리적 구조를 시각적으로 표현한 것입니다.
-
-### ERD 기본 요소
-- 엔티티 (Entity)
-- 속성 (Attribute)
-- 관계 (Relationship)
-
-## 데이터베이스 정규화
-
-### 제1정규형 (1NF)
-모든 속성은 원자값을 가져야 합니다.
-
-### 제2정규형 (2NF)
-부분 함수적 종속을 제거합니다.
-
-### 제3정규형 (3NF)
-이행적 종속을 제거합니다.
-`,
-    codeExamples: [
-      {
-        language: "sql",
-        description: "정규화 예시 테이블",
-        code: `CREATE TABLE Orders (
-  order_id INT PRIMARY KEY,
-  product_id INT,
-  customer_id INT,
-  quantity INT
-);`,
-      },
-    ],
-    assignments: [
-      {
-        title: "쇼핑몰 ERD 설계",
-        description:
-          "온라인 쇼핑몰 시스템의 ERD를 설계하고 정규화를 수행하세요.",
-        dueDate: "2024-03-18",
-      },
-    ],
-    resources: [
-      {
-        title: "ERD 설계 도구 - draw.io",
-        url: "https://draw.io",
+        url: "https://db.com/db-design",
         type: "article",
       },
     ],
