@@ -3,69 +3,31 @@ import { BsLink45Deg, BsGithub } from "react-icons/bs";
 import { BiLinkExternal } from "react-icons/bi";
 import { VscLock } from "react-icons/vsc";
 import { SlCalender } from "react-icons/sl";
-
-interface Project {
-  category: string;
-  startDate: string;
-  endDate?: string;
-  title: string;
-  description: string[];
-  url?: {
-    link: string;
-    deprecated?: boolean;
-  };
-  team: string;
-  skills: string[];
-  links: {
-    readme?: string;
-    github?: string;
-  };
-}
-
-const PROJECTS: Project[] = [
-  {
-    category: "음악 플랫폼",
-    startDate: "2024.04",
-    endDate: "2024.06",
-    title: "사용자가 직접 음악을 올릴 수 있는 음악 플랫폼",
-    description: [
-      "전반적인 백엔드 개발",
-      "Google Cloud Platform을 사용하여 서버 배포 및 관리",
-      "AWS S3를 사용하여 음악 파일 저장 및 관리",
-      "JDA를 사용하여 에러 로깅 및 모니터링",
-    ],
-    url: {
-      link: "https://openmusic.kr",
-      deprecated: true,
-    },
-    team: "6인 팀 프로젝트",
-    skills: ["Spring Boot", "JPA", "MySQL", "QueryDSL", "JWT", "JDA"],
-    links: {
-      readme: "https://github.com/Open3r/openmusic-server",
-    },
-  },
-  {
-    category: "코딩 테스트 플랫폼",
-    startDate: "2024.10",
-    title: "자유롭게 문제를 출제하고 풀 수 있는 코딩 테스트 플랫폼",
-    description: [
-      "학교에서 1학년 대상으로 코딩 테스트를 진행하려고 함",
-      "백준과 같은 사이트는 직접 문제를 출제하기가 까다로움",
-      "그래서 직접 문제를 출제하고 풀 수 있는 플랫폼을 만들어보자는 취지",
-    ],
-    url: {
-      link: "https://solve.kr",
-    },
-    team: "5인 팀 프로젝트",
-    skills: ["Spring Boot", "Docker", "JPA", "QueryDSL", "MySQL", "GCP"],
-    links: {
-      readme: "https://github.com/NameOfTeam/solve-server#readme",
-      github: "https://github.com/NameOfTeam/solve-server",
-    },
-  },
-];
+import { useState, useEffect } from "react";
+import { IoClose } from "react-icons/io5";
+import { Project } from "../../../types/project";
+import { PROJECTS } from "../../../constants/project";
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 
 const Projects = () => {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedProject]);
+
   const formatPeriod = (startDate: string, endDate?: string) => {
     if (!endDate) {
       return (
@@ -83,6 +45,74 @@ const Projects = () => {
     );
   };
 
+  const handleSlideComplete = () => {
+    setDragOffset(0);
+  };
+
+  const handlePrevImage = () => {
+    if (!selectedProject?.images || isDragging) return;
+
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? selectedProject.images!.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextImage = () => {
+    if (!selectedProject?.images || isDragging) return;
+
+    setCurrentImageIndex((prev) =>
+      prev === selectedProject.images!.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+
+    setTouchEnd(e.targetTouches[0].clientX);
+    const offset = touchStart - e.targetTouches[0].clientX;
+    setDragOffset(offset);
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return;
+
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 50;
+
+    if (Math.abs(distance) > minSwipeDistance) {
+      if (distance > 0) {
+        handleNextImage();
+      } else {
+        handlePrevImage();
+      }
+    }
+
+    setIsDragging(false);
+    setDragOffset(0);
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
+
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if (!selectedProject) return;
+    if (e.key === "ArrowLeft") handlePrevImage();
+    if (e.key === "ArrowRight") handleNextImage();
+    if (e.key === "Escape") setSelectedProject(null);
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress, selectedProject]);
+
   return (
     <S.Container id="projects">
       <S.TitleWrapper>
@@ -91,70 +121,187 @@ const Projects = () => {
       </S.TitleWrapper>
       <S.Content>
         {PROJECTS.map((project, index) => (
-          <S.ProjectCard key={index}>
-            <div>
-              <S.ProjectHeader>
-                <S.Category>{project.category}</S.Category>
-                {formatPeriod(project.startDate, project.endDate)}
-              </S.ProjectHeader>
+          <S.ProjectCard
+            key={index}
+            onClick={() => {
+              setSelectedProject(project);
+              setCurrentImageIndex(0);
+            }}
+          >
+            {project.thumbnail && (
+              <S.ImageContainer>
+                <S.ProjectImage
+                  src={project.thumbnail}
+                  alt={project.title}
+                  style={{ transform: "scale(1)" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "scale(1.05)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
+                />
+              </S.ImageContainer>
+            )}
+            <S.ProjectHeader>
+              <S.Category>{project.category}</S.Category>
+              {formatPeriod(project.startDate, project.endDate)}
+            </S.ProjectHeader>
 
-              <S.ProjectTitle>{project.title}</S.ProjectTitle>
+            <S.ProjectTitle>{project.title}</S.ProjectTitle>
 
-              <S.DescriptionList>
-                {project.description.map((desc, i) => (
+            <S.DescriptionList>
+              {project.description.slice(0, 2).map((desc, i) => (
+                <S.DescriptionItem key={i}>{desc}</S.DescriptionItem>
+              ))}
+              {project.description.length > 2 && (
+                <S.DescriptionItem>더보기...</S.DescriptionItem>
+              )}
+            </S.DescriptionList>
+
+            <S.SkillsList>
+              {project.skills.slice(0, 4).map((skill) => (
+                <S.SkillItem key={skill}>{skill}</S.SkillItem>
+              ))}
+              {project.skills.length > 4 && (
+                <S.SkillItem>+{project.skills.length - 4}</S.SkillItem>
+              )}
+            </S.SkillsList>
+          </S.ProjectCard>
+        ))}
+      </S.Content>
+
+      {selectedProject && (
+        <S.Modal onClick={() => setSelectedProject(null)}>
+          <S.ModalContent onClick={(e) => e.stopPropagation()}>
+            <S.CloseButton onClick={() => setSelectedProject(null)}>
+              <IoClose />
+            </S.CloseButton>
+
+            <S.ModalInner>
+              <S.ModalHeader>
+                <S.ProjectHeader>
+                  <S.Category>{selectedProject.category}</S.Category>
+                  {formatPeriod(
+                    selectedProject.startDate,
+                    selectedProject.endDate
+                  )}
+                </S.ProjectHeader>
+
+                <S.ModalTitle>{selectedProject.title}</S.ModalTitle>
+                <S.ModalTeam>{selectedProject.team}</S.ModalTeam>
+              </S.ModalHeader>
+
+              {selectedProject.images && selectedProject.images.length > 0 && (
+                <S.ModalImageContainer>
+                  <S.ImageTrack
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                    style={{
+                      transform: `translateX(calc(-${
+                        currentImageIndex * 100
+                      }% - ${dragOffset}px))`,
+                    }}
+                    onTransitionEnd={handleSlideComplete}
+                  >
+                    {selectedProject.images.map((image, index) => (
+                      <S.ImageSlide key={index}>
+                        <S.ModalImage
+                          src={image}
+                          alt={`${selectedProject.title} ${index + 1}`}
+                        />
+                      </S.ImageSlide>
+                    ))}
+                  </S.ImageTrack>
+
+                  {selectedProject.images.length > 1 && (
+                    <>
+                      <S.ImageNavButton
+                        className="prev"
+                        onClick={handlePrevImage}
+                      >
+                        <MdNavigateBefore />
+                      </S.ImageNavButton>
+                      <S.ImageNavButton
+                        className="next"
+                        onClick={handleNextImage}
+                      >
+                        <MdNavigateNext />
+                      </S.ImageNavButton>
+                      <S.ImageNav>
+                        {selectedProject.images.map((_, idx) => (
+                          <S.ImageDot
+                            key={idx}
+                            active={idx === currentImageIndex}
+                            onClick={() => {
+                              if (idx === currentImageIndex) return;
+                              setCurrentImageIndex(idx);
+                            }}
+                          />
+                        ))}
+                      </S.ImageNav>
+                    </>
+                  )}
+                </S.ModalImageContainer>
+              )}
+
+              <S.ModalDescription>
+                {selectedProject.description.map((desc, i) => (
                   <S.DescriptionItem key={i}>{desc}</S.DescriptionItem>
                 ))}
-              </S.DescriptionList>
+              </S.ModalDescription>
 
-              {project.url &&
-                (project.url.deprecated ? (
-                  <S.DeprecatedUrlText>
+              {selectedProject.url &&
+                (selectedProject.url.deprecated ? (
+                  <S.DeprecatedUrl>
                     <VscLock />
-                    {project.url.link}
-                  </S.DeprecatedUrlText>
+                    {selectedProject.url.link}
+                  </S.DeprecatedUrl>
                 ) : (
                   <S.DemoLink
-                    href={project.url.link}
+                    href={selectedProject.url.link}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <BiLinkExternal />
-                    {project.url.link}
+                    {selectedProject.url.link}
                   </S.DemoLink>
                 ))}
-            </div>
 
-            <S.ProjectFooter>
-              <S.SkillsList>
-                {project.skills.map((skill) => (
-                  <S.SkillItem key={skill}>{skill}</S.SkillItem>
-                ))}
-              </S.SkillsList>
+              <S.ModalSkillsSection>
+                <S.SubTitle>Skills & Technologies</S.SubTitle>
+                <S.SkillsList>
+                  {selectedProject.skills.map((skill) => (
+                    <S.SkillItem key={skill}>{skill}</S.SkillItem>
+                  ))}
+                </S.SkillsList>
+              </S.ModalSkillsSection>
 
-              <S.LinksWrapper>
-                {project.links.readme && (
+              <S.ModalLinks>
+                {selectedProject.links.readme && (
                   <S.LinkButton
-                    href={project.links.readme}
+                    href={selectedProject.links.readme}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     README
                   </S.LinkButton>
                 )}
-                {project.links.github && (
+                {selectedProject.links.github && (
                   <S.LinkButton
-                    href={project.links.github}
+                    href={selectedProject.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <BsGithub /> GitHub
                   </S.LinkButton>
                 )}
-              </S.LinksWrapper>
-            </S.ProjectFooter>
-          </S.ProjectCard>
-        ))}
-      </S.Content>
+              </S.ModalLinks>
+            </S.ModalInner>
+          </S.ModalContent>
+        </S.Modal>
+      )}
     </S.Container>
   );
 };

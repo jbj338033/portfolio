@@ -26,7 +26,7 @@ const activities: ActivityItem[] = [
   {
     id: "database",
     name: "데이터베이스 수업",
-    description: "교내 IT 프로젝트",
+    description: "데이터베이스 수업 프로젝트",
     path: "/database",
     icon: <DiDatabase />,
     color: "#63e6be",
@@ -34,7 +34,7 @@ const activities: ActivityItem[] = [
   {
     id: "data-structure",
     name: "자료구조 수업",
-    description: "교내 IT 프로젝트",
+    description: "자료구조 수업 프로젝트",
     path: "/data-structure",
     icon: <HiOutlineAcademicCap />,
     color: "#74c0fc",

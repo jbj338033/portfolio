@@ -1,7 +1,6 @@
 import * as S from "./style";
 import { BsLink45Deg } from "react-icons/bs";
 import { HiOutlineAcademicCap } from "react-icons/hi";
-import { AiOutlineTeam } from "react-icons/ai";
 
 interface ActivityDetail {
   title: string;
@@ -22,41 +21,26 @@ const ACTIVITIES: Activity[] = [
     icon: <HiOutlineAcademicCap />,
     details: [
       {
-        title: "나르샤 프로젝트",
-        period: "2024.04 ~ 2024.11",
+        title: "24 나르샤 프로젝트",
+        period: "2024.08 ~ 2024.12",
         description: [
           "교내 IT 프로젝트 동아리 활동",
-          "백엔드 개발자로 참여",
-          "Spring Boot를 활용한 REST API 개발",
+          "백엔드 개발자이지만 프론트 인력이 부족하여 프론트 개발도 진행",
+          "Express와 Socket.io를 사용한 화상 서비스 개발",
           "프로젝트 아키텍처 설계 및 구현",
         ],
-        skills: ["Spring Boot", "MySQL", "JPA", "AWS"],
+        skills: ["Node.js", "Express", "Socket.io", "React", "AWS"],
       },
       {
         title: "자료구조 스터디",
-        period: "2024.03 ~ 2024.07",
+        period: "2024.09.11 ~ 2024.12.05",
         description: [
           "알고리즘 문제 풀이 스터디 리더",
-          "주 2회 스터디 진행",
+          "주 1회 스터디 진행",
           "코딩 테스트 대비 문제 해설",
+          "시험 대비 자료구조 이론 공부",
         ],
-        skills: ["Java", "Algorithm", "Data Structure"],
-      },
-    ],
-  },
-  {
-    category: "외부 활동",
-    icon: <AiOutlineTeam />,
-    details: [
-      {
-        title: "IT 연합 동아리",
-        period: "2024.06 ~ 2024.12",
-        description: [
-          "대구 지역 IT 연합 동아리 활동",
-          "웹 서비스 개발 프로젝트 참여",
-          "백엔드 파트 리더 역할 수행",
-        ],
-        skills: ["Spring Boot", "AWS", "Docker", "Jenkins"],
+        skills: ["Python", "Algorithm", "Data Structure"],
       },
     ],
   },
