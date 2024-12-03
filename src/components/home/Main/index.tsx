@@ -7,7 +7,7 @@ const Main = () => {
     const aboutSection = document.getElementById("about");
     if (!aboutSection) return;
 
-    const headerHeight = 60; // Header의 높이
+    const headerHeight = 60;
     window.scrollTo({
       top: aboutSection.offsetTop - headerHeight,
       behavior: "smooth",
@@ -18,9 +18,9 @@ const Main = () => {
     <S.Container background={background} id="home">
       <S.Overlay />
       <S.Inner>
-        <S.Title>포트폴리오</S.Title>
-        <S.Subtitle>안녕하세요, 전민오입니다.</S.Subtitle>
-        <S.Description>백엔드를 개발하고 있습니다.</S.Description>
+        <S.Title>안녕하세요</S.Title>
+        <S.Subtitle>열정적인 백엔드 개발자</S.Subtitle>
+        <S.Description>전민오입니다.</S.Description>
         <S.Button onClick={handleLearnMore}>
           더 알아보기
           <BsArrowRight />

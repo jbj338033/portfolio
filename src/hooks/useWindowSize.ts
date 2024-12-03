@@ -19,7 +19,6 @@ const useWindowSize = () => {
       });
     };
 
-    // 디바운스 처리
     let timeoutId: number;
     const debouncedHandleResize = () => {
       clearTimeout(timeoutId);

@@ -70,7 +70,6 @@ export const ListTitle = styled.div`
   text-overflow: ellipsis;
 `;
 
-// 기존 그리드 뷰 관련 스타일
 export const CardHeader = styled.div`
   display: flex;
   align-items: center;

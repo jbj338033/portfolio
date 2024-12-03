@@ -212,7 +212,6 @@ export const ResourceType = styled.span`
   font-size: 12px;
 `;
 
-// types/database.ts
 export interface CodeExample {
   language: string;
   code: string;

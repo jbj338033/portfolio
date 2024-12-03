@@ -258,7 +258,6 @@ export const MobileOverlay = styled.div`
   }
 `;
 
-// Main 컴포넌트 수정
 export const Main = styled.main<{ withSidebar?: boolean }>`
   flex: 1;
   min-width: 0;
@@ -271,7 +270,6 @@ export const Main = styled.main<{ withSidebar?: boolean }>`
   }
 `;
 
-// Sidebar 컴포넌트 수정
 export const Sidebar = styled.aside`
   width: 320px;
   height: 100vh;

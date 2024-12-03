@@ -8,7 +8,7 @@ import { AiOutlineCloud } from "react-icons/ai";
 interface TechItem {
   name: string;
   color: string;
-  level: number; // 1-5
+  level: number;
   experience: string;
   description: string[];
 }

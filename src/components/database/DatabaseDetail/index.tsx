@@ -1,4 +1,3 @@
-// DatabaseDetail/index.tsx
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { BsCalendarWeek, BsBook, BsClock } from "react-icons/bs";
