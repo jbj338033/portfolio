@@ -7,52 +7,9 @@ export const Container = styled.div`
   background: #0a0a0b;
 `;
 
-export const Sidebar = styled.aside`
-  width: 320px;
-  height: 100vh;
-  background: #141414;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 40;
-
-  @media (max-width: 768px) {
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    &.active {
-      transform: translateX(0);
-    }
-  }
-`;
-
 export const SidebarHeader = styled.div`
   padding: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-`;
-
-export const HomeLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #fff;
-  text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  margin-bottom: 16px;
-  font-size: 14px;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.15);
-  }
-
-  svg {
-    font-size: 18px;
-  }
 `;
 
 export const ProjectTitle = styled.h1`
@@ -114,48 +71,6 @@ export const EntryTitle = styled.div`
   font-weight: 500;
 `;
 
-export const Main = styled.main<{ withSidebar?: boolean }>`
-  flex: 1;
-  min-width: 0;
-  margin-left: ${({ withSidebar }) => (withSidebar ? "320px" : "0")};
-  transition: margin-left 0.3s ease;
-
-  @media (max-width: 768px) {
-    margin-left: 0;
-  }
-`;
-
-export const MobileHeader = styled.header`
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #141414;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 30;
-  padding: 0 20px;
-  align-items: center;
-  justify-content: space-between;
-
-  @media (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-export const MobileMenuButton = styled.button`
-  padding: 8px;
-  background: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  display: none;
-
-  @media (max-width: 768px) {
-    display: block;
-  }
-`;
 export const ProjectSelector = styled.div`
   position: relative;
   margin-bottom: 8px;
@@ -246,4 +161,159 @@ export const EntrySummary = styled.div`
   color: rgba(255, 255, 255, 0.5);
   font-size: 13px;
   margin-top: 4px;
+`;
+
+export const MobileHeader = styled.header`
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #141414;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 16px;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+`;
+
+export const MobileProjectSelector = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+
+  svg {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+`;
+
+export const MobileMenuButton = styled.button`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+
+  svg {
+    font-size: 24px;
+  }
+`;
+
+export const MobileMenu = styled.div<{ isOpen: boolean }>`
+  position: fixed;
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  background: #141414;
+  z-index: 90;
+  transform: translateX(${({ isOpen }) => (isOpen ? "0" : "100%")});
+  transition: transform 0.3s ease;
+  display: none;
+  flex-direction: column;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+`;
+
+export const MobileMenuHeader = styled.div`
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+`;
+
+export const MobileMenuContent = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+`;
+
+export const MobileOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 80;
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+// Main 컴포넌트 수정
+export const Main = styled.main<{ withSidebar?: boolean }>`
+  flex: 1;
+  min-width: 0;
+  margin-left: ${({ withSidebar }) => (withSidebar ? "320px" : "0")};
+  transition: margin-left 0.3s ease;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    padding-top: 60px;
+  }
+`;
+
+// Sidebar 컴포넌트 수정
+export const Sidebar = styled.aside`
+  width: 320px;
+  height: 100vh;
+  background: #141414;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+export const HomeLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 16px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  svg {
+    font-size: 18px;
+  }
+`;
+
+export const MobileHomeLink = styled(HomeLink)`
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  justify-content: center;
 `;
