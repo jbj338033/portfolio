@@ -1,60 +1,53 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import { IoMdArrowBack, IoMdMenu, IoMdHome } from "react-icons/io";
-import { BsBook } from "react-icons/bs";
-import DatabaseClassList from "../DatabaseList";
+import { Outlet, useParams } from "react-router-dom";
+import { BsBook, BsGrid, BsListUl } from "react-icons/bs";
+import { IoMdHome } from "react-icons/io";
+import DatabaseList from "../DatabaseList";
 import * as S from "./style";
 import { DATABASE_CLASS_ENTRIES } from "../../../constants/database";
 
 const DatabaseLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [viewMode, setViewMode] = useState<"list" | "grid">("grid");
+  const { id } = useParams();
+  const isDetailView = !!id;
 
   return (
     <S.Container>
-      <S.Sidebar isOpen={isSidebarOpen}>
+      <S.Sidebar isDetailView={isDetailView}>
         <S.SidebarHeader>
-          <S.Nav>
+          <S.TopBar>
             <S.HomeLink to="/">
               <IoMdHome />
-              홈으로 이동
+              <span>홈으로</span>
             </S.HomeLink>
-            <S.IconButton
-              onClick={() => setIsSidebarOpen(false)}
-              aria-label="사이드바 접기"
-            >
-              <IoMdArrowBack />
-            </S.IconButton>
-          </S.Nav>
-          <S.SidebarTitle>
-            <BsBook className="text-blue-400" />
-            데이터베이스 수업 기록
-          </S.SidebarTitle>
+            <S.ViewToggle>
+              <S.IconButton
+                active={viewMode === "list"}
+                onClick={() => setViewMode("list")}
+                title="리스트 보기"
+              >
+                <BsListUl />
+              </S.IconButton>
+              <S.IconButton
+                active={viewMode === "grid"}
+                onClick={() => setViewMode("grid")}
+                title="그리드 보기"
+              >
+                <BsGrid />
+              </S.IconButton>
+            </S.ViewToggle>
+          </S.TopBar>
+          <S.Title>
+            <BsBook />
+            데이터베이스 수업 노트
+          </S.Title>
         </S.SidebarHeader>
         <S.SidebarContent>
-          <DatabaseClassList entries={DATABASE_CLASS_ENTRIES} compact />
+          <DatabaseList entries={DATABASE_CLASS_ENTRIES} viewMode={viewMode} />
         </S.SidebarContent>
       </S.Sidebar>
-
-      {!isSidebarOpen && (
-        <S.MinimalSidebar>
-          <S.MinimalNav>
-            <S.IconButton
-              onClick={() => setIsSidebarOpen(true)}
-              aria-label="사이드바 펼치기"
-            >
-              <IoMdMenu />
-            </S.IconButton>
-            <S.MinimalHomeLink to="/">
-              <IoMdHome />
-            </S.MinimalHomeLink>
-          </S.MinimalNav>
-        </S.MinimalSidebar>
-      )}
-
-      <S.Main isSidebarOpen={isSidebarOpen}>
-        <S.ContentWrapper>
-          <Outlet />
-        </S.ContentWrapper>
+      <S.Main isDetailView={isDetailView}>
+        <Outlet />
       </S.Main>
     </S.Container>
   );

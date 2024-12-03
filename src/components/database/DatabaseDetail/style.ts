@@ -1,20 +1,19 @@
 import styled from "@emotion/styled";
 
 export const Container = styled.div`
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 40px 20px;
 `;
 
 export const Header = styled.header`
   margin-bottom: 48px;
 `;
 
-export const HeaderTop = styled.div`
+export const HeaderMeta = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 `;
 
@@ -49,10 +48,25 @@ export const Title = styled.h1`
   font-weight: 800;
   color: #fff;
   line-height: 1.4;
+  margin-bottom: 20px;
 
   @media (max-width: 768px) {
     font-size: 28px;
   }
+`;
+
+export const Keywords = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
+
+export const Keyword = styled.span`
+  background: #1e3a5f;
+  color: #94a3b8;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
 `;
 
 export const Content = styled.div`
@@ -92,7 +106,6 @@ export const Content = styled.div`
   a {
     color: #60a5fa;
     text-decoration: none;
-
     &:hover {
       text-decoration: underline;
     }
@@ -103,30 +116,6 @@ export const Content = styled.div`
     padding-left: 16px;
     margin: 24px 0;
     color: #94a3b8;
-  }
-
-  img {
-    max-width: 100%;
-    border-radius: 8px;
-    margin: 24px 0;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 24px 0;
-  }
-
-  th,
-  td {
-    border: 1px solid #1e3a5f;
-    padding: 12px;
-    text-align: left;
-  }
-
-  th {
-    background: #1e3a5f;
-    color: #fff;
   }
 `;
 
@@ -149,10 +138,17 @@ export const Section = styled.section`
 `;
 
 export const SectionTitle = styled.h2`
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 24px;
   font-weight: 700;
   color: #fff;
   margin-bottom: 24px;
+
+  svg {
+    color: #60a5fa;
+  }
 `;
 
 export const Assignment = styled.div`
@@ -161,13 +157,6 @@ export const Assignment = styled.div`
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 24px;
-
-  h4 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 8px;
-  }
 `;
 
 export const AssignmentHeader = styled.div`
@@ -176,15 +165,18 @@ export const AssignmentHeader = styled.div`
   align-items: flex-start;
   gap: 16px;
   margin-bottom: 16px;
+  flex-wrap: wrap;
+`;
+
+export const AssignmentTitle = styled.h4`
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
 `;
 
 export const DueDate = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
   color: #fb7185;
   font-size: 14px;
-  white-space: nowrap;
 `;
 
 export const ResourceList = styled.div`
@@ -193,10 +185,10 @@ export const ResourceList = styled.div`
   gap: 12px;
 `;
 
-export const ResourceItem = styled.a`
+export const ResourceLink = styled.a`
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
   padding: 16px;
   background: #0f2942;
   border: 1px solid #1e3a5f;
@@ -209,11 +201,6 @@ export const ResourceItem = styled.a`
     background: #1e3a5f;
     transform: translateY(-2px);
   }
-
-  svg {
-    color: #60a5fa;
-    font-size: 20px;
-  }
 `;
 
 export const ResourceType = styled.span`
@@ -224,3 +211,35 @@ export const ResourceType = styled.span`
   border-radius: 4px;
   font-size: 12px;
 `;
+
+// types/database.ts
+export interface CodeExample {
+  language: string;
+  code: string;
+}
+
+export interface Assignment {
+  title: string;
+  description: string;
+  dueDate: string;
+}
+
+export interface Resource {
+  title: string;
+  url: string;
+  type: string;
+}
+
+export interface DatabaseClassEntry {
+  id: number;
+  week: number;
+  topic: string;
+  title: string;
+  date: string;
+  summary: string;
+  content: string;
+  keywords: string[];
+  codeExamples: CodeExample[];
+  assignments?: Assignment[];
+  resources?: Resource[];
+}

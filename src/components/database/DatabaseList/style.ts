@@ -1,30 +1,81 @@
 import styled from "@emotion/styled";
 
-export const Container = styled.div<{ $compact: boolean }>`
-  display: flex;
+export const Container = styled.div<{ viewMode: "list" | "grid" }>`
+  display: ${({ viewMode }) => (viewMode === "grid" ? "grid" : "flex")};
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: ${({ viewMode }) => (viewMode === "grid" ? "20px" : "1px")};
   flex-direction: column;
-  gap: ${({ $compact }) => ($compact ? "12px" : "24px")};
+  ${({ viewMode }) =>
+    viewMode === "list" &&
+    `
+    border: 1px solid #1e3a5f;
+    border-radius: 12px;
+    overflow: hidden;
+  `}
 `;
 
-export const EntryCard = styled.div<{ $isActive?: boolean; $compact: boolean }>`
-  background: ${({ $isActive }) => ($isActive ? "#1e3a5f" : "#0f2942")};
+export const EntryCard = styled.div<{ isActive: boolean; viewMode: "grid" }>`
+  background: ${({ isActive }) => (isActive ? "#1e3a5f" : "#0f2942")};
+  border: 1px solid ${({ isActive }) => (isActive ? "#2563eb" : "#1e3a5f")};
   border-radius: 12px;
-  padding: ${({ $compact }) => ($compact ? "16px" : "24px")};
+  padding: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 1px solid ${({ $isActive }) => ($isActive ? "#2563eb" : "#1e3a5f")};
 
   &:hover {
-    background: #1e3a5f;
     transform: translateY(-2px);
+    border-color: #2563eb;
+    background: #1e3a5f;
   }
 `;
 
-export const EntryHeader = styled.div`
+export const ListItem = styled.div<{ isActive: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  cursor: pointer;
+  background: ${({ isActive }) => (isActive ? "#1e3a5f" : "#0f2942")};
+  border-bottom: 1px solid #1e3a5f;
+  transition: all 0.2s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: #1e3a5f;
+  }
+`;
+
+export const ListWeek = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #60a5fa;
+  font-size: 14px;
+  min-width: 80px;
+
+  svg {
+    font-size: 12px;
+  }
+`;
+
+export const ListTitle = styled.div`
+  color: #fff;
+  font-size: 14px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+// 기존 그리드 뷰 관련 스타일
+export const CardHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
 `;
 
@@ -43,16 +94,16 @@ export const WeekBadge = styled.div`
 export const TopicBadge = styled.div`
   background: #0d9488;
   color: #fff;
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
 `;
 
-export const EntryTitle = styled.h3`
+export const Title = styled.h3`
+  color: #fff;
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
   margin-bottom: 12px;
   line-height: 1.4;
 `;
@@ -62,50 +113,25 @@ export const Summary = styled.p`
   font-size: 14px;
   line-height: 1.6;
   margin-bottom: 16px;
-`;
-
-export const CodePreview = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #0a1929;
-  padding: 6px 12px;
-  border-radius: 6px;
-  color: #94a3b8;
-  font-size: 13px;
-  font-family: "Fira Code", monospace;
-  margin-bottom: 16px;
-`;
-
-export const Keywords = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
-`;
-
-export const Keyword = styled.span`
-  background: #1e3a5f;
-  color: #94a3b8;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 export const AssignmentBadge = styled.div`
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   background: #991b1b;
   color: #fff;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 `;
 
 export const Date = styled.span`
   display: block;
   color: #64748b;
-  font-size: 13px;
+  font-size: 12px;
 `;

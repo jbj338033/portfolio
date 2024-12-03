@@ -1,7 +1,9 @@
+import { useState } from "react";
 import * as S from "./style";
 import { BsLink45Deg } from "react-icons/bs";
 import { HiOutlineAcademicCap } from "react-icons/hi";
 import { IoMdTrophy } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 
 interface Certificate {
   name: string;
@@ -26,7 +28,7 @@ const CERTIFICATES: Certificate[] = [
     date: "2024.05",
     number: "24-12345678",
     description:
-      "프로그래밍 언어 활용, 데이터베이스 구현, 애플리케이션 구현 능력 검증",
+      "C, C++, C#, JAVA, Python에 대한 자격증으로 높은 수준의 프로그래밍 활용능력이 있음을 증명할 수 있습니다. ",
   },
 ];
 
@@ -36,7 +38,7 @@ const AWARDS: Award[] = [
     organization: "대구소프트웨어마이스터고등학교",
     date: "2024.07",
     rank: "동상",
-    description: "음악 스트리밍 플랫폼 프로젝트로 우수한 성과 달성",
+    description: "해커톤 대회에서 동상 수상",
   },
   {
     name: "6회 청소년 ICT 칭압기 켐프 본선 대회",
@@ -61,7 +63,47 @@ const AWARDS: Award[] = [
   },
 ];
 
+const INITIAL_VISIBLE_CERTIFICATES = 4;
+const INITIAL_VISIBLE_AWARDS = 4;
+
 const CertificatesAndAwards = () => {
+  const [isAwardsModalOpen, setIsAwardsModalOpen] = useState(false);
+  const [isCertificatesModalOpen, setIsCertificatesModalOpen] = useState(false);
+
+  const displayedAwards = AWARDS.slice(0, INITIAL_VISIBLE_AWARDS);
+  const displayedCertificates = CERTIFICATES.slice(
+    0,
+    INITIAL_VISIBLE_CERTIFICATES
+  );
+
+  const renderCertificateItems = (certs: Certificate[]) =>
+    certs.map((cert, index) => (
+      <S.Item key={index}>
+        <S.ItemHeader>
+          <S.ItemTitle>{cert.name}</S.ItemTitle>
+          <S.ItemDate>{cert.date}</S.ItemDate>
+        </S.ItemHeader>
+        <S.ItemOrganization>{cert.organization}</S.ItemOrganization>
+        {cert.number && <S.ItemNumber>자격번호: {cert.number}</S.ItemNumber>}
+        {cert.description && (
+          <S.ItemDescription>{cert.description}</S.ItemDescription>
+        )}
+      </S.Item>
+    ));
+
+  const renderAwardItems = (awards: Award[]) =>
+    awards.map((award, index) => (
+      <S.Item key={index}>
+        <S.ItemHeader>
+          <S.ItemTitle>{award.name}</S.ItemTitle>
+          <S.ItemDate>{award.date}</S.ItemDate>
+        </S.ItemHeader>
+        <S.ItemOrganization>{award.organization}</S.ItemOrganization>
+        <S.ItemRank>{award.rank}</S.ItemRank>
+        <S.ItemDescription>{award.description}</S.ItemDescription>
+      </S.Item>
+    ));
+
   return (
     <S.Container id="certificates">
       <S.TitleWrapper>
@@ -79,22 +121,14 @@ const CertificatesAndAwards = () => {
           </S.SectionHeader>
 
           <S.ItemsList>
-            {CERTIFICATES.map((cert, index) => (
-              <S.Item key={index}>
-                <S.ItemHeader>
-                  <S.ItemTitle>{cert.name}</S.ItemTitle>
-                  <S.ItemDate>{cert.date}</S.ItemDate>
-                </S.ItemHeader>
-                <S.ItemOrganization>{cert.organization}</S.ItemOrganization>
-                {cert.number && (
-                  <S.ItemNumber>자격번호: {cert.number}</S.ItemNumber>
-                )}
-                {cert.description && (
-                  <S.ItemDescription>{cert.description}</S.ItemDescription>
-                )}
-              </S.Item>
-            ))}
+            {renderCertificateItems(displayedCertificates)}
           </S.ItemsList>
+
+          {CERTIFICATES.length > INITIAL_VISIBLE_CERTIFICATES && (
+            <S.ShowMoreButton onClick={() => setIsCertificatesModalOpen(true)}>
+              더보기 ({CERTIFICATES.length - INITIAL_VISIBLE_CERTIFICATES}+)
+            </S.ShowMoreButton>
+          )}
         </S.Section>
 
         <S.Section>
@@ -105,21 +139,55 @@ const CertificatesAndAwards = () => {
             <S.SectionTitle>수상내역</S.SectionTitle>
           </S.SectionHeader>
 
-          <S.ItemsList>
-            {AWARDS.map((award, index) => (
-              <S.Item key={index}>
-                <S.ItemHeader>
-                  <S.ItemTitle>{award.name}</S.ItemTitle>
-                  <S.ItemDate>{award.date}</S.ItemDate>
-                </S.ItemHeader>
-                <S.ItemOrganization>{award.organization}</S.ItemOrganization>
-                <S.ItemRank>{award.rank}</S.ItemRank>
-                <S.ItemDescription>{award.description}</S.ItemDescription>
-              </S.Item>
-            ))}
-          </S.ItemsList>
+          <S.ItemsList>{renderAwardItems(displayedAwards)}</S.ItemsList>
+
+          {AWARDS.length > INITIAL_VISIBLE_AWARDS && (
+            <S.ShowMoreButton onClick={() => setIsAwardsModalOpen(true)}>
+              더보기 ({AWARDS.length - INITIAL_VISIBLE_AWARDS}+)
+            </S.ShowMoreButton>
+          )}
         </S.Section>
       </S.Content>
+
+      {/* Certificates Modal */}
+      {isCertificatesModalOpen && (
+        <S.ModalOverlay onClick={() => setIsCertificatesModalOpen(false)}>
+          <S.ModalContent onClick={(e) => e.stopPropagation()}>
+            <S.ModalHeader>
+              <S.ModalTitle>
+                <HiOutlineAcademicCap />
+                전체 자격증
+              </S.ModalTitle>
+              <S.CloseButton onClick={() => setIsCertificatesModalOpen(false)}>
+                <IoClose />
+              </S.CloseButton>
+            </S.ModalHeader>
+            <S.ModalBody>
+              <S.ModalGrid>{renderCertificateItems(CERTIFICATES)}</S.ModalGrid>
+            </S.ModalBody>
+          </S.ModalContent>
+        </S.ModalOverlay>
+      )}
+
+      {/* Awards Modal */}
+      {isAwardsModalOpen && (
+        <S.ModalOverlay onClick={() => setIsAwardsModalOpen(false)}>
+          <S.ModalContent onClick={(e) => e.stopPropagation()}>
+            <S.ModalHeader>
+              <S.ModalTitle>
+                <IoMdTrophy />
+                전체 수상내역
+              </S.ModalTitle>
+              <S.CloseButton onClick={() => setIsAwardsModalOpen(false)}>
+                <IoClose />
+              </S.CloseButton>
+            </S.ModalHeader>
+            <S.ModalBody>
+              <S.ModalGrid>{renderAwardItems(AWARDS)}</S.ModalGrid>
+            </S.ModalBody>
+          </S.ModalContent>
+        </S.ModalOverlay>
+      )}
     </S.Container>
   );
 };

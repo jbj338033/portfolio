@@ -1,66 +1,62 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { BsCalendarWeek, BsCodeSquare } from "react-icons/bs";
+import { useNavigate, useParams } from "react-router-dom";
+import { BsCalendarWeek } from "react-icons/bs";
 import { DatabaseClassEntry } from "../../../types/database";
 import * as S from "./style";
 
 interface Props {
   entries: DatabaseClassEntry[];
-  compact?: boolean;
+  viewMode: "list" | "grid";
 }
 
-const DatabaseList = ({ entries, compact = false }: Props) => {
+const DatabaseList = ({ entries, viewMode }: Props) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const currentId = location.pathname.split("/").pop();
+  const { id } = useParams();
 
-  const handleEntryClick = (id: number) => {
-    navigate(`/database/${id}`);
-  };
+  const renderGridView = (entry: DatabaseClassEntry) => (
+    <S.EntryCard
+      key={entry.id}
+      onClick={() => navigate(`/database/${entry.id}`)}
+      isActive={entry.id === Number(id)}
+      viewMode="grid"
+    >
+      <S.CardHeader>
+        <S.WeekBadge>
+          <BsCalendarWeek />
+          {entry.week}주차
+        </S.WeekBadge>
+        <S.TopicBadge>{entry.topic}</S.TopicBadge>
+      </S.CardHeader>
+
+      <S.Title>{entry.title}</S.Title>
+      <S.Summary>{entry.summary}</S.Summary>
+
+      {entry.assignments && (
+        <S.AssignmentBadge>과제 {entry.assignments.length}개</S.AssignmentBadge>
+      )}
+
+      <S.Date>{entry.date}</S.Date>
+    </S.EntryCard>
+  );
+
+  const renderListView = (entry: DatabaseClassEntry) => (
+    <S.ListItem
+      key={entry.id}
+      onClick={() => navigate(`/database/${entry.id}`)}
+      isActive={entry.id === Number(id)}
+    >
+      <S.ListWeek>
+        <BsCalendarWeek />
+        {entry.week}주차
+      </S.ListWeek>
+      <S.ListTitle>{entry.title}</S.ListTitle>
+    </S.ListItem>
+  );
 
   return (
-    <S.Container $compact={compact}>
-      {entries.map((entry) => (
-        <S.EntryCard
-          key={entry.id}
-          onClick={() => handleEntryClick(entry.id)}
-          $isActive={entry.id === Number(currentId)}
-          $compact={compact}
-        >
-          <S.EntryHeader>
-            <S.WeekBadge>
-              <BsCalendarWeek />
-              {entry.week}주차
-            </S.WeekBadge>
-            <S.TopicBadge>{entry.topic}</S.TopicBadge>
-          </S.EntryHeader>
-
-          <S.EntryTitle>{entry.title}</S.EntryTitle>
-
-          {!compact && (
-            <>
-              <S.Summary>{entry.summary}</S.Summary>
-              {entry.codeExamples.length > 0 && (
-                <S.CodePreview>
-                  <BsCodeSquare />
-                  <span>{entry.codeExamples[0].language}</span>
-                </S.CodePreview>
-              )}
-              <S.Keywords>
-                {entry.keywords.map((keyword, index) => (
-                  <S.Keyword key={index}>{keyword}</S.Keyword>
-                ))}
-              </S.Keywords>
-              {entry.assignments && (
-                <S.AssignmentBadge>
-                  과제 {entry.assignments.length}개
-                </S.AssignmentBadge>
-              )}
-            </>
-          )}
-
-          <S.Date>{entry.date}</S.Date>
-        </S.EntryCard>
-      ))}
+    <S.Container viewMode={viewMode}>
+      {entries.map((entry) =>
+        viewMode === "grid" ? renderGridView(entry) : renderListView(entry)
+      )}
     </S.Container>
   );
 };
