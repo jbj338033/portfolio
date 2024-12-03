@@ -44,6 +44,23 @@ const ACTIVITIES: Activity[] = [
       },
     ],
   },
+  {
+    category: "대외 활동",
+    icon: <BsLink45Deg />,
+    details: [
+      {
+        title: "해커그라운드",
+        period: "2024.08.25 ~ 2024.08.27",
+        description: [
+          "의성에서 열리는 해커톤 대회에 참가하였습니다.",
+          "대소마고 친구 2명과 건국대학교 학생 1명과 팀을 이루어 참가하였습니다.",
+          "백엔드 개발을 담당하였습니다.",
+          '농부들의 귀촌을 장려하는 서비스 "굿팜"을 개발하였습니다.',
+        ],
+        skills: ["React", "Node.js", "Express", "MongoDB"],
+      },
+    ],
+  },
 ];
 
 const Activities = () => {
