@@ -40,7 +40,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 2,
         week: 2,
-        date: "2024.08.27",
+        date: "2024.09.03",
         title: "기술 스택 조사",
         summary: "기술 스택 조사 및 선정",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
@@ -58,7 +58,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 3,
         week: 3,
-        date: "2024.09.03",
+        date: "2024.09.10",
         title: "기능명세서 작성",
         summary: "기능명세서 작성",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
@@ -74,7 +74,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 4,
         week: 4,
-        date: "2024.09.10",
+        date: "2024.09.24",
         title: "디자인 회의",
         summary: "프로젝트 디자인 회의",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
@@ -94,7 +94,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 5,
         week: 5,
-        date: "2024.09.17",
+        date: "2024.10.15",
         title: "깃허브 프로젝트 생성",
         summary: "깃허브 프로젝트 생성 및 초기 커밋",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
@@ -110,7 +110,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 6,
         week: 6,
-        date: "2024.09.24",
+        date: "2024.10.22",
         title: "뷰 구현",
         summary: "화상 채팅방 목록 뷰 구현",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
@@ -126,7 +126,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 7,
         week: 7,
-        date: "2024.10.01",
+        date: "2024.10.29",
         title: "서버 배포 시작",
         summary: "서버 배포 시작",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
@@ -142,7 +142,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 8,
         week: 8,
-        date: "2024.10.08",
+        date: "2024.11.05",
         title: "뷰 구현 및 서버 개발",
         summary: "화상 채팅방 뷰 구현 및 서버 개발",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
@@ -162,7 +162,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 9,
         week: 9,
-        date: "2024.10.15",
+        date: "2024.11.12",
         title: "UI/UX 디자인 수정 및 서버 배포",
         summary: "UI/UX 디자인 수정 및 서버 배포",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
@@ -182,7 +182,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 10,
         week: 10,
-        date: "2024.10.22",
+        date: "2024.11.19",
         title: "코드 충돌 해결",
         summary: "코드 충돌 해결",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
@@ -198,7 +198,7 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       {
         id: 11,
         week: 11,
-        date: "2024.10.29",
+        date: "2024.10.26",
         title: "프로젝트 마무리",
         summary: "프로젝트 마무리",
         teamMembers: ["이동휘", "신지윤", "권동우", "강건", "전민오"],
