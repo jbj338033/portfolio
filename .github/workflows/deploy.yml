@@ -19,6 +19,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd portfolio
+            rm -rf dist
             git pull origin main
             npm i
             npm run build
