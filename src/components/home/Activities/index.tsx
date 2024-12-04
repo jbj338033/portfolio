@@ -1,3 +1,4 @@
+import { useState } from "react";
 import * as S from "./style";
 import { BsLink45Deg } from "react-icons/bs";
 import { HiOutlineAcademicCap } from "react-icons/hi";
@@ -81,7 +82,6 @@ const ACTIVITIES: Activity[] = [
           "실시간 데이터 처리가 가능한 안정적인 서버 아키텍처 설계",
           "팀 내 효율적인 협업 경험 습득",
         ],
-        projectLink: "https://github.com/yourusername/goodfarm",
         role: "백엔드 개발 리드",
         teamSize: 4,
       },
@@ -90,50 +90,83 @@ const ACTIVITIES: Activity[] = [
 ];
 
 const Activities = () => {
+  const [activeCategory, setActiveCategory] = useState("교내 활동");
+
   return (
     <S.Container id="activities">
-      <S.TitleWrapper>
-        <BsLink45Deg />
-        <S.Title>ACTIVITIES</S.Title>
-      </S.TitleWrapper>
+      <S.Inner>
+        <S.Title>Activities</S.Title>
 
-      <S.Content>
-        {ACTIVITIES.map((activity, index) => (
-          <S.CategorySection key={index}>
-            <S.CategoryHeader>
-              <S.CategoryIcon>{activity.icon}</S.CategoryIcon>
-              <S.CategoryTitle>{activity.category}</S.CategoryTitle>
-            </S.CategoryHeader>
+        <S.TabList>
+          {ACTIVITIES.map((activity) => {
+            const Icon = () => activity.icon;
 
-            <S.ActivityList>
-              {activity.details.map((detail, detailIndex) => (
-                <S.ActivityItem key={detailIndex}>
-                  <S.ActivityHeader>
-                    <S.ActivityTitle>{detail.title}</S.ActivityTitle>
-                    <S.ActivityPeriod>{detail.period}</S.ActivityPeriod>
-                  </S.ActivityHeader>
+            return (
+              <S.TabItem
+                key={activity.category}
+                isActive={activeCategory === activity.category}
+                onClick={() => setActiveCategory(activity.category)}
+              >
+                <Icon />
+                {activity.category}
+              </S.TabItem>
+            );
+          })}
+        </S.TabList>
 
-                  <S.DescriptionList>
-                    {detail.description.map((desc, descIndex) => (
-                      <S.DescriptionItem key={descIndex}>
-                        {desc}
-                      </S.DescriptionItem>
-                    ))}
-                  </S.DescriptionList>
+        <S.Content>
+          {ACTIVITIES.map(
+            (activity) =>
+              activity.category === activeCategory && (
+                <S.Grid key={activity.category}>
+                  {activity.details.map((detail, index) => (
+                    <S.ActivityCard key={index}>
+                      <S.CardTop>
+                        <S.CardHeader>
+                          <S.CardTitle>{detail.title}</S.CardTitle>
+                          <S.Period>{detail.period}</S.Period>
+                        </S.CardHeader>
 
-                  {detail.skills && (
-                    <S.SkillsList>
-                      {detail.skills.map((skill) => (
-                        <S.SkillItem key={skill}>{skill}</S.SkillItem>
-                      ))}
-                    </S.SkillsList>
-                  )}
-                </S.ActivityItem>
-              ))}
-            </S.ActivityList>
-          </S.CategorySection>
-        ))}
-      </S.Content>
+                        {detail.role && (
+                          <S.RoleBadge>{detail.role}</S.RoleBadge>
+                        )}
+
+                        <S.Description>
+                          {detail.description.map((desc, idx) => (
+                            <S.DescriptionItem key={idx}>
+                              {desc}
+                            </S.DescriptionItem>
+                          ))}
+                        </S.Description>
+                      </S.CardTop>
+
+                      <S.CardBottom>
+                        {detail.skills && (
+                          <S.SkillList>
+                            {detail.skills.map((skill) => (
+                              <S.Skill key={skill}>{skill}</S.Skill>
+                            ))}
+                          </S.SkillList>
+                        )}
+
+                        {detail.projectLink && (
+                          <S.ProjectLink
+                            href={detail.projectLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Project
+                            <BsLink45Deg />
+                          </S.ProjectLink>
+                        )}
+                      </S.CardBottom>
+                    </S.ActivityCard>
+                  ))}
+                </S.Grid>
+              )
+          )}
+        </S.Content>
+      </S.Inner>
     </S.Container>
   );
 };
