@@ -17,7 +17,7 @@ const DataStructureList = ({
       {topics.map((topic) => (
         <S.ListItem key={topic.id}>
           <S.TopicLink
-            to={`/data-structure/${structureId}/topic/${topic.id}`}
+            to={`/data-structure/${structureId}/${topic.id}`}
             compact={compact}
           >
             <S.TopicHeader>

@@ -13,10 +13,7 @@ const DataStructureListPage = () => {
 
       <S.Grid>
         {DATA_STRUCTURES.map((structure) => (
-          <S.Card
-            key={structure.id}
-            to={`/data-structure/${structure.id}/topic/1`}
-          >
+          <S.Card key={structure.id} to={`/data-structure/${structure.id}/1`}>
             <S.CardHeader>
               <S.CardTitle>{structure.title}</S.CardTitle>
               <S.Category>{structure.category}</S.Category>

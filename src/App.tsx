@@ -39,10 +39,7 @@ function App() {
 
         <Route path="/data-structure" element={<DataStructureLayout />}>
           <Route index element={<DataStructureListPage />} />
-          <Route
-            path=":structureId/topic/:topicId"
-            element={<DataStructurePage />}
-          />
+          <Route path=":structureId/:topicId" element={<DataStructurePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
