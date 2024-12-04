@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const Container = styled.section`
   width: 100%;
-  padding: 80px 20px;
+  padding: 60px 20px;
   background-color: #f8f9fa;
 `;
 
@@ -11,7 +11,7 @@ export const TitleWrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 
   svg {
     font-size: 24px;
@@ -26,30 +26,31 @@ export const Title = styled.h2`
 `;
 
 export const Content = styled.div`
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 export const Category = styled.div`
   background: white;
-  border-radius: 20px;
-  padding: 32px;
+  border-radius: 16px;
+  padding: 24px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-
-  @media (max-width: 768px) {
-    padding: 24px;
-  }
+  height: fit-content;
 `;
 
 export const CategoryHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
   border-bottom: 1px solid #f1f3f5;
 `;
 
@@ -57,16 +58,16 @@ export const CategoryIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   background: #f8f9fa;
   color: #228be6;
-  font-size: 24px;
+  font-size: 20px;
 `;
 
 export const CategoryTitle = styled.h3`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: #333;
 `;
@@ -74,12 +75,12 @@ export const CategoryTitle = styled.h3`
 export const TechList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 `;
 
 export const TechItem = styled.div`
-  padding: 24px;
-  border-radius: 16px;
+  padding: 16px;
+  border-radius: 12px;
   background: #f8f9fa;
   transition: transform 0.2s ease;
 
