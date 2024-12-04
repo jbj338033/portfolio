@@ -1,4 +1,4 @@
-name: Deploy Main Branch
+name: Deploy
 
 on:
   push:
@@ -23,4 +23,3 @@ jobs:
             cd portfolio
             npm install
             npm run build
-            cd ..
