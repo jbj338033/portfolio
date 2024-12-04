@@ -2,89 +2,94 @@ import styled from "@emotion/styled";
 
 export const Container = styled.section`
   width: 100%;
-  padding: 80px 20px;
-  background-color: #f8f9fa;
+  padding: 120px 0;
+  background: linear-gradient(180deg, #fcfcfc 0%, #f8f9fa 100%);
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: repeating-linear-gradient(
+      90deg,
+      #e9ecef 0px,
+      #e9ecef 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  }
 `;
 
-export const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 48px;
+export const Inner = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+`;
 
-  svg {
-    font-size: 24px;
-    color: #333;
-  }
+export const Header = styled.div`
+  margin-bottom: 80px;
+  text-align: center;
 `;
 
 export const Title = styled.h2`
-  font-size: 28px;
-  font-weight: 700;
-  color: #333;
+  font-size: 40px;
+  font-weight: 800;
+  color: #191919;
+  margin: 0 0 16px 0;
+  font-family: "Helvetica Neue", sans-serif;
 `;
 
-export const Content = styled.div`
-  max-width: 1000px;
-  margin: 0 auto;
+export const CategoryTabs = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 48px;
-`;
-
-export const Section = styled.div`
-  background: white;
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-`;
-
-export const SectionHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 32px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #f1f3f5;
-`;
-
-export const SectionIcon = styled.div`
-  display: flex;
-  align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #f8f9fa;
-  color: #228be6;
-  font-size: 24px;
+  gap: 16px;
+  margin-bottom: 64px;
 `;
 
-export const SectionTitle = styled.h3`
-  font-size: 22px;
+export const CategoryTab = styled.button<{ isActive: boolean }>`
+  padding: 12px 24px;
+  background: ${(props) => (props.isActive ? "#191919" : "transparent")};
+  color: ${(props) => (props.isActive ? "white" : "#666")};
+  border: 2px solid ${(props) => (props.isActive ? "#191919" : "#e9ecef")};
+  border-radius: 100px;
+  font-size: 15px;
   font-weight: 600;
-  color: #333;
-`;
+  cursor: pointer;
+  transition: all 0.2s;
 
-export const ItemsList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 24px;
+  &:hover {
+    border-color: #191919;
+    color: ${(props) => (props.isActive ? "white" : "#191919")};
+  }
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+  svg {
+    margin-right: 8px;
+    vertical-align: -2px;
   }
 `;
 
+export const Content = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 32px;
+`;
+
 export const Item = styled.div`
-  padding: 24px;
-  background: #f8f9fa;
+  background: white;
   border-radius: 16px;
-  transition: transform 0.2s ease;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #eee;
+  transition: all 0.3s;
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    border-color: #ccc;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   }
 `;
 
@@ -93,152 +98,174 @@ export const ItemHeader = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
-  margin-bottom: 12px;
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-    gap: 8px;
-  }
+  margin-bottom: 16px;
 `;
 
-export const ItemTitle = styled.h4`
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
+export const ItemTitle = styled.h3`
+  font-size: 20px;
+  font-weight: 700;
+  color: #191919;
+  margin: 0;
 `;
 
 export const ItemDate = styled.span`
   font-size: 14px;
-  color: #868e96;
+  color: #666;
+  background: #f8f9fa;
+  padding: 6px 12px;
+  border-radius: 100px;
   white-space: nowrap;
 `;
 
 export const ItemOrganization = styled.div`
   font-size: 15px;
-  color: #495057;
-  margin-bottom: 8px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 16px;
 `;
 
 export const ItemNumber = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 14px;
-  color: #868e96;
-  margin-bottom: 8px;
+  color: #666;
+  padding: 6px 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 16px;
+
+  &:before {
+    content: "#";
+    color: #adb5bd;
+  }
 `;
 
 export const ItemRank = styled.div`
   display: inline-block;
-  padding: 4px 12px;
-  background-color: #e7f5ff;
-  color: #228be6;
-  border-radius: 20px;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, #ffd43b, #fab005);
+  color: #191919;
+  border-radius: 8px;
   font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 8px;
+  font-weight: 600;
+  margin-bottom: 16px;
 `;
 
-export const ItemDescription = styled.p`
-  font-size: 15px;
+export const ItemDescription = styled.div`
+  position: relative;
+  padding-left: 16px;
   color: #495057;
+  font-size: 15px;
   line-height: 1.6;
-  margin: 0;
-`;
+  white-space: pre-wrap;
 
-export const ShowMoreButton = styled.button`
-  display: block;
-  margin: 32px auto 0;
-  padding: 12px 24px;
-  background-color: #e7f5ff;
-  color: #228be6;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #d0ebff;
-    transform: translateY(-2px);
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e9ecef;
   }
 `;
 
-export const ModalOverlay = styled.div`
+export const Modal = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 20px;
+  padding: 24px;
+  backdrop-filter: blur(8px);
 `;
 
 export const ModalContent = styled.div`
-  background-color: white;
-  border-radius: 20px;
-  width: 100%;
-  max-width: 1000px;
+  background: white;
+  border-radius: 24px;
+  width: 1000px;
+  max-width: 95vw;
   max-height: 90vh;
+  position: relative;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 `;
 
 export const ModalHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 24px 32px;
-  border-bottom: 1px solid #f1f3f5;
+  border-bottom: 1px solid #eee;
 `;
 
-export const ModalTitle = styled.h3`
+export const ModalTitle = styled.h2`
   font-size: 24px;
-  font-weight: 600;
-  color: #333;
+  color: #191919;
+  margin: 0;
   display: flex;
   align-items: center;
   gap: 12px;
 
   svg {
-    color: #228be6;
-    font-size: 28px;
-  }
-`;
-
-export const CloseButton = styled.button`
-  background: none;
-  border: none;
-  color: #868e96;
-  cursor: pointer;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  transition: all 0.2s ease;
-  border-radius: 50%;
-
-  &:hover {
-    background-color: #f8f9fa;
-    color: #495057;
+    color: #fab005;
   }
 `;
 
 export const ModalBody = styled.div`
   padding: 32px;
   overflow-y: auto;
+  max-height: calc(90vh - 200px);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f3f5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #dee2e6;
+    border-radius: 4px;
+  }
 `;
 
 export const ModalGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 24px;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+  }
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: white;
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #191919;
+    color: white;
+    border-color: #191919;
+  }
+
+  svg {
+    font-size: 20px;
   }
 `;

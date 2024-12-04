@@ -1,6 +1,5 @@
 import { useState } from "react";
 import * as S from "./style";
-import { BsLink45Deg } from "react-icons/bs";
 import { HiOutlineAcademicCap } from "react-icons/hi";
 import { IoMdTrophy } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
@@ -80,130 +79,114 @@ const AWARDS: Award[] = [
   },
 ];
 
-const INITIAL_VISIBLE_CERTIFICATES = 4;
-const INITIAL_VISIBLE_AWARDS = 4;
+const isCertificate = (item: Certificate | Award): item is Certificate => {
+  return "number" in item;
+};
+
+const isAward = (item: Certificate | Award): item is Award => {
+  return "rank" in item;
+};
 
 const CertificatesAndAwards = () => {
-  const [isAwardsModalOpen, setIsAwardsModalOpen] = useState(false);
-  const [isCertificatesModalOpen, setIsCertificatesModalOpen] = useState(false);
-
-  const displayedAwards = AWARDS.slice(0, INITIAL_VISIBLE_AWARDS);
-  const displayedCertificates = CERTIFICATES.slice(
-    0,
-    INITIAL_VISIBLE_CERTIFICATES
+  const [selectedTab, setSelectedTab] = useState<"certificates" | "awards">(
+    "certificates"
+  );
+  const [selectedItem, setSelectedItem] = useState<Certificate | Award | null>(
+    null
   );
 
   const renderCertificateItems = (certs: Certificate[]) =>
     certs.map((cert, index) => (
-      <S.Item key={index}>
+      <S.Item key={index} onClick={() => setSelectedItem(cert)}>
         <S.ItemHeader>
           <S.ItemTitle>{cert.name}</S.ItemTitle>
           <S.ItemDate>{cert.date}</S.ItemDate>
         </S.ItemHeader>
         <S.ItemOrganization>{cert.organization}</S.ItemOrganization>
-        {cert.number && <S.ItemNumber>자격번호: {cert.number}</S.ItemNumber>}
-        {cert.description && (
-          <S.ItemDescription>{cert.description}</S.ItemDescription>
-        )}
+        {cert.number && <S.ItemNumber>{cert.number}</S.ItemNumber>}
+        <S.ItemDescription>{cert.description}</S.ItemDescription>
       </S.Item>
     ));
 
   const renderAwardItems = (awards: Award[]) =>
     awards.map((award, index) => (
-      <S.Item key={index}>
+      <S.Item key={index} onClick={() => setSelectedItem(award)}>
         <S.ItemHeader>
           <S.ItemTitle>{award.name}</S.ItemTitle>
           <S.ItemDate>{award.date}</S.ItemDate>
         </S.ItemHeader>
         <S.ItemOrganization>{award.organization}</S.ItemOrganization>
-        <S.ItemRank>{award.rank}</S.ItemRank>
+        {award.rank && <S.ItemRank>{award.rank}</S.ItemRank>}
         <S.ItemDescription>{award.description}</S.ItemDescription>
       </S.Item>
     ));
 
   return (
     <S.Container id="certificates">
-      <S.TitleWrapper>
-        <BsLink45Deg />
-        <S.Title>CERTIFICATES & AWARDS</S.Title>
-      </S.TitleWrapper>
-
-      <S.Content>
-        <S.Section>
-          <S.SectionHeader>
-            <S.SectionIcon>
+      <S.Inner>
+        <S.Header>
+          <S.Title>Certificates & Awards</S.Title>
+          <S.CategoryTabs>
+            <S.CategoryTab
+              isActive={selectedTab === "certificates"}
+              onClick={() => setSelectedTab("certificates")}
+            >
               <HiOutlineAcademicCap />
-            </S.SectionIcon>
-            <S.SectionTitle>자격증</S.SectionTitle>
-          </S.SectionHeader>
-
-          <S.ItemsList>
-            {renderCertificateItems(displayedCertificates)}
-          </S.ItemsList>
-
-          {CERTIFICATES.length > INITIAL_VISIBLE_CERTIFICATES && (
-            <S.ShowMoreButton onClick={() => setIsCertificatesModalOpen(true)}>
-              더보기 ({CERTIFICATES.length - INITIAL_VISIBLE_CERTIFICATES}+)
-            </S.ShowMoreButton>
-          )}
-        </S.Section>
-
-        <S.Section>
-          <S.SectionHeader>
-            <S.SectionIcon>
+              Certificates
+            </S.CategoryTab>
+            <S.CategoryTab
+              isActive={selectedTab === "awards"}
+              onClick={() => setSelectedTab("awards")}
+            >
               <IoMdTrophy />
-            </S.SectionIcon>
-            <S.SectionTitle>수상내역</S.SectionTitle>
-          </S.SectionHeader>
+              Awards
+            </S.CategoryTab>
+          </S.CategoryTabs>
+        </S.Header>
 
-          <S.ItemsList>{renderAwardItems(displayedAwards)}</S.ItemsList>
+        <S.Content>
+          {selectedTab === "certificates"
+            ? renderCertificateItems(CERTIFICATES)
+            : renderAwardItems(AWARDS)}
+        </S.Content>
+      </S.Inner>
 
-          {AWARDS.length > INITIAL_VISIBLE_AWARDS && (
-            <S.ShowMoreButton onClick={() => setIsAwardsModalOpen(true)}>
-              더보기 ({AWARDS.length - INITIAL_VISIBLE_AWARDS}+)
-            </S.ShowMoreButton>
-          )}
-        </S.Section>
-      </S.Content>
-
-      {/* Certificates Modal */}
-      {isCertificatesModalOpen && (
-        <S.ModalOverlay onClick={() => setIsCertificatesModalOpen(false)}>
+      {selectedItem && (
+        <S.Modal onClick={() => setSelectedItem(null)}>
           <S.ModalContent onClick={(e) => e.stopPropagation()}>
             <S.ModalHeader>
               <S.ModalTitle>
-                <HiOutlineAcademicCap />
-                전체 자격증
+                {isCertificate(selectedItem) ? (
+                  <HiOutlineAcademicCap />
+                ) : (
+                  <IoMdTrophy />
+                )}
+                {selectedItem.name}
               </S.ModalTitle>
-              <S.CloseButton onClick={() => setIsCertificatesModalOpen(false)}>
+              <S.CloseButton onClick={() => setSelectedItem(null)}>
                 <IoClose />
               </S.CloseButton>
             </S.ModalHeader>
-            <S.ModalBody>
-              <S.ModalGrid>{renderCertificateItems(CERTIFICATES)}</S.ModalGrid>
-            </S.ModalBody>
-          </S.ModalContent>
-        </S.ModalOverlay>
-      )}
 
-      {/* Awards Modal */}
-      {isAwardsModalOpen && (
-        <S.ModalOverlay onClick={() => setIsAwardsModalOpen(false)}>
-          <S.ModalContent onClick={(e) => e.stopPropagation()}>
-            <S.ModalHeader>
-              <S.ModalTitle>
-                <IoMdTrophy />
-                전체 수상내역
-              </S.ModalTitle>
-              <S.CloseButton onClick={() => setIsAwardsModalOpen(false)}>
-                <IoClose />
-              </S.CloseButton>
-            </S.ModalHeader>
             <S.ModalBody>
-              <S.ModalGrid>{renderAwardItems(AWARDS)}</S.ModalGrid>
+              <S.ItemHeader>
+                <S.ItemOrganization>
+                  {selectedItem.organization}
+                </S.ItemOrganization>
+                <S.ItemDate>{selectedItem.date}</S.ItemDate>
+              </S.ItemHeader>
+
+              {isCertificate(selectedItem) && selectedItem.number && (
+                <S.ItemNumber>{selectedItem.number}</S.ItemNumber>
+              )}
+              {isAward(selectedItem) && selectedItem.rank && (
+                <S.ItemRank>{selectedItem.rank}</S.ItemRank>
+              )}
+
+              <S.ItemDescription>{selectedItem.description}</S.ItemDescription>
             </S.ModalBody>
           </S.ModalContent>
-        </S.ModalOverlay>
+        </S.Modal>
       )}
     </S.Container>
   );
