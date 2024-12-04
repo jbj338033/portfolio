@@ -1,9 +1,9 @@
-name: Deploy
+name: Deploy Retro Branch
 
 on:
   push:
     branches:
-      - main
+      - retro
   workflow_dispatch:
 
 jobs:
@@ -18,8 +18,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo rm -rf portfolio
-            git clone https://github.com/jbj338033/portfolio.git
-            cd portfolio
+            sudo rm -rf retro
+            git clone https://github.com/jbj338033/retro.git -b retro retro
+            cd retro
             npm install
             npm run build
+            cd ..
