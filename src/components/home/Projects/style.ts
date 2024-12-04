@@ -2,70 +2,65 @@ import styled from "@emotion/styled";
 
 export const Container = styled.section`
   width: 100%;
-  padding: 100px 24px;
-  background-color: #f8f9fa;
+  padding: 120px 0;
+  background: #fcfcfc;
 `;
 
-export const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 48px;
+export const Inner = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+`;
 
-  svg {
-    font-size: 28px;
-    color: #333;
-  }
+export const Header = styled.div`
+  margin-bottom: 80px;
 `;
 
 export const Title = styled.h2`
-  font-size: 32px;
+  font-size: 40px;
+  font-weight: 800;
+  color: #191919;
+  margin: 0 0 20px 0;
+`;
+
+export const Description = styled.p`
+  font-size: 18px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+`;
+
+export const SectionTitle = styled.h3`
+  font-size: 24px;
   font-weight: 700;
-  color: #333;
-  letter-spacing: -0.5px;
+  color: #191919;
+  margin: 0 0 40px 0;
 `;
 
-export const GridContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
+export const FeaturedSection = styled.div``;
+
+export const FeaturedGrid = styled.div`
   display: grid;
-  gap: 48px;
-`;
+  gap: 40px;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
 
-export const MainProject = styled.div`
-  grid-column: 1 / -1;
-
-  .image-section {
-    flex: 1.2;
-    min-height: 400px;
-  }
-
-  .content-section {
-    flex: 1;
-    padding: 40px;
-  }
-
-  > div {
-    display: flex;
-    padding: 0;
-    gap: 40px;
-
-    @media (max-width: 768px) {
-      flex-direction: column;
-      gap: 24px;
-
-      .content-section {
-        padding: 24px;
-      }
-    }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
   }
 `;
+
+export const ProjectsSection = styled.div``;
 
 export const ProjectsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 32px;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -75,152 +70,140 @@ export const ProjectsGrid = styled.div`
 export const ProjectCard = styled.div`
   background: white;
   border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
-  position: relative;
+  border: 1px solid #eee;
+  transition: all 0.3s;
   height: 100%;
+  position: relative;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
   }
-`;
-
-export const ImageContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 24px;
 `;
 
 export const ProjectImage = styled.img`
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16/9;
   object-fit: cover;
-  transition: transform 0.3s ease;
+`;
+
+export const ProjectContent = styled.div`
+  padding: 24px;
 `;
 
 export const ProjectHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
 `;
 
 export const Category = styled.span`
-  background: linear-gradient(135deg, #ff6b6b, #ff8787);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 30px;
-  font-size: 14px;
+  background: #f8f9fa;
+  color: #191919;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
   font-weight: 600;
 `;
 
 export const Period = styled.span`
-  color: #868e96;
+  color: #666;
   font-size: 14px;
   display: flex;
   align-items: center;
   gap: 6px;
 
   svg {
-    color: #adb5bd;
+    color: #999;
   }
 `;
 
 export const OngoingText = styled.span`
-  background: linear-gradient(135deg, #4dabf7, #74c0fc);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #228be6;
   font-weight: 600;
 `;
 
-export const ProjectTitle = styled.h3`
-  font-size: 22px;
+export const ProjectTitle = styled.h4`
+  font-size: 20px;
   font-weight: 700;
-  color: #333;
-  margin-bottom: 24px;
+  color: #191919;
+  margin: 0 0 20px 0;
   line-height: 1.4;
 `;
 
-export const DescriptionList = styled.ul`
-  list-style-type: none;
+export const ProjectDescription = styled.ul`
+  list-style: none;
   padding: 0;
-  margin: 0 0 28px 0;
-`;
+  margin: 0 0 24px 0;
 
-export const DescriptionItem = styled.li`
-  position: relative;
-  padding-left: 18px;
-  margin-bottom: 12px;
-  color: #495057;
-  font-size: 15px;
-  line-height: 1.6;
+  li {
+    position: relative;
+    padding-left: 12px;
+    margin-bottom: 8px;
+    color: #666;
+    font-size: 15px;
+    line-height: 1.6;
 
-  &:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: #ff6b6b;
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #666;
+    }
   }
 `;
 
 export const SkillsList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 `;
 
 export const SkillItem = styled.span`
-  background-color: #f1f3f5;
+  background: #f8f9fa;
   color: #495057;
-  padding: 6px 14px;
-  border-radius: 20px;
+  padding: 6px 10px;
+  border-radius: 4px;
   font-size: 13px;
   font-weight: 500;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #e9ecef;
-  }
+  border: 1px solid #eee;
 `;
 
 export const FeaturedBadge = styled.div`
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: linear-gradient(135deg, #3a7bd5, #00d2ff);
-  color: white;
-  padding: 8px 16px;
+  top: 16px;
+  right: 16px;
+  padding: 6px 12px;
+  background: white;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
+  color: #191919;
   display: flex;
   align-items: center;
   gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1;
 
   svg {
-    color: #ffd700;
+    color: #fab005;
   }
 `;
 
+// Modal styles
 export const Modal = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.75);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -230,46 +213,76 @@ export const Modal = styled.div`
 
   @media (max-width: 768px) {
     padding: 0;
-    align-items: flex-end;
   }
 `;
 
 export const ModalContent = styled.div`
   background: white;
-  border-radius: 32px;
+  border-radius: 24px;
   width: 1000px;
   max-width: 95vw;
   max-height: 90vh;
   position: relative;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 
   @media (max-width: 768px) {
     width: 100%;
     max-width: 100%;
-    max-height: 85vh;
-    border-radius: 24px 24px 0 0;
-    margin: 0;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
   }
 `;
 
-export const ModalImageContainer = styled.div`
-  width: 100%;
-  height: 0;
-  padding-bottom: 56.25%;
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  background-color: #f8f9fa;
-  margin: 32px 0;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+export const ModalBody = styled.div`
+  padding: 40px;
+  overflow-y: auto;
+  max-height: 90vh;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f3f5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #adb5bd;
+    border-radius: 4px;
+
+    &:hover {
+      background: #868e96;
+    }
+  }
 
   @media (max-width: 768px) {
-    margin: 16px 0;
-    border-radius: 16px;
+    padding: 24px;
   }
+`;
+
+export const ModalTitle = styled.h3`
+  font-size: 32px;
+  font-weight: 800;
+  color: #191919;
+  margin: 0 0 16px 0;
+  line-height: 1.3;
+`;
+
+export const ProjectTeam = styled.div`
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 32px;
+`;
+
+export const ImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 32px 0;
 `;
 
 export const ImageTrack = styled.div`
@@ -280,243 +293,124 @@ export const ImageTrack = styled.div`
   height: 100%;
   display: flex;
   transition: transform 0.3s ease-out;
-  will-change: transform;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 export const ImageSlide = styled.div`
   flex: 0 0 100%;
   width: 100%;
   height: 100%;
+`;
+
+export const ImageNavigation = styled.div`
+  position: absolute;
+  inset: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  pointer-events: none;
 `;
 
-export const ModalImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-`;
-
-export const ModalInner = styled.div`
-  padding: 48px;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #dee2e6;
-    border-radius: 4px;
-
-    &:hover {
-      background-color: #ced4da;
-    }
-  }
-
-  @media (max-width: 768px) {
-    padding: 32px 24px;
-  }
-`;
-
-export const ModalHeader = styled.div`
-  margin-bottom: 40px;
-`;
-
-export const CloseButton = styled.button`
-  position: fixed;
-  top: 32px;
-  right: 32px;
+export const NavButton = styled.button`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
   background: white;
   border: none;
-  font-size: 24px;
-  color: #868e96;
-  cursor: pointer;
-  padding: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 2;
-
-  &:hover {
-    transform: rotate(90deg);
-    background-color: #f8f9fa;
-    color: #495057;
-  }
-
-  @media (max-width: 768px) {
-    top: 24px;
-    right: 24px;
-  }
-`;
-
-export const ImageNav = styled.div`
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
-  padding: 12px 20px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 100px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(8px);
-  z-index: 1;
-`;
-
-export const ImageDot = styled.button<{ active: boolean }>`
-  width: ${(props) => (props.active ? "24px" : "8px")};
-  height: 8px;
-  border-radius: 100px;
-  border: none;
-  background-color: ${(props) => (props.active ? "#ff6b6b" : "#dee2e6")};
   cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0;
-
-  &:hover {
-    background-color: ${(props) => (props.active ? "#ff6b6b" : "#ced4da")};
-  }
-`;
-
-export const ImageNavButton = styled.button`
+  pointer-events: auto;
+  color: #191919;
+  transition: all 0.2s;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(4px);
-  z-index: 1;
-
-  &:hover {
-    background: white;
-    transform: translateY(-50%) scale(1.1);
-  }
 
   &.prev {
-    left: 24px;
+    left: 16px;
+  }
+  &.next {
+    right: 16px;
   }
 
-  &.next {
-    right: 24px;
+  &:hover {
+    background: #191919;
+    color: white;
   }
 
   svg {
     font-size: 24px;
-    color: #495057;
-  }
-
-  @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
-
-    &.prev {
-      left: 16px;
-    }
-
-    &.next {
-      right: 16px;
-    }
-
-    svg {
-      font-size: 20px;
-    }
   }
 `;
 
-export const ModalTitle = styled.h3`
-  font-size: 32px;
-  font-weight: 700;
-  color: #191919;
-  margin-bottom: 16px;
-  line-height: 1.4;
-`;
-
-export const ModalTeam = styled.div`
-  color: #495057;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 8px 20px;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  display: inline-block;
-  margin-bottom: 40px;
-`;
-
-export const ModalDescription = styled.ul`
-  list-style-type: none;
-  padding: 0;
-  margin: 0 0 40px 0;
-
-  li {
-    font-size: 16px;
-    margin-bottom: 16px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-`;
-
-export const ModalSkillsSection = styled.div`
-  background-color: #f8f9fa;
-  padding: 32px;
-  border-radius: 24px;
-  margin-top: 48px;
-`;
-
-export const SubTitle = styled.h4`
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 16px;
-`;
-
-export const ModalLinks = styled.div`
+export const ImageIndicator = styled.div`
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  gap: 12px;
+  gap: 8px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 20px;
+`;
+
+export const IndicatorDot = styled.button<{ active: boolean }>`
+  width: ${(props) => (props.active ? "24px" : "8px")};
+  height: 8px;
+  border-radius: 4px;
+  background: ${(props) => (props.active ? "#191919" : "#dee2e6")};
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: ${(props) => (props.active ? "#191919" : "#ced4da")};
+  }
+`;
+
+export const SkillsSection = styled.div`
+  margin-top: 40px;
+  padding: 24px;
+  background: #f8f9fa;
+  border-radius: 12px;
+`;
+
+export const ProjectLinks = styled.div`
+  display: flex;
   flex-wrap: wrap;
+  gap: 12px;
   margin-top: 40px;
   padding-top: 40px;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid #eee;
 `;
 
 export const LinkButton = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
-  border: 1.5px solid #e9ecef;
-  border-radius: 12px;
-  color: #495057;
+  padding: 10px 16px;
+  background: #f8f9fa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  color: #191919;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
   transition: all 0.2s;
-  background-color: white;
 
   &:hover {
-    background-color: #f8f9fa;
-    border-color: #dee2e6;
-    transform: translateY(-1px);
+    background: #191919;
+    color: white;
+    border-color: #191919;
   }
 `;
 
@@ -524,18 +418,17 @@ export const DemoLink = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #4263eb;
+  padding: 8px 16px;
+  background: #e7f5ff;
+  border-radius: 8px;
+  color: #228be6;
   font-size: 14px;
   text-decoration: none;
   margin: 8px 0 24px;
-  padding: 10px 16px;
-  border-radius: 12px;
-  background-color: #edf2ff;
   transition: all 0.2s;
-  font-weight: 500;
 
   &:hover {
-    background-color: #dbe4ff;
+    background: #d0ebff;
   }
 `;
 
@@ -543,20 +436,41 @@ export const DeprecatedUrl = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #868e96;
+  padding: 8px 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  color: #adb5bd;
   font-size: 14px;
   margin: 8px 0 24px;
-  padding: 10px 16px;
-  border-radius: 12px;
-  background-color: #f8f9fa;
-  transition: background-color 0.2s;
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   svg {
-    font-size: 16px;
-    color: #adb5bd;
+    font-size: 24px;
+    color: #191919;
   }
 
   &:hover {
-    background-color: #f1f3f5;
+    background: #191919;
+
+    svg {
+      color: white;
+    }
   }
 `;

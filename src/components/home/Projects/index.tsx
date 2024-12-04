@@ -1,13 +1,13 @@
 import * as S from "./style";
-import { BsLink45Deg, BsGithub, BsStarFill } from "react-icons/bs";
+import { useState, useCallback, useEffect } from "react";
+import { BsGithub, BsStarFill } from "react-icons/bs";
 import { BiLinkExternal } from "react-icons/bi";
 import { VscLock } from "react-icons/vsc";
 import { SlCalender } from "react-icons/sl";
-import { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { Project } from "../../../types/project";
 import { PROJECTS } from "../../../constants/project";
-import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -20,53 +20,19 @@ const Projects = () => {
   const featuredProjects = PROJECTS.filter((p) => p.featured);
   const regularProjects = PROJECTS.filter((p) => !p.featured);
 
-  useEffect(() => {
-    if (selectedProject) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [selectedProject]);
-
-  const formatPeriod = (startDate: string, endDate?: string) => {
-    if (!endDate) {
-      return (
-        <S.Period>
-          <SlCalender />
-          {startDate} ~ <S.OngoingText>진행중</S.OngoingText>
-        </S.Period>
-      );
-    }
-    return (
-      <S.Period>
-        <SlCalender />
-        {startDate} ~ {endDate}
-      </S.Period>
-    );
-  };
-
-  const handleSlideComplete = () => {
-    setDragOffset(0);
-  };
-
-  const handlePrevImage = () => {
+  const handlePrevImage = useCallback(() => {
     if (!selectedProject?.images || isDragging) return;
-
     setCurrentImageIndex((prev) =>
       prev === 0 ? selectedProject.images!.length - 1 : prev - 1
     );
-  };
+  }, [selectedProject?.images, isDragging]);
 
-  const handleNextImage = () => {
+  const handleNextImage = useCallback(() => {
     if (!selectedProject?.images || isDragging) return;
-
     setCurrentImageIndex((prev) =>
       prev === selectedProject.images!.length - 1 ? 0 : prev + 1
     );
-  };
+  }, [selectedProject?.images, isDragging]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setIsDragging(true);
@@ -76,7 +42,6 @@ const Projects = () => {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
-
     setTouchEnd(e.targetTouches[0].clientX);
     const offset = touchStart - e.targetTouches[0].clientX;
     setDragOffset(offset);
@@ -84,7 +49,6 @@ const Projects = () => {
 
   const handleTouchEnd = () => {
     if (!isDragging) return;
-
     const distance = touchStart - touchEnd;
     const minSwipeDistance = 50;
 
@@ -102,102 +66,137 @@ const Projects = () => {
     setTouchEnd(0);
   };
 
-  const handleKeyPress = (e: KeyboardEvent) => {
-    if (!selectedProject) return;
-    if (e.key === "ArrowLeft") handlePrevImage();
-    if (e.key === "ArrowRight") handleNextImage();
-    if (e.key === "Escape") setSelectedProject(null);
-  };
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedProject]);
 
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyPress);
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (!selectedProject) return;
+      if (e.key === "ArrowLeft") handlePrevImage();
+      if (e.key === "ArrowRight") handleNextImage();
+      if (e.key === "Escape") setSelectedProject(null);
     };
-  }, [handleKeyPress, selectedProject]);
 
-  const renderProjectCard = (project: Project, isMain = false) => (
-    <S.ProjectCard
-      onClick={() => {
-        setSelectedProject(project);
-        setCurrentImageIndex(0);
-      }}
-    >
-      {project.featured && !isMain && (
-        <S.FeaturedBadge>
-          <BsStarFill />
-          대표작
-        </S.FeaturedBadge>
-      )}
-      <div className="image-section">
-        {project.thumbnail && (
-          <S.ImageContainer>
-            <S.ProjectImage
-              src={project.thumbnail}
-              alt={project.title}
-              style={{ transform: "scale(1)" }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-              }}
-            />
-          </S.ImageContainer>
-        )}
-      </div>
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [selectedProject, handlePrevImage, handleNextImage]);
 
-      <div className="content-section">
-        <S.ProjectHeader>
-          <S.Category>{project.category}</S.Category>
-          {formatPeriod(project.startDate, project.endDate)}
-        </S.ProjectHeader>
-
-        <S.ProjectTitle>{project.title}</S.ProjectTitle>
-
-        <S.DescriptionList>
-          {project.description.slice(0, isMain ? 3 : 2).map((desc, i) => (
-            <S.DescriptionItem key={i}>{desc}</S.DescriptionItem>
-          ))}
-          {!isMain && project.description.length > 2 && (
-            <S.DescriptionItem>더보기...</S.DescriptionItem>
-          )}
-        </S.DescriptionList>
-
-        <S.SkillsList>
-          {project.skills.slice(0, isMain ? 6 : 4).map((skill) => (
-            <S.SkillItem key={skill}>{skill}</S.SkillItem>
-          ))}
-          {!isMain && project.skills.length > 4 && (
-            <S.SkillItem>+{project.skills.length - 4}</S.SkillItem>
-          )}
-        </S.SkillsList>
-      </div>
-    </S.ProjectCard>
+  const formatPeriod = (startDate: string, endDate?: string) => (
+    <S.Period>
+      <SlCalender />
+      {startDate} ~ {endDate || <S.OngoingText>진행중</S.OngoingText>}
+    </S.Period>
   );
 
   return (
     <S.Container id="projects">
-      <S.TitleWrapper>
-        <BsLink45Deg />
-        <S.Title>PROJECTS</S.Title>
-      </S.TitleWrapper>
+      <S.Inner>
+        <S.Header>
+          <S.Title>Projects</S.Title>
+          <S.Description>
+            팀 프로젝트부터 개인 프로젝트까지,
+            <br />
+            제가 만든 다양한 프로젝트들을 소개합니다
+          </S.Description>
+        </S.Header>
 
-      <S.GridContainer>
-        {featuredProjects[0] && (
-          <S.MainProject>
-            {renderProjectCard(featuredProjects[0], true)}
-          </S.MainProject>
-        )}
-
-        <S.ProjectsGrid>
-          {[...featuredProjects.slice(1), ...regularProjects].map(
-            (project, index) => (
-              <div key={index}>{renderProjectCard(project)}</div>
-            )
+        <S.Content>
+          {featuredProjects.length > 0 && (
+            <S.FeaturedSection>
+              <S.SectionTitle>Featured Projects</S.SectionTitle>
+              <S.FeaturedGrid>
+                {featuredProjects.map((project) => (
+                  <S.ProjectCard
+                    key={project.title}
+                    onClick={() => {
+                      setSelectedProject(project);
+                      setCurrentImageIndex(0);
+                    }}
+                  >
+                    <S.FeaturedBadge>
+                      <BsStarFill />
+                      Featured
+                    </S.FeaturedBadge>
+                    <S.ProjectImage
+                      src={project.thumbnail}
+                      alt={project.title}
+                    />
+                    <S.ProjectContent>
+                      <S.ProjectHeader>
+                        <S.Category>{project.category}</S.Category>
+                        {formatPeriod(project.startDate, project.endDate)}
+                      </S.ProjectHeader>
+                      <S.ProjectTitle>{project.title}</S.ProjectTitle>
+                      <S.ProjectDescription>
+                        {project.description.map((desc, i) => (
+                          <li key={i}>{desc}</li>
+                        ))}
+                      </S.ProjectDescription>
+                      <S.SkillsList>
+                        {project.skills.map((skill) => (
+                          <S.SkillItem key={skill}>{skill}</S.SkillItem>
+                        ))}
+                      </S.SkillsList>
+                    </S.ProjectContent>
+                  </S.ProjectCard>
+                ))}
+              </S.FeaturedGrid>
+            </S.FeaturedSection>
           )}
-        </S.ProjectsGrid>
-      </S.GridContainer>
+
+          {regularProjects.length > 0 && (
+            <S.ProjectsSection>
+              <S.SectionTitle>Other Projects</S.SectionTitle>
+              <S.ProjectsGrid>
+                {regularProjects.map((project) => (
+                  <S.ProjectCard
+                    key={project.title}
+                    onClick={() => {
+                      setSelectedProject(project);
+                      setCurrentImageIndex(0);
+                    }}
+                  >
+                    <S.ProjectImage
+                      src={project.thumbnail}
+                      alt={project.title}
+                    />
+                    <S.ProjectContent>
+                      <S.ProjectHeader>
+                        <S.Category>{project.category}</S.Category>
+                        {formatPeriod(project.startDate, project.endDate)}
+                      </S.ProjectHeader>
+                      <S.ProjectTitle>{project.title}</S.ProjectTitle>
+                      <S.ProjectDescription>
+                        {project.description.slice(0, 2).map((desc, i) => (
+                          <li key={i}>{desc}</li>
+                        ))}
+                      </S.ProjectDescription>
+                      <S.SkillsList>
+                        {project.skills.slice(0, 4).map((skill) => (
+                          <S.SkillItem key={skill}>{skill}</S.SkillItem>
+                        ))}
+                        {project.skills.length > 4 && (
+                          <S.SkillItem>
+                            +{project.skills.length - 4}
+                          </S.SkillItem>
+                        )}
+                      </S.SkillsList>
+                    </S.ProjectContent>
+                  </S.ProjectCard>
+                ))}
+              </S.ProjectsGrid>
+            </S.ProjectsSection>
+          )}
+        </S.Content>
+      </S.Inner>
 
       {selectedProject && (
         <S.Modal onClick={() => setSelectedProject(null)}>
@@ -206,22 +205,22 @@ const Projects = () => {
               <IoClose />
             </S.CloseButton>
 
-            <S.ModalInner>
-              <S.ModalHeader>
-                <S.ProjectHeader>
-                  <S.Category>{selectedProject.category}</S.Category>
-                  {formatPeriod(
-                    selectedProject.startDate,
-                    selectedProject.endDate
-                  )}
-                </S.ProjectHeader>
+            <S.ModalBody>
+              <S.ProjectHeader>
+                <S.Category>{selectedProject.category}</S.Category>
+                {formatPeriod(
+                  selectedProject.startDate,
+                  selectedProject.endDate
+                )}
+              </S.ProjectHeader>
 
-                <S.ModalTitle>{selectedProject.title}</S.ModalTitle>
-                <S.ModalTeam>{selectedProject.team}</S.ModalTeam>
-              </S.ModalHeader>
+              <S.ModalTitle>{selectedProject.title}</S.ModalTitle>
+              {selectedProject.team && (
+                <S.ProjectTeam>{selectedProject.team}</S.ProjectTeam>
+              )}
 
               {selectedProject.images && selectedProject.images.length > 0 && (
-                <S.ModalImageContainer>
+                <S.ImageContainer>
                   <S.ImageTrack
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
@@ -231,11 +230,10 @@ const Projects = () => {
                         currentImageIndex * 100
                       }% - ${dragOffset}px))`,
                     }}
-                    onTransitionEnd={handleSlideComplete}
                   >
                     {selectedProject.images.map((image, index) => (
                       <S.ImageSlide key={index}>
-                        <S.ModalImage
+                        <img
                           src={image}
                           alt={`${selectedProject.title} ${index + 1}`}
                         />
@@ -245,40 +243,34 @@ const Projects = () => {
 
                   {selectedProject.images.length > 1 && (
                     <>
-                      <S.ImageNavButton
-                        className="prev"
-                        onClick={handlePrevImage}
-                      >
-                        <MdNavigateBefore />
-                      </S.ImageNavButton>
-                      <S.ImageNavButton
-                        className="next"
-                        onClick={handleNextImage}
-                      >
-                        <MdNavigateNext />
-                      </S.ImageNavButton>
-                      <S.ImageNav>
+                      <S.ImageNavigation>
+                        <S.NavButton className="prev" onClick={handlePrevImage}>
+                          <MdNavigateBefore />
+                        </S.NavButton>
+                        <S.NavButton className="next" onClick={handleNextImage}>
+                          <MdNavigateNext />
+                        </S.NavButton>
+                      </S.ImageNavigation>
+
+                      <S.ImageIndicator>
                         {selectedProject.images.map((_, idx) => (
-                          <S.ImageDot
+                          <S.IndicatorDot
                             key={idx}
                             active={idx === currentImageIndex}
-                            onClick={() => {
-                              if (idx === currentImageIndex) return;
-                              setCurrentImageIndex(idx);
-                            }}
+                            onClick={() => setCurrentImageIndex(idx)}
                           />
                         ))}
-                      </S.ImageNav>
+                      </S.ImageIndicator>
                     </>
                   )}
-                </S.ModalImageContainer>
+                </S.ImageContainer>
               )}
 
-              <S.ModalDescription>
+              <S.ProjectDescription>
                 {selectedProject.description.map((desc, i) => (
-                  <S.DescriptionItem key={i}>{desc}</S.DescriptionItem>
+                  <li key={i}>{desc}</li>
                 ))}
-              </S.ModalDescription>
+              </S.ProjectDescription>
 
               {selectedProject.url &&
                 (selectedProject.url.deprecated ? (
@@ -297,16 +289,16 @@ const Projects = () => {
                   </S.DemoLink>
                 ))}
 
-              <S.ModalSkillsSection>
-                <S.SubTitle>Skills & Technologies</S.SubTitle>
+              <S.SkillsSection>
+                <S.SectionTitle>Skills & Technologies</S.SectionTitle>
                 <S.SkillsList>
                   {selectedProject.skills.map((skill) => (
                     <S.SkillItem key={skill}>{skill}</S.SkillItem>
                   ))}
                 </S.SkillsList>
-              </S.ModalSkillsSection>
+              </S.SkillsSection>
 
-              <S.ModalLinks>
+              <S.ProjectLinks>
                 {selectedProject.links.readme && (
                   <S.LinkButton
                     href={selectedProject.links.readme}
@@ -325,8 +317,8 @@ const Projects = () => {
                     <BsGithub /> GitHub
                   </S.LinkButton>
                 )}
-              </S.ModalLinks>
-            </S.ModalInner>
+              </S.ProjectLinks>
+            </S.ModalBody>
           </S.ModalContent>
         </S.Modal>
       )}
