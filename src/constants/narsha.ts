@@ -391,4 +391,28 @@ export const NARSHA_PROJECTS: NarshaProject[] = [
       },
     ],
   },
+  {
+    id: 2,
+    title: "2025 나르샤 프로젝트",
+    description: "2025년도 나르샤 프로젝트 활동 내역입니다.",
+    period: "2025.01 - 2025.06",
+    status: "planned",
+    techStack: [],
+    teamSize: 0,
+    entries: [
+      {
+        id: 1,
+        week: 0,
+        date: "2025.01.01",
+        title: "프로젝트 팀 구성",
+        teamMembers: [],
+        achievement: "프로젝트 팀 구성 및 활동 계획 수립",
+        nextPlan: "프로젝트 주제 선정 및 기획 회의",
+        contents: [],
+        summary:
+          "프로젝트 팀원들과의 첫 만남을 통해 팀 구성을 완료하고, 프로젝트 활동 계획을 수립했다.",
+        tags: ["팀 구성", "계획 수립"],
+      },
+    ],
+  },
 ];
