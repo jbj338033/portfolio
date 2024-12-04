@@ -4,6 +4,7 @@ import { FaLaptopCode } from "react-icons/fa";
 import { HiServer } from "react-icons/hi";
 import { AiOutlineCloud } from "react-icons/ai";
 import { useState } from "react";
+import { BsFillHandIndexFill } from "react-icons/bs";
 
 interface TechItem {
   name: string;
@@ -131,9 +132,11 @@ const TECH_STACK: Record<string, TechCategory> = {
 
 const TechStack = () => {
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
+  const [showHint, setShowHint] = useState(true);
 
   const handleTechClick = (techName: string) => {
     setSelectedTech(selectedTech === techName ? null : techName);
+    setShowHint(false);
   };
 
   return (
@@ -155,26 +158,38 @@ const TechStack = () => {
                     key={tech.name}
                     isSelected={selectedTech === tech.name}
                   >
-                    <S.TechMain onClick={() => handleTechClick(tech.name)}>
-                      <S.TechLeft>
-                        <S.TechLabel color={tech.color}>
-                          {tech.name}
-                          <S.TechExp>{tech.experience}</S.TechExp>
-                        </S.TechLabel>
-                      </S.TechLeft>
+                    <S.TechMainWrapper>
+                      <S.TechMain onClick={() => handleTechClick(tech.name)}>
+                        <S.TechLeft>
+                          <S.TechLabel color={tech.color}>
+                            {showHint && tech.name === "TypeScript" && (
+                              <S.ClickHint>
+                                <S.HandIcon>
+                                  <BsFillHandIndexFill />
+                                </S.HandIcon>
+                              </S.ClickHint>
+                            )}
+                            {tech.name}
+                            <S.TechExp>{tech.experience}</S.TechExp>
+                          </S.TechLabel>
+                        </S.TechLeft>
 
-                      <S.TechRight>
-                        <S.LevelBar>
-                          {[...Array(5)].map((_, i) => (
-                            <S.LevelSegment
-                              key={i}
-                              isActive={i < tech.level}
-                              color={tech.color}
-                            />
-                          ))}
-                        </S.LevelBar>
-                      </S.TechRight>
-                    </S.TechMain>
+                        <S.TechRight>
+                          <S.LevelBar>
+                            {[...Array(5)].map((_, i) => (
+                              <S.LevelSegment
+                                key={i}
+                                isActive={i < tech.level}
+                                color={tech.color}
+                              />
+                            ))}
+                          </S.LevelBar>
+                        </S.TechRight>
+                      </S.TechMain>
+                      {showHint && tech.name === "TypeScript" && (
+                        <S.MobileHint>👆 탭하여 자세히 보기</S.MobileHint>
+                      )}
+                    </S.TechMainWrapper>
 
                     <S.TechDetails
                       isVisible={selectedTech === tech.name}

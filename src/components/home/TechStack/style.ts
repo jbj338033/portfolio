@@ -1,4 +1,3 @@
-// style.ts
 import styled from "@emotion/styled";
 
 export const Container = styled.section`
@@ -102,6 +101,8 @@ export const TechMain = styled.div`
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.2s ease;
+  position: relative;
+  z-index: 0;
 
   &:hover {
     background: #f8f9fa;
@@ -112,31 +113,12 @@ export const TechLeft = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+  position: relative;
 `;
 
 export const TechRight = styled.div`
   display: flex;
   align-items: center;
-`;
-
-export const TechLabel = styled.div<{ color: string }>`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: "Fira Code", monospace;
-  font-size: 15px;
-  color: ${(props) => props.color};
-  font-weight: 500;
-
-  &:before {
-    content: "";
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
-    background: ${(props) => props.color};
-    opacity: 0.8;
-  }
 `;
 
 export const TechExp = styled.span`
@@ -198,4 +180,98 @@ export const DetailBullet = styled.div<{ color: string }>`
   background: ${(props) => props.color};
   margin-top: 8px;
   flex-shrink: 0;
+`;
+
+export const TechMainWrapper = styled.div`
+  position: relative;
+
+  @media (max-width: 480px) {
+    padding-left: 0;
+  }
+`;
+
+export const MobileHint = styled.div`
+  display: none;
+  color: #868e96;
+  font-size: 13px;
+  margin-top: 8px;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    display: block;
+  }
+`;
+
+export const ClickHint = styled.div`
+  position: absolute;
+  left: calc(50% + 20px);
+  top: calc(50% + 8px); // Changed from 50% to move it slightly down
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+
+  @keyframes handAnimation {
+    0% {
+      transform: translateX(0);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translateX(5px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 0.7;
+    }
+  }
+
+  @media (max-width: 768px) {
+    left: calc(50% + 15px);
+    top: calc(50% + 6px); // Adjusted for mobile
+  }
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+`;
+
+export const HandIcon = styled.div`
+  position: relative;
+  animation: handAnimation 2s ease-in-out infinite;
+  color: #ffd700;
+  font-size: 20px;
+  transform: rotate(-35deg);
+
+  &::before,
+  &::after {
+    content: "✨";
+    position: absolute;
+    font-size: 12px;
+    color: #ffd700;
+  }
+
+  &::before {
+    top: -6px;
+    left: -3px;
+    animation: sparkleAnimation 1.5s ease-in-out infinite 0.2s;
+  }
+
+  &::after {
+    bottom: -3px;
+    right: -3px;
+    animation: sparkleAnimation 1.5s ease-in-out infinite 0.7s;
+  }
+`;
+
+export const TechLabel = styled.div<{ color: string }>`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: ${(props) => props.color};
+  position: relative;
+  width: 100%; // Added to make percentage positioning work correctly
 `;
