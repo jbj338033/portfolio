@@ -3,37 +3,63 @@ import styled from "@emotion/styled";
 export const Container = styled.section`
   width: 100%;
   padding: 120px 0;
-  background: linear-gradient(to bottom, #ffffff, #fafafa);
-  border-bottom: 1px solid #eee;
-`;
-
-export const Inner = styled.div`
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 20px;
-`;
-
-export const Title = styled.h2`
-  font-size: 32px;
-  font-weight: 800;
-  color: #111;
-  margin: 0 0 64px 0;
-  font-family: "Fira Code", monospace;
+  background: #f4f4f4;
   position: relative;
 
-  &:after {
+  &:before {
     content: "";
     position: absolute;
-    bottom: -16px;
+    top: 0;
     left: 0;
-    width: 60px;
-    height: 3px;
-    background: #228be6;
-    border-radius: 2px;
+    right: 0;
+    height: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      #222 0px,
+      #222 6px,
+      transparent 6px,
+      transparent 12px
+    );
   }
 
   @media (max-width: 768px) {
-    font-size: 28px;
+    padding: 80px 0;
+  }
+`;
+
+export const Inner = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
+`;
+
+export const Title = styled.h2`
+  font-size: 48px;
+  font-weight: 900;
+  color: #222;
+  margin: 0 0 64px 0;
+  font-family: "Space Mono", monospace;
+  position: relative;
+  display: inline-block;
+
+  &:after {
+    content: "_";
+    animation: blink 1s step-end infinite;
+    color: #ff3e3e;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    font-size: 36px;
     margin-bottom: 48px;
   }
 `;
@@ -41,68 +67,72 @@ export const Title = styled.h2`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 32px;
 `;
 
 export const Category = styled.div`
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 2px solid #222;
+  background: white;
+  box-shadow: 6px 6px 0 #222;
   padding: 24px;
 `;
 
 export const CategoryHeader = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #f1f3f5;
+  border-bottom: 2px dashed #222;
 `;
 
 export const CategoryIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  font-size: 20px;
-  color: #228be6;
-  background: #e7f5ff;
-  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  background: #ffe977;
+  border: 2px solid #222;
+  transform: rotate(-4deg);
+
+  svg {
+    font-size: 20px;
+    color: #222;
+  }
 `;
 
 export const CategoryTitle = styled.h3`
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
   margin: 0;
-  font-family: "Fira Code", monospace;
+  font-family: "Space Mono", monospace;
 `;
 
 export const TechList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 `;
 
 export const TechItem = styled.div<{ isSelected: boolean }>`
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  border: 2px solid ${(props) => (props.isSelected ? "#222" : "transparent")};
   background: ${(props) => (props.isSelected ? "#f8f9fa" : "transparent")};
-  border: 1px solid ${(props) => (props.isSelected ? "#e9ecef" : "transparent")};
+  transition: all 0.2s;
+`;
+
+export const TechMainWrapper = styled.div`
+  position: relative;
 `;
 
 export const TechMain = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 16px;
   cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  position: relative;
-  z-index: 0;
+  transition: all 0.2s;
 
   &:hover {
     background: #f8f9fa;
@@ -112,8 +142,7 @@ export const TechMain = styled.div`
 export const TechLeft = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
-  position: relative;
+  gap: 16px;
 `;
 
 export const TechRight = styled.div`
@@ -121,78 +150,77 @@ export const TechRight = styled.div`
   align-items: center;
 `;
 
+export const TechLabel = styled.div<{ color: string }>`
+  font-family: "Space Mono", monospace;
+  font-size: 15px;
+  color: #222;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+`;
+
 export const TechExp = styled.span`
+  padding: 4px 8px;
+  background: #ffe977;
+  border: 1.5px solid #222;
   font-size: 13px;
-  color: #666;
-  opacity: 0.8;
-  font-family: "Inter", sans-serif;
-  background: #f1f3f5;
-  padding: 2px 8px;
-  border-radius: 4px;
+  color: #222;
+  transform: rotate(-2deg);
 `;
 
 export const LevelBar = styled.div`
   display: flex;
-  gap: 3px;
-  padding: 4px;
-  background: #f8f9fa;
-  border-radius: 4px;
+  gap: 4px;
+  padding: 4px 8px;
+  background: white;
+  border: 1.5px solid #222;
 `;
 
 export const LevelSegment = styled.div<{ isActive: boolean; color: string }>`
-  width: 16px;
-  height: 6px;
-  border-radius: 1px;
-  background: ${(props) => (props.isActive ? props.color : "#e9ecef")};
-  opacity: ${(props) => (props.isActive ? 1 : 0.5)};
-  transition: all 0.2s ease;
+  width: 12px;
+  height: 12px;
+  background: ${(props) => (props.isActive ? props.color : "#f8f9fa")};
+  border: 1.5px solid #222;
+  transition: all 0.2s;
 `;
 
 export const TechDetails = styled.div<{ isVisible: boolean; color: string }>`
   max-height: ${(props) => (props.isVisible ? "500px" : "0")};
   opacity: ${(props) => (props.isVisible ? 1 : 0)};
   overflow: hidden;
-  transition: all 0.3s ease;
-  padding: ${(props) => (props.isVisible ? "0 16px 16px 16px" : "0 16px")};
+  transition: all 0.3s;
+  padding: ${(props) => (props.isVisible ? "0 16px 16px" : "0 16px")};
   margin-top: ${(props) => (props.isVisible ? "8px" : "0")};
-  border-top: ${(props) => (props.isVisible ? "1px solid #f1f3f5" : "none")};
+  border-top: ${(props) => (props.isVisible ? "2px dashed #222" : "none")};
 `;
 
 export const DetailItem = styled.div`
   display: flex;
-  align-items: baseline;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 12px;
   font-size: 14px;
-  color: #495057;
+  color: #666;
+  font-family: "Space Mono", monospace;
   line-height: 1.6;
   margin: 12px 0;
   padding-left: 8px;
-
-  &:first-of-type {
-    margin-top: 16px;
-  }
-`;
-
-export const DetailBullet = styled.div<{ color: string }>`
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: ${(props) => props.color};
-  margin-top: 8px;
-  flex-shrink: 0;
-`;
-
-export const TechMainWrapper = styled.div`
   position: relative;
 
-  @media (max-width: 480px) {
-    padding-left: 0;
+  &:before {
+    content: ">";
+    position: absolute;
+    left: -4px;
+    color: #ff3e3e;
+    font-family: "Space Mono", monospace;
   }
 `;
 
 export const MobileHint = styled.div`
   display: none;
-  color: #868e96;
+  font-family: "Space Mono", monospace;
+  color: #666;
   font-size: 13px;
   margin-top: 8px;
   text-align: center;
@@ -204,33 +232,13 @@ export const MobileHint = styled.div`
 
 export const ClickHint = styled.div`
   position: absolute;
-  left: calc(50% + 20px);
-  top: calc(50% + 8px); // Changed from 50% to move it slightly down
+  left: calc(100% + 8px);
+  top: 50%;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
   pointer-events: none;
   z-index: 1;
-
-  @keyframes handAnimation {
-    0% {
-      transform: translateX(0);
-      opacity: 0.7;
-    }
-    50% {
-      transform: translateX(5px);
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(0);
-      opacity: 0.7;
-    }
-  }
-
-  @media (max-width: 768px) {
-    left: calc(50% + 15px);
-    top: calc(50% + 6px); // Adjusted for mobile
-  }
 
   @media (max-width: 480px) {
     display: none;
@@ -238,40 +246,21 @@ export const ClickHint = styled.div`
 `;
 
 export const HandIcon = styled.div`
-  position: relative;
-  animation: handAnimation 2s ease-in-out infinite;
-  color: #ffd700;
+  color: #ff3e3e;
   font-size: 20px;
-  transform: rotate(-35deg);
+  animation: wave 1s ease-in-out infinite;
 
-  &::before,
-  &::after {
-    content: "✨";
-    position: absolute;
-    font-size: 12px;
-    color: #ffd700;
+  @keyframes wave {
+    0%,
+    100% {
+      transform: rotate(-35deg);
+    }
+    50% {
+      transform: rotate(-25deg);
+    }
   }
 
-  &::before {
-    top: -6px;
-    left: -3px;
-    animation: sparkleAnimation 1.5s ease-in-out infinite 0.2s;
+  svg {
+    filter: drop-shadow(2px 2px 0 #222);
   }
-
-  &::after {
-    bottom: -3px;
-    right: -3px;
-    animation: sparkleAnimation 1.5s ease-in-out infinite 0.7s;
-  }
-`;
-
-export const TechLabel = styled.div<{ color: string }>`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  color: ${(props) => props.color};
-  position: relative;
-  width: 100%; // Added to make percentage positioning work correctly
 `;

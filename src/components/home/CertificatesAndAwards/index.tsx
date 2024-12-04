@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as S from "./style";
 import { HiOutlineAcademicCap } from "react-icons/hi";
 import { IoMdTrophy } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
+import { MdOutlineOpenInNew } from "react-icons/md";
 
 interface Certificate {
   name: string;
@@ -95,95 +96,162 @@ const CertificatesAndAwards = () => {
     null
   );
 
-  const renderCertificateItems = (certs: Certificate[]) =>
-    certs.map((cert, index) => (
-      <S.Item key={index} onClick={() => setSelectedItem(cert)}>
-        <S.ItemHeader>
-          <S.ItemTitle>{cert.name}</S.ItemTitle>
-          <S.ItemDate>{cert.date}</S.ItemDate>
-        </S.ItemHeader>
-        <S.ItemOrganization>{cert.organization}</S.ItemOrganization>
-        {cert.number && <S.ItemNumber>{cert.number}</S.ItemNumber>}
-        <S.ItemDescription>{cert.description}</S.ItemDescription>
-      </S.Item>
-    ));
+  useEffect(() => {
+    if (selectedItem) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedItem]);
 
-  const renderAwardItems = (awards: Award[]) =>
-    awards.map((award, index) => (
-      <S.Item key={index} onClick={() => setSelectedItem(award)}>
-        <S.ItemHeader>
-          <S.ItemTitle>{award.name}</S.ItemTitle>
-          <S.ItemDate>{award.date}</S.ItemDate>
-        </S.ItemHeader>
-        <S.ItemOrganization>{award.organization}</S.ItemOrganization>
-        {award.rank && <S.ItemRank>{award.rank}</S.ItemRank>}
-        <S.ItemDescription>{award.description}</S.ItemDescription>
-      </S.Item>
-    ));
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && selectedItem) {
+        setSelectedItem(null);
+      }
+      if (e.key === "Tab" && !selectedItem) {
+        e.preventDefault();
+        setSelectedTab((prev) =>
+          prev === "certificates" ? "awards" : "certificates"
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [selectedItem]);
 
   return (
     <S.Container id="certificates">
       <S.Inner>
         <S.Header>
-          <S.Title>Certificates & Awards</S.Title>
+          <S.TitleArea>
+            <S.Title>Certificates & Awards</S.Title>
+          </S.TitleArea>
           <S.CategoryTabs>
             <S.CategoryTab
               isActive={selectedTab === "certificates"}
               onClick={() => setSelectedTab("certificates")}
             >
               <HiOutlineAcademicCap />
-              Certificates
+              <span>Certificates</span>
+              <S.TabCount>{CERTIFICATES.length}</S.TabCount>
             </S.CategoryTab>
             <S.CategoryTab
               isActive={selectedTab === "awards"}
               onClick={() => setSelectedTab("awards")}
             >
               <IoMdTrophy />
-              Awards
+              <span>Awards</span>
+              <S.TabCount>{AWARDS.length}</S.TabCount>
             </S.CategoryTab>
           </S.CategoryTabs>
         </S.Header>
 
-        <S.Content>
-          {selectedTab === "certificates"
-            ? renderCertificateItems(CERTIFICATES)
-            : renderAwardItems(AWARDS)}
-        </S.Content>
+        <S.ContentGrid>
+          {(selectedTab === "certificates" ? CERTIFICATES : AWARDS).map(
+            (item, index) => (
+              <S.Item
+                key={index}
+                onClick={() => setSelectedItem(item)}
+                tabIndex={0}
+              >
+                <S.ItemContent>
+                  <S.ItemHeader>
+                    <S.ItemTitle>{item.name}</S.ItemTitle>
+                    <S.ItemInfo>
+                      <S.ItemDate>{item.date}</S.ItemDate>
+                      <S.ItemOrganization>
+                        {item.organization}
+                      </S.ItemOrganization>
+                    </S.ItemInfo>
+                  </S.ItemHeader>
+
+                  <div>{item.description?.split("\n")[0]}</div>
+
+                  <S.ItemBadges>
+                    {isCertificate(item) && item.number && (
+                      <S.ItemNumber>{item.number}</S.ItemNumber>
+                    )}
+                    {isAward(item) && item.rank && (
+                      <S.ItemRank>{item.rank}</S.ItemRank>
+                    )}
+                    {item.description &&
+                      item.description?.split("\n").length > 1 && (
+                        <S.ReadMore>
+                          <MdOutlineOpenInNew /> Read more
+                        </S.ReadMore>
+                      )}
+                  </S.ItemBadges>
+                </S.ItemContent>
+              </S.Item>
+            )
+          )}
+        </S.ContentGrid>
       </S.Inner>
 
       {selectedItem && (
         <S.Modal onClick={() => setSelectedItem(null)}>
           <S.ModalContent onClick={(e) => e.stopPropagation()}>
+            <S.CloseButton onClick={() => setSelectedItem(null)}>
+              <IoClose />
+            </S.CloseButton>
+
             <S.ModalHeader>
-              <S.ModalTitle>
+              <S.ModalIcon>
                 {isCertificate(selectedItem) ? (
                   <HiOutlineAcademicCap />
                 ) : (
                   <IoMdTrophy />
                 )}
-                {selectedItem.name}
-              </S.ModalTitle>
-              <S.CloseButton onClick={() => setSelectedItem(null)}>
-                <IoClose />
-              </S.CloseButton>
+              </S.ModalIcon>
+              <S.ModalTitle>{selectedItem.name}</S.ModalTitle>
             </S.ModalHeader>
 
             <S.ModalBody>
-              <S.ItemHeader>
+              <S.ModalSection>
+                <S.ModalLabel>Organization</S.ModalLabel>
                 <S.ItemOrganization>
                   {selectedItem.organization}
                 </S.ItemOrganization>
+              </S.ModalSection>
+
+              <S.ModalSection>
+                <S.ModalLabel>Date</S.ModalLabel>
                 <S.ItemDate>{selectedItem.date}</S.ItemDate>
-              </S.ItemHeader>
+              </S.ModalSection>
 
               {isCertificate(selectedItem) && selectedItem.number && (
-                <S.ItemNumber>{selectedItem.number}</S.ItemNumber>
-              )}
-              {isAward(selectedItem) && selectedItem.rank && (
-                <S.ItemRank>{selectedItem.rank}</S.ItemRank>
+                <S.ModalSection>
+                  <S.ModalLabel>Certificate Number</S.ModalLabel>
+                  <S.ItemNumber>{selectedItem.number}</S.ItemNumber>
+                </S.ModalSection>
               )}
 
-              <S.ItemDescription>{selectedItem.description}</S.ItemDescription>
+              {isAward(selectedItem) && selectedItem.rank && (
+                <S.ModalSection>
+                  <S.ModalLabel>Rank</S.ModalLabel>
+                  <S.ItemRank>{selectedItem.rank}</S.ItemRank>
+                </S.ModalSection>
+              )}
+
+              {selectedItem.description && (
+                <S.ModalSection>
+                  <S.ModalLabel>Description</S.ModalLabel>
+                  <S.ItemDescription>
+                    {selectedItem.description
+                      .split("\n")
+                      .map((paragraph, index) => (
+                        <S.DescriptionParagraph key={index}>
+                          {paragraph}
+                        </S.DescriptionParagraph>
+                      ))}
+                  </S.ItemDescription>
+                </S.ModalSection>
+              )}
             </S.ModalBody>
           </S.ModalContent>
         </S.Modal>

@@ -38,7 +38,6 @@ const Footer = () => {
             </S.LinkItem>
           ))}
         </S.ContactLinks>
-
         <S.Copyright>© {currentYear} JMO. All rights reserved.</S.Copyright>
       </S.Content>
     </S.Container>

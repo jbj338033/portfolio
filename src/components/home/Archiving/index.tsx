@@ -19,27 +19,30 @@ const ARCHIVE_DATA = [
 const Archiving = () => {
   return (
     <S.Container id="archiving">
-      <S.TitleWrapper>
-        <BsLink45Deg />
-        <S.Title>ARCHIVING</S.Title>
-      </S.TitleWrapper>
-      <S.Content>
-        {ARCHIVE_DATA.map((item) => (
-          <S.ArchiveCard
-            key={item.title}
-            href={`https://${item.url}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <S.IconWrapper>{item.icon}</S.IconWrapper>
-            <S.TextContent>
-              <S.CardTitle>{item.title}</S.CardTitle>
-              <S.CardUrl>{item.url}</S.CardUrl>
-              <S.CardDescription>{item.description}</S.CardDescription>
-            </S.TextContent>
-          </S.ArchiveCard>
-        ))}
-      </S.Content>
+      <S.Inner>
+        <S.TitleWrapper>
+          <BsLink45Deg />
+          <S.Title>ARCHIVING</S.Title>
+        </S.TitleWrapper>
+        <S.Content>
+          {ARCHIVE_DATA.map((item) => (
+            <S.ArchiveCard
+              key={item.title}
+              href={`https://${item.url}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Visit ${item.title}`}
+            >
+              <S.IconWrapper>{item.icon}</S.IconWrapper>
+              <S.TextContent>
+                <S.CardTitle>{item.title}</S.CardTitle>
+                <S.CardUrl>{item.url}</S.CardUrl>
+                <S.CardDescription>{item.description}</S.CardDescription>
+              </S.TextContent>
+            </S.ArchiveCard>
+          ))}
+        </S.Content>
+      </S.Inner>
     </S.Container>
   );
 };

@@ -33,47 +33,51 @@ const CAREER_DATA: Career = {
 const Career = () => {
   return (
     <S.Container id="career">
-      <S.TitleWrapper>
-        <BsLink45Deg />
-        <S.Title>CAREER</S.Title>
-      </S.TitleWrapper>
-
-      <S.Content>
-        <S.CompanyCard>
-          <S.LogoWrapper>
-            <S.Logo src={CAREER_DATA.logo} alt={CAREER_DATA.company} />
-          </S.LogoWrapper>
-          <S.CompanyInfo>
-            <S.CompanyName>{CAREER_DATA.company}</S.CompanyName>
-            <S.CompanyPeriod>{CAREER_DATA.period}</S.CompanyPeriod>
-            <S.CompanyDescription>
-              {CAREER_DATA.description}
-            </S.CompanyDescription>
-            <S.TagList>
-              {CAREER_DATA.tags.map((tag, index) => (
-                <S.Tag key={index}>{tag}</S.Tag>
-              ))}
-            </S.TagList>
-          </S.CompanyInfo>
-        </S.CompanyCard>
-
-        <S.Timeline>
-          {CAREER_DATA.details.map((detail, index) => (
-            <S.TimelineItem key={index}>
-              <S.TimelineDot />
-              <S.TimelineContent>
-                <S.TimelineHeader>
-                  <S.TimelineTitle>{detail.title}</S.TimelineTitle>
-                  <S.TimelinePeriod>{detail.period}</S.TimelinePeriod>
-                </S.TimelineHeader>
-                <S.TimelineDescription>
-                  {detail.description}
-                </S.TimelineDescription>
-              </S.TimelineContent>
-            </S.TimelineItem>
-          ))}
-        </S.Timeline>
-      </S.Content>
+      <S.Inner>
+        <S.TitleWrapper>
+          <BsLink45Deg />
+          <S.Title>CAREER</S.Title>
+        </S.TitleWrapper>
+        <S.Content>
+          <S.CompanyCard>
+            <S.LogoWrapper>
+              <S.Logo src={CAREER_DATA.logo} alt={CAREER_DATA.company} />
+            </S.LogoWrapper>
+            <S.CompanyInfo>
+              <S.CompanyName>{CAREER_DATA.company}</S.CompanyName>
+              {CAREER_DATA.period && (
+                <S.CompanyPeriod>{CAREER_DATA.period}</S.CompanyPeriod>
+              )}
+              {CAREER_DATA.description && (
+                <S.CompanyDescription>
+                  {CAREER_DATA.description}
+                </S.CompanyDescription>
+              )}
+              <S.TagList>
+                {CAREER_DATA.tags.map((tag, index) => (
+                  <S.Tag key={index}>{tag}</S.Tag>
+                ))}
+              </S.TagList>
+            </S.CompanyInfo>
+          </S.CompanyCard>
+          <S.Timeline>
+            {CAREER_DATA.details.map((detail, index) => (
+              <S.TimelineItem key={index}>
+                <S.TimelineDot />
+                <S.TimelineContent>
+                  <S.TimelineHeader>
+                    <S.TimelineTitle>{detail.title}</S.TimelineTitle>
+                    <S.TimelinePeriod>{detail.period}</S.TimelinePeriod>
+                  </S.TimelineHeader>
+                  <S.TimelineDescription>
+                    {detail.description}
+                  </S.TimelineDescription>
+                </S.TimelineContent>
+              </S.TimelineItem>
+            ))}
+          </S.Timeline>
+        </S.Content>
+      </S.Inner>
     </S.Container>
   );
 };

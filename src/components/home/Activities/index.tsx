@@ -2,6 +2,7 @@ import { useState } from "react";
 import * as S from "./style";
 import { BsLink45Deg } from "react-icons/bs";
 import { HiOutlineAcademicCap } from "react-icons/hi";
+import { FiExternalLink } from "react-icons/fi";
 
 interface ActivityDetail {
   title: string;
@@ -90,82 +91,72 @@ const ACTIVITIES: Activity[] = [
 ];
 
 const Activities = () => {
-  const [activeCategory, setActiveCategory] = useState("교내 활동");
+  const [activeCategory, setActiveCategory] = useState<string>("교내 활동");
 
   return (
     <S.Container id="activities">
       <S.Inner>
-        <S.Title>Activities</S.Title>
+        <S.Header>
+          <S.TitleArea>
+            <S.Title>Activities</S.Title>
+          </S.TitleArea>
 
-        <S.TabList>
-          {ACTIVITIES.map((activity) => {
-            const Icon = () => activity.icon;
-
-            return (
-              <S.TabItem
+          <S.CategoryTabs>
+            {ACTIVITIES.map((activity) => (
+              <S.CategoryTab
                 key={activity.category}
                 isActive={activeCategory === activity.category}
                 onClick={() => setActiveCategory(activity.category)}
               >
-                <Icon />
-                {activity.category}
-              </S.TabItem>
-            );
-          })}
-        </S.TabList>
+                {activity.icon}
+                <span>{activity.category}</span>
+              </S.CategoryTab>
+            ))}
+          </S.CategoryTabs>
+        </S.Header>
 
-        <S.Content>
-          {ACTIVITIES.map(
-            (activity) =>
-              activity.category === activeCategory && (
-                <S.Grid key={activity.category}>
-                  {activity.details.map((detail, index) => (
-                    <S.ActivityCard key={index}>
-                      <S.CardTop>
-                        <S.CardHeader>
-                          <S.CardTitle>{detail.title}</S.CardTitle>
-                          <S.Period>{detail.period}</S.Period>
-                        </S.CardHeader>
+        <S.ContentGrid>
+          {ACTIVITIES.find((a) => a.category === activeCategory)?.details.map(
+            (detail, index) => (
+              <S.Item key={index}>
+                <S.ItemContent>
+                  <S.ItemHeader>
+                    <S.ItemTitle>{detail.title}</S.ItemTitle>
+                    <div>
+                      <S.Period>{detail.period}</S.Period>
+                      {detail.role && <S.RoleBadge>{detail.role}</S.RoleBadge>}
+                    </div>
+                  </S.ItemHeader>
 
-                        {detail.role && (
-                          <S.RoleBadge>{detail.role}</S.RoleBadge>
-                        )}
+                  <S.Description>
+                    {detail.description.map((desc, idx) => (
+                      <S.DescriptionItem key={idx}>{desc}</S.DescriptionItem>
+                    ))}
+                  </S.Description>
 
-                        <S.Description>
-                          {detail.description.map((desc, idx) => (
-                            <S.DescriptionItem key={idx}>
-                              {desc}
-                            </S.DescriptionItem>
-                          ))}
-                        </S.Description>
-                      </S.CardTop>
+                  {detail.skills && (
+                    <S.SkillsList>
+                      {detail.skills.map((skill) => (
+                        <S.Skill key={skill}>{skill}</S.Skill>
+                      ))}
+                    </S.SkillsList>
+                  )}
 
-                      <S.CardBottom>
-                        {detail.skills && (
-                          <S.SkillList>
-                            {detail.skills.map((skill) => (
-                              <S.Skill key={skill}>{skill}</S.Skill>
-                            ))}
-                          </S.SkillList>
-                        )}
-
-                        {detail.projectLink && (
-                          <S.ProjectLink
-                            href={detail.projectLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            View Project
-                            <BsLink45Deg />
-                          </S.ProjectLink>
-                        )}
-                      </S.CardBottom>
-                    </S.ActivityCard>
-                  ))}
-                </S.Grid>
-              )
+                  {detail.projectLink && (
+                    <S.ProjectLink
+                      href={detail.projectLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View Project
+                      <FiExternalLink />
+                    </S.ProjectLink>
+                  )}
+                </S.ItemContent>
+              </S.Item>
+            )
           )}
-        </S.Content>
+        </S.ContentGrid>
       </S.Inner>
     </S.Container>
   );
