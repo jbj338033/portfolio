@@ -1,9 +1,9 @@
 import * as S from "./style";
-import { BsLink45Deg } from "react-icons/bs";
 import { BiCodeAlt } from "react-icons/bi";
 import { FaLaptopCode } from "react-icons/fa";
 import { HiServer } from "react-icons/hi";
 import { AiOutlineCloud } from "react-icons/ai";
+import { useState } from "react";
 
 interface TechItem {
   name: string;
@@ -130,47 +130,70 @@ const TECH_STACK: Record<string, TechCategory> = {
 };
 
 const TechStack = () => {
+  const [selectedTech, setSelectedTech] = useState<string | null>(null);
+
+  const handleTechClick = (techName: string) => {
+    setSelectedTech(selectedTech === techName ? null : techName);
+  };
+
   return (
     <S.Container id="tech-stack">
-      <S.TitleWrapper>
-        <BsLink45Deg />
-        <S.Title>TECH STACK</S.Title>
-      </S.TitleWrapper>
+      <S.Inner>
+        <S.Title>&lt;TechStack /&gt;</S.Title>
 
-      <S.Content>
-        {Object.entries(TECH_STACK).map(([category, { icon, items }]) => (
-          <S.Category key={category}>
-            <S.CategoryHeader>
-              <S.CategoryIcon>{icon}</S.CategoryIcon>
-              <S.CategoryTitle>{category}</S.CategoryTitle>
-            </S.CategoryHeader>
+        <S.Content>
+          {Object.entries(TECH_STACK).map(([category, { icon, items }]) => (
+            <S.Category key={category}>
+              <S.CategoryHeader>
+                <S.CategoryIcon>{icon}</S.CategoryIcon>
+                <S.CategoryTitle>{category}</S.CategoryTitle>
+              </S.CategoryHeader>
 
-            <S.TechList>
-              {items.map((tech) => (
-                <S.TechItem key={tech.name}>
-                  <S.TechHeader>
-                    <S.TechName color={tech.color}>{tech.name}</S.TechName>
-                    <S.TechInfo>
-                      <S.TechLevel>
-                        {[...Array(5)].map((_, i) => (
-                          <S.LevelDot key={i} $active={i < tech.level} />
-                        ))}
-                      </S.TechLevel>
-                      <S.TechExperience>{tech.experience}</S.TechExperience>
-                    </S.TechInfo>
-                  </S.TechHeader>
+              <S.TechList>
+                {items.map((tech) => (
+                  <S.TechItem
+                    key={tech.name}
+                    isSelected={selectedTech === tech.name}
+                  >
+                    <S.TechMain onClick={() => handleTechClick(tech.name)}>
+                      <S.TechLeft>
+                        <S.TechLabel color={tech.color}>
+                          {tech.name}
+                          <S.TechExp>{tech.experience}</S.TechExp>
+                        </S.TechLabel>
+                      </S.TechLeft>
 
-                  <S.DescriptionList>
-                    {tech.description.map((desc, index) => (
-                      <S.DescriptionItem key={index}>{desc}</S.DescriptionItem>
-                    ))}
-                  </S.DescriptionList>
-                </S.TechItem>
-              ))}
-            </S.TechList>
-          </S.Category>
-        ))}
-      </S.Content>
+                      <S.TechRight>
+                        <S.LevelBar>
+                          {[...Array(5)].map((_, i) => (
+                            <S.LevelSegment
+                              key={i}
+                              isActive={i < tech.level}
+                              color={tech.color}
+                            />
+                          ))}
+                        </S.LevelBar>
+                      </S.TechRight>
+                    </S.TechMain>
+
+                    <S.TechDetails
+                      isVisible={selectedTech === tech.name}
+                      color={tech.color}
+                    >
+                      {tech.description.map((desc, idx) => (
+                        <S.DetailItem key={idx}>
+                          <S.DetailBullet color={tech.color} />
+                          {desc}
+                        </S.DetailItem>
+                      ))}
+                    </S.TechDetails>
+                  </S.TechItem>
+                ))}
+              </S.TechList>
+            </S.Category>
+          ))}
+        </S.Content>
+      </S.Inner>
     </S.Container>
   );
 };

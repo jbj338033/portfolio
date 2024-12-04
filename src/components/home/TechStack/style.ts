@@ -1,56 +1,63 @@
+// style.ts
 import styled from "@emotion/styled";
 
 export const Container = styled.section`
   width: 100%;
-  padding: 60px 20px;
-  background-color: #f8f9fa;
+  padding: 120px 0;
+  background: linear-gradient(to bottom, #ffffff, #fafafa);
+  border-bottom: 1px solid #eee;
 `;
 
-export const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 40px;
-
-  svg {
-    font-size: 24px;
-    color: #333;
-  }
+export const Inner = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
 `;
 
 export const Title = styled.h2`
-  font-size: 28px;
-  font-weight: 700;
-  color: #333;
-`;
+  font-size: 32px;
+  font-weight: 800;
+  color: #111;
+  margin: 0 0 64px 0;
+  font-family: "Fira Code", monospace;
+  position: relative;
 
-export const Content = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #228be6;
+    border-radius: 2px;
+  }
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media (max-width: 768px) {
+    font-size: 28px;
+    margin-bottom: 48px;
   }
 `;
 
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+`;
+
 export const Category = styled.div`
-  background: white;
-  border-radius: 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   padding: 24px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  height: fit-content;
 `;
 
 export const CategoryHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
   border-bottom: 1px solid #f1f3f5;
 `;
 
@@ -58,112 +65,137 @@ export const CategoryIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: #f8f9fa;
-  color: #228be6;
+  width: 32px;
+  height: 32px;
   font-size: 20px;
+  color: #228be6;
+  background: #e7f5ff;
+  border-radius: 8px;
 `;
 
 export const CategoryTitle = styled.h3`
   font-size: 18px;
   font-weight: 600;
   color: #333;
+  margin: 0;
+  font-family: "Fira Code", monospace;
 `;
 
 export const TechList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 `;
 
-export const TechItem = styled.div`
-  padding: 16px;
-  border-radius: 12px;
-  background: #f8f9fa;
-  transition: transform 0.2s ease;
+export const TechItem = styled.div<{ isSelected: boolean }>`
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  background: ${(props) => (props.isSelected ? "#f8f9fa" : "transparent")};
+  border: 1px solid ${(props) => (props.isSelected ? "#e9ecef" : "transparent")};
+`;
+
+export const TechMain = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 
   &:hover {
-    transform: translateY(-2px);
+    background: #f8f9fa;
   }
 `;
 
-export const TechHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  gap: 16px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-`;
-
-export const TechName = styled.h4<{ color: string }>`
-  font-size: 18px;
-  font-weight: 600;
-  color: ${({ color }) => color};
-  padding: 6px 16px;
-  background-color: ${({ color }) => `${color}15`};
-  border-radius: 20px;
-`;
-
-export const TechInfo = styled.div`
+export const TechLeft = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 `;
 
-export const TechLevel = styled.div`
+export const TechRight = styled.div`
   display: flex;
-  gap: 4px;
+  align-items: center;
 `;
 
-export const LevelDot = styled.div<{ $active: boolean }>`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: ${({ $active }) => ($active ? "#228be6" : "#dee2e6")};
-`;
-
-export const TechExperience = styled.span`
-  font-size: 14px;
-  color: #868e96;
-  padding: 4px 12px;
-  background-color: #e9ecef;
-  border-radius: 20px;
-`;
-
-export const DescriptionList = styled.ul`
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-`;
-
-export const DescriptionItem = styled.li`
-  position: relative;
-  padding-left: 16px;
-  margin-bottom: 8px;
-  color: #495057;
+export const TechLabel = styled.div<{ color: string }>`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Fira Code", monospace;
   font-size: 15px;
-  line-height: 1.6;
+  color: ${(props) => props.color};
+  font-weight: 500;
 
   &:before {
     content: "";
-    position: absolute;
-    left: 0;
-    top: 10px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: #228be6;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: ${(props) => props.color};
+    opacity: 0.8;
   }
+`;
 
-  &:last-child {
-    margin-bottom: 0;
+export const TechExp = styled.span`
+  font-size: 13px;
+  color: #666;
+  opacity: 0.8;
+  font-family: "Inter", sans-serif;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+`;
+
+export const LevelBar = styled.div`
+  display: flex;
+  gap: 3px;
+  padding: 4px;
+  background: #f8f9fa;
+  border-radius: 4px;
+`;
+
+export const LevelSegment = styled.div<{ isActive: boolean; color: string }>`
+  width: 16px;
+  height: 6px;
+  border-radius: 1px;
+  background: ${(props) => (props.isActive ? props.color : "#e9ecef")};
+  opacity: ${(props) => (props.isActive ? 1 : 0.5)};
+  transition: all 0.2s ease;
+`;
+
+export const TechDetails = styled.div<{ isVisible: boolean; color: string }>`
+  max-height: ${(props) => (props.isVisible ? "500px" : "0")};
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  overflow: hidden;
+  transition: all 0.3s ease;
+  padding: ${(props) => (props.isVisible ? "0 16px 16px 16px" : "0 16px")};
+  margin-top: ${(props) => (props.isVisible ? "8px" : "0")};
+  border-top: ${(props) => (props.isVisible ? "1px solid #f1f3f5" : "none")};
+`;
+
+export const DetailItem = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+  color: #495057;
+  line-height: 1.6;
+  margin: 12px 0;
+  padding-left: 8px;
+
+  &:first-of-type {
+    margin-top: 16px;
   }
+`;
+
+export const DetailBullet = styled.div<{ color: string }>`
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: ${(props) => props.color};
+  margin-top: 8px;
+  flex-shrink: 0;
 `;
