@@ -52,7 +52,9 @@ export const ProjectHeader = styled.div`
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
-export const StatusBadge = styled.div<{ status: "ongoing" | "completed" }>`
+export const StatusBadge = styled.div<{
+  status: "ongoing" | "completed" | "planned";
+}>`
   display: inline-flex;
   padding: 6px 12px;
   border-radius: 20px;
@@ -61,8 +63,15 @@ export const StatusBadge = styled.div<{ status: "ongoing" | "completed" }>`
   background: ${({ status }) =>
     status === "ongoing"
       ? "rgba(52, 211, 153, 0.1)"
-      : "rgba(156, 163, 175, 0.1)"};
-  color: ${({ status }) => (status === "ongoing" ? "#34D399" : "#9CA3AF")};
+      : status === "completed"
+      ? "rgba(156, 163, 175, 0.1)"
+      : "rgba(96, 165, 250, 0.1)"};
+  color: ${({ status }) =>
+    status === "ongoing"
+      ? "#34D399"
+      : status === "completed"
+      ? "#9CA3AF"
+      : "#60A5FA"};
 `;
 
 export const ProjectContent = styled.div`

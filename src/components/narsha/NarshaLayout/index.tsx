@@ -67,7 +67,11 @@ const NarshaLayout = () => {
                           <S.ProjectPeriod>{project.period}</S.ProjectPeriod>
                         </div>
                         <S.ProjectStatus status={project.status}>
-                          {project.status === "ongoing" ? "진행중" : "완료"}
+                          {project.status === "ongoing"
+                            ? "진행중"
+                            : project.status === "completed"
+                            ? "완료"
+                            : "계획중"}
                         </S.ProjectStatus>
                       </S.ProjectOption>
                     ))}

@@ -146,15 +146,24 @@ export const ProjectPeriod = styled.div`
   font-size: 12px;
 `;
 
-export const ProjectStatus = styled.div<{ status: "ongoing" | "completed" }>`
+export const ProjectStatus = styled.div<{
+  status: "ongoing" | "completed" | "planned";
+}>`
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 12px;
   background: ${({ status }) =>
     status === "ongoing"
       ? "rgba(52, 211, 153, 0.1)"
-      : "rgba(156, 163, 175, 0.1)"};
-  color: ${({ status }) => (status === "ongoing" ? "#34D399" : "#9CA3AF")};
+      : status === "completed"
+      ? "rgba(156, 163, 175, 0.1)"
+      : "rgba(96, 165, 250, 0.1)"};
+  color: ${({ status }) =>
+    status === "ongoing"
+      ? "#34D399"
+      : status === "completed"
+      ? "#9CA3AF"
+      : "#60A5FA"};
 `;
 
 export const EntrySummary = styled.div`
