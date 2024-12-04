@@ -20,7 +20,7 @@ export interface NarshaProject {
   description: string;
   period: string;
   thumbnail?: string;
-  status: "ongoing" | "completed";
+  status: "ongoing" | "completed" | "planned";
   techStack: string[];
   teamSize: number;
   entries: NarshaEntry[];
