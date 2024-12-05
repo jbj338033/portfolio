@@ -4,6 +4,7 @@ declare module "@emotion/react" {
   import { Theme as EmotionTheme } from "@emotion/react";
 
   export interface Theme extends EmotionTheme {
+    mode: "light" | "dark";
     spacing: {
       xs: string;
       sm: string;

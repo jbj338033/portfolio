@@ -45,6 +45,7 @@ const commonStyles = {
 
 export const lightTheme: Theme = {
   ...commonStyles,
+  mode: "light",
   colors: {
     primary: {
       main: "#94d82d",
@@ -76,6 +77,7 @@ export const lightTheme: Theme = {
 
 export const darkTheme: Theme = {
   ...commonStyles,
+  mode: "dark",
   colors: {
     primary: {
       main: "#94d82d",

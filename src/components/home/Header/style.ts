@@ -43,7 +43,11 @@ export const Logo = styled.h1<{ isScrolled: boolean }>`
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme, isScrolled }) =>
-    isScrolled ? theme.colors.text.primary : theme.colors.text.inverse};
+    isScrolled
+      ? theme.colors.text.primary
+      : theme.mode === "dark"
+      ? theme.colors.text.primary
+      : theme.colors.text.inverse};
   transition: color 0.3s;
 `;
 
@@ -65,8 +69,16 @@ export const NavItem = styled.button<StyleProps>`
   font-weight: ${({ theme, isActive }) =>
     isActive ? theme.fontWeight.semibold : theme.fontWeight.normal};
   color: ${({ theme, isScrolled, isActive }) => {
-    if (isScrolled) return isActive ? theme.colors.text.primary : theme.colors.text.secondary;
-    return isActive ? theme.colors.text.inverse : "rgba(255, 255, 255, 0.8)";
+    if (isScrolled)
+      return isActive ? theme.colors.text.primary : theme.colors.text.secondary;
+
+    return theme.mode === "dark"
+      ? isActive
+        ? theme.colors.text.primary
+        : theme.colors.text.secondary
+      : isActive
+      ? theme.colors.text.inverse
+      : "rgba(255, 255, 255, 0.8)";
   }};
   cursor: pointer;
   transition: all 0.2s;
@@ -116,7 +128,11 @@ export const ThemeToggle = styled.button<{ isScrolled: boolean }>`
   border: none;
   padding: ${({ theme }) => theme.spacing.sm};
   color: ${({ theme, isScrolled }) =>
-    isScrolled ? theme.colors.text.primary : theme.colors.text.inverse};
+    isScrolled
+      ? theme.colors.text.primary
+      : theme.mode === "dark"
+      ? theme.colors.text.primary
+      : theme.colors.text.inverse};
   cursor: pointer;
   transition: all 0.2s;
 
@@ -133,7 +149,11 @@ export const MenuButton = styled.button<{ isScrolled: boolean }>`
   border: none;
   padding: ${({ theme }) => theme.spacing.sm};
   color: ${({ theme, isScrolled }) =>
-    isScrolled ? theme.colors.text.primary : theme.colors.text.inverse};
+    isScrolled
+      ? theme.colors.text.primary
+      : theme.mode === "dark"
+      ? theme.colors.text.primary
+      : theme.colors.text.inverse};
   cursor: pointer;
 `;
 
