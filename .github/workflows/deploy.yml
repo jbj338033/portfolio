@@ -43,7 +43,7 @@ jobs:
         run: ls -al # 다운로드된 파일 확인
 
       - name: Extract artifact
-        run: tar -xzf dist.tar.gz -C ./ # 정확한 경로 지정
+        run: tar -xzf ${{ github.workspace }}/dist.tar.gz -C ${{ github.workspace }}/
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
