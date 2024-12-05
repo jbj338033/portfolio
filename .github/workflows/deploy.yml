@@ -54,4 +54,5 @@ jobs:
           script: |
             rm -rf ./portfolio/dist
             mkdir -p ./portfolio
-            tar -xzf dist.tar.gz -C ./portfolio
+            scp ${{ github.workspace }}/portfolio/dist.tar.gz ./portfolio/
+            tar -xzf ./portfolio/dist.tar.gz -C ./portfolio/
