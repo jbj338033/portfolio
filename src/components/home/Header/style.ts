@@ -93,7 +93,16 @@ export const NavItem = styled.button<StyleProps>`
     height: 2px;
     background: ${({ theme, isScrolled, isActive }) => {
       if (!isActive) return "transparent";
-      return isScrolled ? theme.colors.text.primary : theme.colors.text.inverse;
+
+      // Updated logic for underline color
+      if (isScrolled) {
+        return theme.colors.text.primary;
+      }
+
+      // When not scrolled, use different colors based on theme mode
+      return theme.mode === "dark"
+        ? theme.colors.text.primary // Use primary text color in dark mode
+        : theme.colors.text.inverse; // Use inverse color in light mode
     }};
     transform: scaleX(${({ isActive }) => (isActive ? 1 : 0)});
     transition: transform 0.2s;
@@ -101,11 +110,20 @@ export const NavItem = styled.button<StyleProps>`
 
   &:hover {
     color: ${({ theme, isScrolled }) =>
-      isScrolled ? theme.colors.text.primary : theme.colors.text.inverse};
+      isScrolled
+        ? theme.colors.text.primary
+        : theme.mode === "dark"
+        ? theme.colors.text.primary
+        : theme.colors.text.inverse};
+
     &::after {
       transform: scaleX(1);
       background: ${({ theme, isScrolled }) =>
-        isScrolled ? theme.colors.text.primary : theme.colors.text.inverse};
+        isScrolled
+          ? theme.colors.text.primary
+          : theme.mode === "dark"
+          ? theme.colors.text.primary
+          : theme.colors.text.inverse};
     }
   }
 `;
