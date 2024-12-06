@@ -2,22 +2,22 @@
 import styled from "@emotion/styled";
 
 export const Content = styled.div`
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.container.lg};
   margin: 0 auto;
-  padding: 2rem;
+  padding: ${({ theme }) => theme.spacing.xl};
 `;
 
 export const SearchWrapper = styled.div`
   position: relative;
-  margin-bottom: 2rem;
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
 `;
 
 export const SearchIcon = styled.div`
   position: absolute;
-  left: 1rem;
+  left: ${({ theme }) => theme.spacing.md};
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.5);
+  color: ${({ theme }) => theme.colors.text.tertiary};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,29 +32,30 @@ export const SearchInput = styled.input`
   width: 100%;
   max-width: 600px;
   height: 48px;
-  padding: 0 1rem 0 3rem;
-  background: #1a1b1e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 16px;
-  transition: all 0.2s ease;
+  padding: 0 ${({ theme }) => theme.spacing.md} 0
+    ${({ theme }) => theme.spacing.xl};
+  background: ${({ theme }) => theme.colors.background.default};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: ${({ theme }) => theme.fontSize.md};
+  transition: ${({ theme }) => theme.transition.fast};
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: ${({ theme }) => theme.colors.text.tertiary};
   }
 
   &:focus {
     outline: none;
-    border-color: #94d82d;
-    background: #1e293b;
+    border-color: ${({ theme }) => theme.colors.primary.main};
+    background: ${({ theme }) => theme.colors.background.paper};
   }
 `;
 
 export const ProjectGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 24px;
+  gap: ${({ theme }) => theme.spacing.xl};
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -62,46 +63,46 @@ export const ProjectGrid = styled.div`
 `;
 
 export const ProjectCard = styled.div`
-  background: #1a1b1e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background: ${({ theme }) => theme.colors.background.default};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: ${({ theme }) => theme.transition.fast};
 
   &:hover,
   &:focus {
     transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: ${({ theme }) => theme.colors.border.default};
     outline: none;
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px #94d82d;
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary.main};
   }
 `;
 
 export const CardHeader = styled.div`
-  padding: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: ${({ theme }) => theme.spacing.md};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
 `;
 
 export const CardBody = styled.div`
-  padding: 20px;
+  padding: ${({ theme }) => theme.spacing.lg};
 `;
 
 export const Title = styled.h2`
-  font-size: 20px;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 8px;
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.text.primary};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
 export const Description = styled.p`
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 14px;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: ${({ theme }) => theme.fontSize.sm};
   line-height: 1.6;
-  margin-bottom: 16px;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -112,36 +113,36 @@ export const StatusBadge = styled.span<{
   status: "ongoing" | "completed" | "planned";
 }>`
   display: inline-flex;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   background: ${({ status }) =>
     status === "ongoing"
       ? "rgba(52, 211, 153, 0.1)"
       : status === "completed"
       ? "rgba(156, 163, 175, 0.1)"
       : "rgba(96, 165, 250, 0.1)"};
-  color: ${({ status }) =>
+  color: ${({ theme, status }) =>
     status === "ongoing"
-      ? "#34D399"
+      ? theme.colors.status.ongoing
       : status === "completed"
-      ? "#9CA3AF"
-      : "#60A5FA"};
+      ? theme.colors.status.completed
+      : theme.colors.status.planned};
 `;
 
 export const MetaInfo = styled.div`
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
 export const MetaItem = styled.div`
   display: flex;
   align-items: center;
-  gap: 6px;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 14px;
+  gap: ${({ theme }) => theme.spacing.xs};
+  color: ${({ theme }) => theme.colors.text.tertiary};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 
   svg {
     width: 16px;
@@ -152,35 +153,35 @@ export const MetaItem = styled.div`
 export const TechList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 export const TechItem = styled.span`
-  padding: 4px 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 12px;
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.xs}`};
+  background: ${({ theme }) => theme.colors.background.alt};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
 export const CardFooter = styled.div`
-  padding: 16px 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.2);
+  padding: ${({ theme }) => `${theme.spacing.md} ${theme.spacing.lg}`};
+  border-top: 1px solid ${({ theme }) => theme.colors.border.light};
+  background: ${({ theme }) => theme.colors.background.alt};
 `;
 
 export const EntryCount = styled.div`
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 export const EmptyMessage = styled.div`
   grid-column: 1 / -1;
   text-align: center;
-  padding: 40px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 16px;
-  background: #1a1b1e;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: ${({ theme }) => theme.spacing.xxl};
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: ${({ theme }) => theme.fontSize.md};
+  background: ${({ theme }) => theme.colors.background.default};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
 `;
