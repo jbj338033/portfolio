@@ -6,49 +6,64 @@ import * as S from "./style";
 interface Props {
   entries: DatabaseClassEntry[];
   viewMode: "list" | "grid";
+  onItemClick?: () => void;
 }
 
-const DatabaseList = ({ entries, viewMode }: Props) => {
+const DatabaseList = ({ entries, viewMode, onItemClick }: Props) => {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const handleEntryClick = (entryId: number) => {
+    navigate(`/database/${entryId}`);
+    onItemClick?.();
+  };
 
   const renderGridView = (entry: DatabaseClassEntry) => (
     <S.EntryCard
       key={entry.id}
-      onClick={() => navigate(`/database/${entry.id}`)}
+      onClick={() => handleEntryClick(entry.id)}
       isActive={entry.id === Number(id)}
-      viewMode="grid"
     >
       <S.CardHeader>
-        <S.WeekBadge>
+        <S.WeekBadge isActive={entry.id === Number(id)}>
           <BsCalendarWeek />
           {entry.week}주차
         </S.WeekBadge>
-        <S.TopicBadge>{entry.topic}</S.TopicBadge>
+        <S.TopicBadge isActive={entry.id === Number(id)}>
+          {entry.topic}
+        </S.TopicBadge>
       </S.CardHeader>
 
-      <S.Title>{entry.title}</S.Title>
+      <S.Title isActive={entry.id === Number(id)}>{entry.title}</S.Title>
       <S.Summary>{entry.summary}</S.Summary>
 
-      {entry.assignments && (
-        <S.AssignmentBadge>과제 {entry.assignments.length}개</S.AssignmentBadge>
-      )}
-
-      <S.Date>{entry.date}</S.Date>
+      <S.CardFooter>
+        {entry.assignments && (
+          <S.AssignmentBadge>
+            과제 {entry.assignments.length}개
+          </S.AssignmentBadge>
+        )}
+        <S.Date>{entry.date}</S.Date>
+      </S.CardFooter>
     </S.EntryCard>
   );
 
   const renderListView = (entry: DatabaseClassEntry) => (
     <S.ListItem
       key={entry.id}
-      onClick={() => navigate(`/database/${entry.id}`)}
+      onClick={() => handleEntryClick(entry.id)}
       isActive={entry.id === Number(id)}
     >
-      <S.ListWeek>
+      <S.ListWeek isActive={entry.id === Number(id)}>
         <BsCalendarWeek />
-        {entry.week}주차
+        <span>{entry.week}주차</span>
       </S.ListWeek>
-      <S.ListTitle>{entry.title}</S.ListTitle>
+      <S.ListTitle isActive={entry.id === Number(id)}>
+        {entry.title}
+      </S.ListTitle>
+      <S.ListTopic isActive={entry.id === Number(id)}>
+        {entry.topic}
+      </S.ListTopic>
     </S.ListItem>
   );
 

@@ -1,4 +1,3 @@
-// NarshaLayout/style.ts
 import styled from "@emotion/styled";
 import { Link, NavLink } from "react-router-dom";
 
@@ -8,7 +7,8 @@ export const LayoutContainer = styled.div`
   background: ${({ theme }) => theme.colors.background.default};
 `;
 
-export const Sidebar = styled.nav`
+// Sidebar Styles
+export const Sidebar = styled.nav<{ isMobileMenuOpen: boolean }>`
   width: 280px;
   height: 100vh;
   background: ${({ theme }) => theme.colors.background.default};
@@ -16,6 +16,9 @@ export const Sidebar = styled.nav`
   position: sticky;
   top: 0;
   overflow-y: auto;
+  transition: transform ${({ theme }) => theme.transition.fast};
+  display: flex;
+  flex-direction: column;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -29,37 +32,38 @@ export const Sidebar = styled.nav`
   }
 
   @media (max-width: 768px) {
+    position: fixed;
+    z-index: 50;
+    left: 0;
+    top: 60px;
+    width: 100%;
+    height: calc(100vh - 60px);
+    transform: ${({ isMobileMenuOpen }) =>
+      isMobileMenuOpen ? "translateX(0)" : "translateX(-100%)"};
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+export const TopSection = styled.div`
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
+
+  @media (max-width: 768px) {
     display: none;
   }
 `;
 
-export const HomeLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.xs};
-  padding: ${({ theme }) => `${theme.spacing.lg} ${theme.spacing.xl}`};
-  color: ${({ theme }) => theme.colors.text.secondary};
-  text-decoration: none;
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
-  transition: ${({ theme }) => theme.transition.fast};
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary.main};
-  }
-
-  svg {
-    font-size: ${({ theme }) => theme.fontSize.md};
-  }
-`;
-
+// Menu Styles
 export const MenuWrapper = styled.div`
-  padding: ${({ theme }) => `${theme.spacing.sm} 0`};
+  flex: 1;
+  padding: ${({ theme }) => theme.spacing.sm} 0;
 `;
 
 export const MenuSection = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xs};
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 export const MenuTitle = styled.div`
@@ -145,6 +149,92 @@ export const MenuLink = styled(NavLink)`
   }
 `;
 
+// Main Container Styles
+export const MainContainer = styled.main`
+  flex: 1;
+  min-width: 0;
+
+  @media (max-width: 768px) {
+    margin-top: 60px;
+  }
+`;
+
+// Mobile-specific Styles
+export const MobileHeader = styled.header`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0 16px;
+    background: ${({ theme }) => theme.colors.background.default};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
+`;
+
+export const MobileTitle = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: ${({ theme }) => theme.fontSize.md};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.text.primary};
+`;
+
+export const MobileMenuToggle = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const HomeLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+  color: ${({ theme }) => theme.colors.text.secondary};
+  text-decoration: none;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xl};
+  transition: ${({ theme }) => theme.transition.fast};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary.main};
+    background: ${({ theme }) => theme.colors.background.alt};
+  }
+
+  svg {
+    font-size: ${({ theme }) => theme.fontSize.md};
+  }
+
+  &.mobile {
+    padding: 0;
+
+    &:hover {
+      background: none;
+    }
+  }
+
+  &.desktop {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+`;
+
 export const WeekBadge = styled.div<{ isActive: boolean }>`
   font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme, isActive }) =>
@@ -157,9 +247,4 @@ export const EntryTitle = styled.div<{ isActive: boolean }>`
   color: ${({ theme, isActive }) =>
     isActive ? theme.colors.primary.main : theme.colors.text.secondary};
   line-height: 1.4;
-`;
-
-export const MainContainer = styled.main`
-  flex: 1;
-  min-width: 0;
 `;

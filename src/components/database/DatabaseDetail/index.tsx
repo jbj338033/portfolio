@@ -16,79 +16,92 @@ const DatabaseDetail = () => {
 
   if (!entry) return null;
 
+  const renderMarkdown = (content: string) => (
+    <ReactMarkdown
+      components={{
+        code({ inline, className, children, ...props }: CodeComponentProps) {
+          const match = /language-(\w+)/.exec(className || "");
+          return !inline && match ? (
+            <S.CodeBlock className={className} {...props}>
+              {children}
+            </S.CodeBlock>
+          ) : (
+            <code className={className} {...props}>
+              {children}
+            </code>
+          );
+        },
+      }}
+    >
+      {content}
+    </ReactMarkdown>
+  );
+
   return (
     <S.Container>
       <S.Header>
         <S.HeaderMeta>
           <S.WeekBadge>
             <BsCalendarWeek />
-            {entry.week}주차
+            <span>{entry.week}주차</span>
           </S.WeekBadge>
           <S.TopicBadge>{entry.topic}</S.TopicBadge>
           <S.Date>{entry.date}</S.Date>
         </S.HeaderMeta>
+
         <S.Title>{entry.title}</S.Title>
-        <S.Keywords>
-          {entry.keywords.map((keyword, index) => (
-            <S.Keyword key={index}>{keyword}</S.Keyword>
-          ))}
-        </S.Keywords>
+
+        {entry.keywords.length > 0 && (
+          <S.Keywords>
+            {entry.keywords.map((keyword, index) => (
+              <S.Keyword key={index}>{keyword}</S.Keyword>
+            ))}
+          </S.Keywords>
+        )}
       </S.Header>
 
-      <S.Content>
-        <ReactMarkdown
-          components={{
-            code({
-              inline,
-              className,
-              children,
-              ...props
-            }: CodeComponentProps) {
-              const match = /language-(\w+)/.exec(className || "");
-              return !inline && match ? (
-                <S.CodeBlock className={className} {...props}>
-                  {children}
-                </S.CodeBlock>
-              ) : (
-                <code className={className} {...props}>
-                  {children}
-                </code>
-              );
-            },
-          }}
-        >
-          {entry.content}
-        </ReactMarkdown>
-      </S.Content>
+      <S.Content>{renderMarkdown(entry.content)}</S.Content>
 
-      {entry.assignments && (
+      {entry.assignments && entry.assignments.length > 0 && (
         <S.Section>
           <S.SectionTitle>
             <BsClock />
-            과제
+            <span>과제</span>
           </S.SectionTitle>
-          {entry.assignments.map((assignment, index) => (
-            <S.Assignment key={index}>
-              <S.AssignmentHeader>
-                <S.AssignmentTitle>{assignment.title}</S.AssignmentTitle>
-                <S.DueDate>제출기한: {assignment.dueDate}</S.DueDate>
-              </S.AssignmentHeader>
-              <ReactMarkdown>{assignment.description}</ReactMarkdown>
-            </S.Assignment>
-          ))}
+          <S.AssignmentList>
+            {entry.assignments.map((assignment, index) => (
+              <S.Assignment key={index}>
+                <S.AssignmentHeader>
+                  <S.AssignmentTitle>{assignment.title}</S.AssignmentTitle>
+                  <S.DueDate>
+                    <BsClock />
+                    <span>제출기한: {assignment.dueDate}</span>
+                  </S.DueDate>
+                </S.AssignmentHeader>
+                <S.AssignmentContent>
+                  {renderMarkdown(assignment.description)}
+                </S.AssignmentContent>
+              </S.Assignment>
+            ))}
+          </S.AssignmentList>
         </S.Section>
       )}
 
-      {entry.resources && (
+      {entry.resources && entry.resources.length > 0 && (
         <S.Section>
           <S.SectionTitle>
             <BsBook />
-            참고자료
+            <span>참고자료</span>
           </S.SectionTitle>
           <S.ResourceList>
             {entry.resources.map((resource, index) => (
-              <S.ResourceLink key={index} href={resource.url} target="_blank">
-                <span>{resource.title}</span>
+              <S.ResourceLink
+                key={index}
+                href={resource.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <S.ResourceTitle>{resource.title}</S.ResourceTitle>
                 <S.ResourceType>{resource.type}</S.ResourceType>
               </S.ResourceLink>
             ))}
