@@ -14,11 +14,11 @@ export const Menu = styled(motion.div)`
   bottom: 80px;
   right: 0;
   width: 360px;
-  background: rgba(0, 0, 0, 0.85);
+  background: ${({ theme }) => theme.colors.background.paper};
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 24px;
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 
   @media (max-width: 768px) {
@@ -33,15 +33,15 @@ export const Header = styled.div`
 
 export const Title = styled.h2`
   font-family: "Fira Code", monospace;
-  font-size: 20px;
-  font-weight: 600;
-  color: #fff;
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0 0 8px 0;
 `;
 
 export const Description = styled.p`
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme }) => theme.colors.text.secondary};
   margin: 0;
 `;
 
@@ -57,15 +57,15 @@ export const IconBox = styled.div`
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #82c91e, #94d82d);
-  color: #fff;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary.main}, ${({ theme }) => theme.colors.primary.light});
+  color: ${({ theme }) => theme.colors.text.inverse};
   flex-shrink: 0;
 `;
 
 export const Arrow = styled(motion.div)`
-  color: #94d82d;
-  font-size: 18px;
+  color: ${({ theme }) => theme.colors.primary.main};
+  font-size: ${({ theme }) => theme.fontSize.md};
   flex-shrink: 0;
 `;
 
@@ -75,9 +75,9 @@ export const Content = styled.div`
 `;
 
 export const Name = styled.div`
-  font-size: 15px;
-  font-weight: 500;
-  color: #fff;
+  font-size: ${({ theme }) => theme.fontSize.md};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin-bottom: 4px;
   white-space: nowrap;
   overflow: hidden;
@@ -85,8 +85,8 @@ export const Name = styled.div`
 `;
 
 export const ItemDescription = styled.div`
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme }) => theme.colors.text.secondary};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -95,17 +95,17 @@ export const ItemDescription = styled.div`
 export const Item = styled(motion(Link))`
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.sm};
   text-decoration: none;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.2s ease;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background: ${({ theme }) => theme.colors.background.alt};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  transition: ${({ theme }) => theme.transition.normal};
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: ${({ theme }) => theme.colors.background.paper};
+    border-color: ${({ theme }) => theme.colors.border.default};
   }
 `;
 
@@ -116,24 +116,26 @@ interface ButtonProps {
 export const Button = styled(motion.button)<ButtonProps>`
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background: ${({ isOpen }) => (isOpen ? "#94d82d" : "rgba(0, 0, 0, 0.85)")};
-  color: ${({ isOpen }) => (isOpen ? "#111" : "#fff")};
-  border: 1px solid
-    ${({ isOpen }) => (isOpen ? "#94d82d" : "rgba(255, 255, 255, 0.1)")};
-  border-radius: 30px;
-  font-size: 15px;
-  font-weight: 500;
+  gap: ${({ theme }) => theme.spacing.xs};
+  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.lg}`};
+  background: ${({ theme, isOpen }) => 
+    isOpen ? theme.colors.primary.main : theme.colors.background.paper};
+  color: ${({ theme, isOpen }) => 
+    isOpen ? theme.colors.text.inverse : theme.colors.text.primary};
+  border: 1px solid ${({ theme, isOpen }) => 
+    isOpen ? theme.colors.primary.main : theme.colors.border.light};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  font-size: ${({ theme }) => theme.fontSize.md};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   cursor: pointer;
   backdrop-filter: blur(20px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
+  transition: ${({ theme }) => theme.transition.normal};
 
   &:hover {
-    background: ${({ isOpen }) =>
-      isOpen ? "#82c91e" : "rgba(255, 255, 255, 0.1)"};
-    border-color: ${({ isOpen }) =>
-      isOpen ? "#82c91e" : "rgba(255, 255, 255, 0.2)"};
+    background: ${({ theme, isOpen }) =>
+      isOpen ? theme.colors.primary.hover : theme.colors.background.alt};
+    border-color: ${({ theme, isOpen }) =>
+      isOpen ? theme.colors.primary.hover : theme.colors.border.default};
   }
 `;
