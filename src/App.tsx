@@ -13,6 +13,10 @@ import { AlgorithmDetail } from "./components/algorithm/AlgorithmDetail";
 import { ThemeProvider } from "@emotion/react";
 import { useThemeStore } from "./stores/themeStore";
 import { THEMES } from "./constants/theme";
+import AILayout from "./components/ai/AILayout";
+import AIList from "./components/ai/AIList";
+import AIDetail from "./components/ai/AIDetail";
+import { AI_TOPICS } from "./constants/ai";
 
 function App() {
   const theme = useThemeStore((state) => state.theme);
@@ -51,6 +55,13 @@ function App() {
               path="*"
               element={<Navigate to="/algorithm/sort" replace />}
             />
+          </Route>
+
+          <Route path="/ai" element={<AILayout />}>
+            <Route index element={<Navigate to="/ai/basics" replace />} />
+            <Route path=":chapterId" element={<AIList topics={AI_TOPICS} />} />
+            <Route path=":chapterId/:topicId" element={<AIDetail />} />
+            <Route path="*" element={<Navigate to="/ai/basics" replace />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -36,6 +36,13 @@ const activities: Activity[] = [
     path: "/algorithm",
     icon: <HiOutlineAcademicCap size={20} />,
   },
+  {
+    id: "ai",
+    name: "인공지능 수업",
+    description: "인공지능 수업 프로젝트",
+    path: "/ai",
+    icon: <BiCodeAlt size={20} />,
+  },
 ];
 
 const ActivityItem = ({
