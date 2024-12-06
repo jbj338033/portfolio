@@ -3,29 +3,29 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
 export const Content = styled.div`
-  max-width: 800px;
+  max-width: ${({ theme }) => theme.container.sm};
   margin: 0 auto;
-  padding: 40px;
+  padding: ${({ theme }) => theme.spacing.xxl};
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: ${({ theme }) => theme.spacing.xl};
 
   @media (max-width: 768px) {
-    padding: 24px;
+    padding: ${({ theme }) => theme.spacing.xl};
   }
 `;
 
 export const EntryCard = styled(Link)`
-  background: #1a1b1e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background: ${({ theme }) => theme.colors.background.default};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   overflow: hidden;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: ${({ theme }) => theme.transition.fast};
 
   &:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: ${({ theme }) => theme.colors.border.default};
   }
 `;
 
@@ -33,72 +33,72 @@ export const CardHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: ${({ theme }) => `${theme.spacing.md} ${theme.spacing.lg}`};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
 `;
 
 export const WeekBadge = styled.div`
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
+  gap: ${({ theme }) => theme.spacing.xs};
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
+  background: ${({ theme }) => theme.colors.background.paper};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 
   svg {
     width: 14px;
     height: 14px;
-    color: rgba(255, 255, 255, 0.7);
+    color: ${({ theme }) => theme.colors.text.tertiary};
   }
 `;
 
 export const Date = styled.div`
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 14px;
+  color: ${({ theme }) => theme.colors.text.tertiary};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 export const CardBody = styled.div`
-  padding: 20px;
+  padding: ${({ theme }) => theme.spacing.lg};
 `;
 
 export const Title = styled.h2`
-  font-size: 18px;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 8px;
+  font-size: ${({ theme }) => theme.fontSize.md};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.text.primary};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
 export const Summary = styled.p`
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 14px;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: ${({ theme }) => theme.fontSize.sm};
   line-height: 1.6;
-  margin-bottom: 16px;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
 export const PreviewList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: ${({ theme }) => theme.spacing.md};
 `;
 
 export const PreviewItem = styled.div`
-  padding-left: 16px;
-  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  padding-left: ${({ theme }) => theme.spacing.md};
+  border-left: 2px solid ${({ theme }) => theme.colors.border.light};
 `;
 
 export const PreviewTitle = styled.h3`
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 4px;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.text.primary};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
 export const PreviewText = styled.p`
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: ${({ theme }) => theme.fontSize.sm};
   line-height: 1.5;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -106,33 +106,33 @@ export const PreviewText = styled.p`
 `;
 
 export const CardFooter = styled.div`
-  padding: 16px 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.2);
+  padding: ${({ theme }) => `${theme.spacing.md} ${theme.spacing.lg}`};
+  border-top: 1px solid ${({ theme }) => theme.colors.border.light};
+  background: ${({ theme }) => theme.colors.background.alt};
 `;
 
 export const ViewMore = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #94d82d;
-  font-size: 13px;
-  font-weight: 500;
+  gap: ${({ theme }) => theme.spacing.xs};
+  color: ${({ theme }) => theme.colors.primary.main};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const ViewMoreIcon = styled.div<{ isHovered: boolean }>`
   width: 16px;
   height: 16px;
-  transition: transform 0.2s ease;
-  transform: ${(props) => (props.isHovered ? "translateX(4px)" : "none")};
+  transition: ${({ theme }) => theme.transition.fast};
+  transform: ${({ isHovered }) => (isHovered ? "translateX(4px)" : "none")};
 `;
 
 export const EmptyState = styled.div`
   text-align: center;
-  padding: 40px;
-  background: #1a1b1e;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 16px;
+  padding: ${({ theme }) => theme.spacing.xxl};
+  background: ${({ theme }) => theme.colors.background.default};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: ${({ theme }) => theme.fontSize.md};
 `;
