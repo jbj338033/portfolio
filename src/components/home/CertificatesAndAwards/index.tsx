@@ -38,6 +38,14 @@ const CERTIFICATES: Certificate[] = [
 
 const AWARDS: Award[] = [
   {
+    name: "비포스쿨 코딩 테스트 1위",
+    organization: "대구소프트웨어마이스터고등학교",
+    date: "2024.02",
+    rank: "1위",
+    description:
+      "비포스쿨 코딩 테스트에서 1위를 차지하여 수상. Python을 사용한 알고리즘 문제 해결 능력을 인정받아 최우수 상을 수상함.",
+  },
+  {
     name: "교내 해커톤 대회",
     organization: "대구소프트웨어마이스터고등학교",
     date: "2024.07",
