@@ -16,6 +16,9 @@ import { THEMES } from "./constants/theme";
 import AILayout from "./components/ai/AILayout";
 import AIList from "./components/ai/AIList";
 import AIDetail from "./components/ai/AIDetail";
+import MathLayout from "./components/math/MathLayout";
+import MathList from "./components/math/MathList";
+import MathDetail from "./components/math/MathDetail";
 
 function App() {
   const theme = useThemeStore((state) => state.theme);
@@ -61,6 +64,16 @@ function App() {
             <Route path=":chapterId" element={<AIList />} />
             <Route path=":chapterId/:topicId" element={<AIDetail />} />
             <Route path="*" element={<Navigate to="/ai/basics" replace />} />
+          </Route>
+
+          <Route path="/math" element={<MathLayout />}>
+            <Route index element={<Navigate to="/math/polynomial" replace />} />
+            <Route path=":chapterId/:topicId" element={<MathDetail />} />
+            <Route path=":chapterId" element={<MathList />} />
+            <Route
+              path="*"
+              element={<Navigate to="/math/polynomial" replace />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.13.5",
     "@types/react-syntax-highlighter": "^15.5.13",
     "framer-motion": "^11.13.1",
+    "katex": "^0.16.11",
     "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@emotion/babel-plugin": "^11.13.5",
     "@eslint/js": "^9.15.0",
+    "@types/katex": "^0.16.7",
     "@types/lodash": "^4.17.13",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

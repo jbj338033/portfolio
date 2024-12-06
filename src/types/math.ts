@@ -39,16 +39,13 @@ export interface MathTopic {
   prerequisites?: MathPrerequisite[];
   examples?: MathExample[];
   formulas?: MathFormula[];
-  difficulty: "기본" | "중급" | "발전" | "심화";
+  difficulty: "기본" | "중급" | "심화";
 }
 
 export interface MathChapter {
   id: string;
+  number: number;
   title: string;
   isCompleted: boolean;
-  sections: {
-    id: string;
-    number: string;
-    title: string;
-  }[];
+  topics: MathTopic[];
 }
