@@ -2,19 +2,22 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BsBook, BsCalendar } from "react-icons/bs";
 import { AITopic } from "../../../types/ai";
 import * as S from "./style";
+import { AI_CHAPTERS } from "../../../constants/ai";
 
 interface Props {
-  topics: AITopic[];
   viewMode?: "list" | "grid";
   onItemClick?: () => void;
 }
 
-const AIList = ({ topics, viewMode = "grid", onItemClick }: Props) => {
+const AIList = ({ viewMode = "grid", onItemClick }: Props) => {
   const navigate = useNavigate();
-  const { topicId } = useParams();
+  const { chapterId, topicId } = useParams();
+
+  const chapter = AI_CHAPTERS.find((chapter) => chapter.id === chapterId);
+  const topics = chapter?.topics || [];
 
   const handleTopicClick = (id: string) => {
-    navigate(`/ai/${id}`);
+    navigate(`/ai/${chapter!.id}/${id}`);
     onItemClick?.();
   };
 
@@ -29,7 +32,7 @@ const AIList = ({ topics, viewMode = "grid", onItemClick }: Props) => {
           <BsBook />
           {topic.category}
         </S.CategoryBadge>
-        <S.ChapterBadge>{topic.chapter}장</S.ChapterBadge>
+        <S.ChapterBadge>{topic.number}장</S.ChapterBadge>
       </S.CardHeader>
 
       <S.Title isActive={topic.id === topicId}>{topic.title}</S.Title>
@@ -61,7 +64,7 @@ const AIList = ({ topics, viewMode = "grid", onItemClick }: Props) => {
       </S.ListCategory>
       <S.ListTitle isActive={topic.id === topicId}>{topic.title}</S.ListTitle>
       <S.ListChapter isActive={topic.id === topicId}>
-        {topic.chapter}장
+        {topic.number}장
       </S.ListChapter>
     </S.ListItem>
   );
