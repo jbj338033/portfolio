@@ -16,95 +16,96 @@ const fadeIn = keyframes`
 export const Container = styled.nav`
   width: 280px;
   height: 100vh;
-  background: #1a1b1e;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: ${({ theme }) => theme.colors.background.default};
+  border-right: 1px solid ${({ theme }) => theme.colors.border.light};
   position: sticky;
   top: 0;
   overflow-y: auto;
-  animation: ${fadeIn} 0.5s ease;
+  animation: ${fadeIn} ${({ theme }) => theme.transition.normal};
 `;
 
 export const HomeLink = styled(NavLink)`
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 20px 24px;
-  color: rgba(255, 255, 255, 0.8);
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => `${theme.spacing.lg} ${theme.spacing.xl}`};
+  color: ${({ theme }) => theme.colors.text.secondary};
   text-decoration: none;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   font-family: "Fira Code", monospace;
-  font-weight: 500;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.2s ease;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
+  transition: ${({ theme }) => theme.transition.fast};
 
   svg {
-    font-size: 18px;
+    font-size: ${({ theme }) => theme.fontSize.lg};
   }
 
   &:hover {
-    color: #94d82d;
+    color: ${({ theme }) => theme.colors.primary.main};
   }
 `;
 
 export const MenuWrapper = styled.div`
-  padding: 12px 0;
+  padding: ${({ theme }) => `${theme.spacing.sm} 0`};
 `;
 
 export const MenuSection = styled.div`
-  margin-bottom: 4px;
-  animation: ${fadeIn} 0.5s ease;
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
+  animation: ${fadeIn} ${({ theme }) => theme.transition.normal};
 `;
 
 export const MenuTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 600;
-  font-size: 15px;
+  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.xl}`};
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  font-size: ${({ theme }) => theme.fontSize.md};
   cursor: pointer;
   user-select: none;
-  transition: all 0.2s ease;
+  transition: ${({ theme }) => theme.transition.fast};
 
   &:hover {
-    color: #94d82d;
+    color: ${({ theme }) => theme.colors.primary.main};
   }
 
   svg {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 16px;
-    transition: all 0.2s ease;
+    color: ${({ theme }) => theme.colors.text.tertiary};
+    font-size: ${({ theme }) => theme.fontSize.md};
+    transition: ${({ theme }) => theme.transition.fast};
   }
 
   &:hover svg {
-    color: #94d82d;
+    color: ${({ theme }) => theme.colors.primary.main};
   }
 `;
 
 export const MenuList = styled.div`
-  padding: 6px 0;
+  padding: ${({ theme }) => `${theme.spacing.xs} 0`};
 `;
 
 export const MenuItem = styled.div``;
 
 export const MenuLink = styled(NavLink)`
   display: block;
-  padding: 10px 24px 10px 40px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 14px;
+  padding: ${({ theme }) =>
+    `${theme.spacing.sm} ${theme.spacing.xl} ${theme.spacing.sm} ${theme.spacing.xxl}`};
+  color: ${({ theme }) => theme.colors.text.tertiary};
+  font-size: ${({ theme }) => theme.fontSize.sm};
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: ${({ theme }) => theme.transition.fast};
   line-height: 1.6;
 
   &:hover {
-    color: #94d82d;
-    background: rgba(255, 255, 255, 0.05);
+    color: ${({ theme }) => theme.colors.primary.main};
+    background: ${({ theme }) => theme.colors.background.alt};
   }
 
   &.active {
-    color: #94d82d;
-    background: rgba(148, 216, 45, 0.1);
-    font-weight: 500;
+    color: ${({ theme }) => theme.colors.primary.main};
+    background: ${({ theme }) => theme.colors.primary.light};
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
   }
 `;

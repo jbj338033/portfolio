@@ -5,15 +5,15 @@ export const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 2rem;
-  background: #1a1b1e;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: ${({ theme }) => `${theme.spacing.md} ${theme.spacing.xl}`};
+  background: ${({ theme }) => theme.colors.background.default};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
 `;
 
 export const Title = styled.h1`
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #fff;
+  font-size: ${({ theme }) => theme.fontSize.xl};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
 `;
 
@@ -23,45 +23,46 @@ export const SearchContainer = styled.div`
 
   svg {
     position: absolute;
-    left: 1rem;
+    left: ${({ theme }) => theme.spacing.md};
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 18px;
+    color: ${({ theme }) => theme.colors.text.tertiary};
+    font-size: ${({ theme }) => theme.fontSize.md};
     pointer-events: none;
   }
 `;
 
 export const SearchInput = styled.input`
   width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  font-size: 0.875rem;
-  color: #fff;
-  transition: all 0.2s ease;
+  padding: ${({ theme }) => 
+    `${theme.spacing.sm} ${theme.spacing.md} ${theme.spacing.sm} ${theme.spacing.xxl}`};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background: ${({ theme }) => theme.colors.background.alt};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme }) => theme.colors.text.primary};
+  transition: ${({ theme }) => theme.transition.fast};
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: ${({ theme }) => theme.colors.text.tertiary};
   }
 
   &:focus {
     outline: none;
-    border-color: #94d82d;
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 3px rgba(148, 216, 45, 0.1);
+    border-color: ${({ theme }) => theme.colors.primary.main};
+    background: ${({ theme }) => theme.colors.background.paper};
+    box-shadow: 0 0 0 3px ${({ theme }) => `${theme.colors.primary.light}`};
   }
 `;
 
 export const SuggestionList = styled.div`
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + ${({ theme }) => theme.spacing.sm});
   left: 0;
   right: 0;
-  background: #1a1b1e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.background.default};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   max-height: 300px;
   overflow-y: auto;
   z-index: 1000;
@@ -72,12 +73,12 @@ export const SuggestionList = styled.div`
   }
 
   &::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: ${({ theme }) => theme.colors.background.alt};
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+    background: ${({ theme }) => theme.colors.border.light};
+    border-radius: ${({ theme }) => theme.borderRadius.xs};
   }
 `;
 
@@ -85,28 +86,28 @@ export const SuggestionItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: ${({ theme }) => theme.transition.fast};
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: ${({ theme }) => theme.colors.background.alt};
   }
 
   &:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
   }
 `;
 
 export const AlgorithmTitle = styled.span`
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 export const AlgorithmCategory = styled.span`
-  font-size: 12px;
-  color: #94d82d;
-  padding: 4px 8px;
-  background: rgba(148, 216, 45, 0.1);
-  border-radius: 4px;
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  color: ${({ theme }) => theme.colors.primary.main};
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
+  background: ${({ theme }) => theme.colors.primary.light};
+  border-radius: ${({ theme }) => theme.borderRadius.xs};
 `;

@@ -1,110 +1,109 @@
 import styled from "@emotion/styled";
 
 export const Container = styled.div`
-  max-width: 900px;
+  max-width: ${({ theme }) => theme.container.md};
   margin: 0 auto;
 `;
 
 export const Header = styled.header`
-  margin-bottom: 48px;
+  margin-bottom: ${({ theme }) => theme.spacing.xxl};
 `;
 
 export const HeaderMeta = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
   flex-wrap: wrap;
 `;
 
 export const WeekBadge = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: #2563eb;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
+  gap: ${({ theme }) => theme.spacing.xs};
+  background: ${({ theme }) => theme.colors.status.planned};
+  color: ${({ theme }) => theme.colors.text.primary};
+  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
 export const TopicBadge = styled.div`
-  background: #0d9488;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
+  background: ${({ theme }) => theme.colors.status.ongoing};
+  color: ${({ theme }) => theme.colors.text.primary};
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const Date = styled.span`
-  color: #94a3b8;
-  font-size: 14px;
+  color: ${({ theme }) => theme.colors.text.tertiary};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 export const Title = styled.h1`
-  font-size: 36px;
-  font-weight: 800;
-  color: #fff;
+  font-size: ${({ theme }) => theme.fontSize.xxxl};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  color: ${({ theme }) => theme.colors.text.primary};
   line-height: 1.4;
-  margin-bottom: 20px;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 
   @media (max-width: 768px) {
-    font-size: 28px;
+    font-size: ${({ theme }) => theme.fontSize.xxl};
   }
 `;
 
 export const Keywords = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 export const Keyword = styled.span`
-  background: #1e3a5f;
-  color: #94a3b8;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 13px;
+  background: ${({ theme }) => theme.colors.background.alt};
+  color: ${({ theme }) => theme.colors.text.tertiary};
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 export const Content = styled.div`
-  color: #e2e8f0;
-  font-size: 16px;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: ${({ theme }) => theme.fontSize.md};
   line-height: 1.8;
-  margin-bottom: 48px;
+  margin-bottom: ${({ theme }) => theme.spacing.xxl};
 
   h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #fff;
-    margin: 40px 0 20px;
+    font-size: ${({ theme }) => theme.fontSize.xxl};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    color: ${({ theme }) => theme.colors.text.primary};
+    margin: ${({ theme }) => `${theme.spacing.xxl} 0 ${theme.spacing.lg}`};
   }
 
   h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #fff;
-    margin: 32px 0 16px;
+    font-size: ${({ theme }) => theme.fontSize.xl};
+    font-weight: ${({ theme }) => theme.fontWeight.semibold};
+    color: ${({ theme }) => theme.colors.text.primary};
+    margin: ${({ theme }) => `${theme.spacing.xl} 0 ${theme.spacing.md}`};
   }
 
   p {
-    margin-bottom: 16px;
+    margin-bottom: ${({ theme }) => theme.spacing.md};
   }
 
-  ul,
-  ol {
-    margin-bottom: 16px;
-    padding-left: 20px;
+  ul, ol {
+    margin-bottom: ${({ theme }) => theme.spacing.md};
+    padding-left: ${({ theme }) => theme.spacing.lg};
   }
 
   li {
-    margin-bottom: 8px;
+    margin-bottom: ${({ theme }) => theme.spacing.sm};
   }
 
   a {
-    color: #60a5fa;
+    color: ${({ theme }) => theme.colors.primary.main};
     text-decoration: none;
     &:hover {
       text-decoration: underline;
@@ -112,104 +111,104 @@ export const Content = styled.div`
   }
 
   blockquote {
-    border-left: 4px solid #2563eb;
-    padding-left: 16px;
-    margin: 24px 0;
-    color: #94a3b8;
+    border-left: 4px solid ${({ theme }) => theme.colors.primary.main};
+    padding-left: ${({ theme }) => theme.spacing.md};
+    margin: ${({ theme }) => `${theme.spacing.xl} 0`};
+    color: ${({ theme }) => theme.colors.text.tertiary};
   }
 `;
 
 export const CodeBlock = styled.code`
   display: block;
-  background: #0a1929;
-  padding: 16px;
-  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.background.alt};
+  padding: ${({ theme }) => theme.spacing.md};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   font-family: "Fira Code", monospace;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSize.sm};
   line-height: 1.6;
   overflow-x: auto;
-  margin: 24px 0;
+  margin: ${({ theme }) => `${theme.spacing.xl} 0`};
 `;
 
 export const Section = styled.section`
-  margin-top: 48px;
-  padding-top: 48px;
-  border-top: 1px solid #1e3a5f;
+  margin-top: ${({ theme }) => theme.spacing.xxl};
+  padding-top: ${({ theme }) => theme.spacing.xxl};
+  border-top: 1px solid ${({ theme }) => theme.colors.border.light};
 `;
 
 export const SectionTitle = styled.h2`
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 24px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 24px;
+  gap: ${({ theme }) => theme.spacing.sm};
+  font-size: ${({ theme }) => theme.fontSize.xxl};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  color: ${({ theme }) => theme.colors.text.primary};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
 
   svg {
-    color: #60a5fa;
+    color: ${({ theme }) => theme.colors.primary.main};
   }
 `;
 
 export const Assignment = styled.div`
-  background: #0f2942;
-  border: 1px solid #1e3a5f;
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 24px;
+  background: ${({ theme }) => theme.colors.background.paper};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
 `;
 
 export const AssignmentHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
   flex-wrap: wrap;
 `;
 
 export const AssignmentTitle = styled.h4`
-  font-size: 18px;
-  font-weight: 600;
-  color: #fff;
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
 
 export const DueDate = styled.div`
-  color: #fb7185;
-  font-size: 14px;
+  color: ${({ theme }) => theme.colors.status.ongoing};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 export const ResourceList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 export const ResourceLink = styled.a`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
-  background: #0f2942;
-  border: 1px solid #1e3a5f;
-  border-radius: 8px;
-  color: #fff;
+  padding: ${({ theme }) => theme.spacing.md};
+  background: ${({ theme }) => theme.colors.background.paper};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  color: ${({ theme }) => theme.colors.text.primary};
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: ${({ theme }) => theme.transition.fast};
 
   &:hover {
-    background: #1e3a5f;
+    background: ${({ theme }) => theme.colors.background.alt};
     transform: translateY(-2px);
   }
 `;
 
 export const ResourceType = styled.span`
   margin-left: auto;
-  background: #1e3a5f;
-  color: #94a3b8;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+  background: ${({ theme }) => theme.colors.background.alt};
+  color: ${({ theme }) => theme.colors.text.tertiary};
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
+  border-radius: ${({ theme }) => theme.borderRadius.xs};
+  font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
 export interface CodeExample {

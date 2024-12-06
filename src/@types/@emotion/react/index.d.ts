@@ -70,6 +70,7 @@ declare module "@emotion/react" {
         ongoing: string;
         completed: string;
         planned: string;
+        error: string;
       };
     };
   }

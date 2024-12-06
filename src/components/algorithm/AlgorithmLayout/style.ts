@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 export const LayoutContainer = styled.div`
   display: flex;
   min-height: 100vh;
-  background: #1a1b1e;
+  background: ${({ theme }) => theme.colors.background.default};
 `;
 
 export const MainContainer = styled.main`
@@ -15,6 +15,6 @@ export const MainContainer = styled.main`
 
 export const Content = styled.div`
   flex: 1;
-  padding: 2rem;
+  padding: ${({ theme }) => theme.spacing.xxl};
   overflow-y: auto;
 `;

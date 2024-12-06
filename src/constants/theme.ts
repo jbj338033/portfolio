@@ -71,6 +71,7 @@ export const lightTheme: Theme = {
       ongoing: "#2b7489",
       completed: "#666",
       planned: "#60A5FA",
+      error: "#DC2626",
     },
   },
 };
@@ -103,6 +104,7 @@ export const darkTheme: Theme = {
       ongoing: "#34D399",
       completed: "#9CA3AF",
       planned: "#60A5FA",
+      error: "#DC2626",
     },
   },
 };
