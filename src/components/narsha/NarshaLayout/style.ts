@@ -5,14 +5,14 @@ import { Link, NavLink } from "react-router-dom";
 export const LayoutContainer = styled.div`
   display: flex;
   min-height: 100vh;
-  background: #1a1b1e;
+  background: ${({ theme }) => theme.colors.background.default};
 `;
 
 export const Sidebar = styled.nav`
   width: 280px;
   height: 100vh;
-  background: #1a1b1e;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: ${({ theme }) => theme.colors.background.default};
+  border-right: 1px solid ${({ theme }) => theme.colors.border.light};
   position: sticky;
   top: 0;
   overflow-y: auto;
@@ -24,8 +24,8 @@ export const Sidebar = styled.nav`
     background: transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
+    background: ${({ theme }) => theme.colors.border.light};
+    border-radius: ${({ theme }) => theme.borderRadius.xs};
   }
 
   @media (max-width: 768px) {
@@ -36,88 +36,88 @@ export const Sidebar = styled.nav`
 export const HomeLink = styled(Link)`
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 20px 24px;
-  color: rgba(255, 255, 255, 0.8);
+  gap: ${({ theme }) => theme.spacing.xs};
+  padding: ${({ theme }) => `${theme.spacing.lg} ${theme.spacing.xl}`};
+  color: ${({ theme }) => theme.colors.text.secondary};
   text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.2s ease;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
+  transition: ${({ theme }) => theme.transition.fast};
 
   &:hover {
-    color: #94d82d;
+    color: ${({ theme }) => theme.colors.primary.main};
   }
 
   svg {
-    font-size: 18px;
+    font-size: ${({ theme }) => theme.fontSize.md};
   }
 `;
 
 export const MenuWrapper = styled.div`
-  padding: 12px 0;
+  padding: ${({ theme }) => `${theme.spacing.sm} 0`};
 `;
 
 export const MenuSection = styled.div`
-  margin-bottom: 4px;
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
 export const MenuTitle = styled.div`
   display: flex;
   align-items: center;
-  padding: 12px 24px;
+  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.xl}`};
   cursor: pointer;
   user-select: none;
-  transition: all 0.2s ease;
+  transition: ${({ theme }) => theme.transition.fast};
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: ${({ theme }) => theme.colors.background.alt};
   }
 `;
 
 export const MenuTitleText = styled.span`
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 600;
-  font-size: 15px;
-  margin-right: 8px;
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  font-size: ${({ theme }) => theme.fontSize.md};
+  margin-right: ${({ theme }) => theme.spacing.xs};
 `;
 
 export const StatusBadge = styled.span<{
   status: "ongoing" | "completed" | "planned";
 }>`
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 500;
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.xs}`};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   background: ${({ status }) =>
     status === "ongoing"
       ? "rgba(52, 211, 153, 0.1)"
       : status === "completed"
       ? "rgba(156, 163, 175, 0.1)"
       : "rgba(96, 165, 250, 0.1)"};
-  color: ${({ status }) =>
+  color: ${({ theme, status }) =>
     status === "ongoing"
-      ? "#34D399"
+      ? theme.colors.status.ongoing
       : status === "completed"
-      ? "#9CA3AF"
-      : "#60A5FA"};
+      ? theme.colors.status.completed
+      : theme.colors.status.planned};
   margin-right: auto;
 `;
 
 export const MenuChevron = styled.div<{ isOpen: boolean }>`
-  color: rgba(255, 255, 255, 0.6);
+  color: ${({ theme }) => theme.colors.text.tertiary};
   display: flex;
   align-items: center;
   transform: rotate(${({ isOpen }) => (isOpen ? "180deg" : "0deg")});
-  transition: transform 0.2s ease;
+  transition: ${({ theme }) => theme.transition.fast};
 
   svg {
-    font-size: 16px;
+    font-size: ${({ theme }) => theme.fontSize.sm};
   }
 `;
 
 export const MenuList = styled.div`
-  padding: 6px 0;
+  padding: ${({ theme }) => `${theme.spacing.xs} 0`};
 `;
 
 export const MenuItem = styled.div`
@@ -130,31 +130,32 @@ export const MenuItem = styled.div`
 
 export const MenuLink = styled(NavLink)`
   display: block;
-  padding: 10px 24px 10px 40px;
+  padding: ${({ theme }) =>
+    `${theme.spacing.sm} ${theme.spacing.xl} ${theme.spacing.sm} 40px`};
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: ${({ theme }) => theme.transition.fast};
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: ${({ theme }) => theme.colors.background.alt};
   }
 
   &.active {
-    background: rgba(148, 216, 45, 0.1);
-    border-left: 3px solid #94d82d;
+    background: ${({ theme }) => `${theme.colors.primary.light}1a`};
+    border-left: 3px solid ${({ theme }) => theme.colors.primary.main};
   }
 `;
 
 export const WeekBadge = styled.div<{ isActive: boolean }>`
-  font-size: 13px;
-  color: ${({ isActive }) =>
-    isActive ? "#94d82d" : "rgba(255, 255, 255, 0.5)"};
-  margin-bottom: 4px;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme, isActive }) =>
+    isActive ? theme.colors.primary.main : theme.colors.text.tertiary};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
 export const EntryTitle = styled.div<{ isActive: boolean }>`
-  font-size: 14px;
-  color: ${({ isActive }) =>
-    isActive ? "#94d82d" : "rgba(255, 255, 255, 0.8)"};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme, isActive }) =>
+    isActive ? theme.colors.primary.main : theme.colors.text.secondary};
   line-height: 1.4;
 `;
 
