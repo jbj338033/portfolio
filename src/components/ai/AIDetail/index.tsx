@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { BsBook, BsCalendar, BsLightbulb } from "react-icons/bs";
-import { AI_TOPICS } from "../../../constants/ai";
 import * as S from "./style";
+import { AI_CHAPTERS } from "../../../constants/ai";
 
 const AIDetail = () => {
-  const { topicId } = useParams();
-  const topic = AI_TOPICS.find((t) => t.id === topicId);
+  const { chapterId, topicId } = useParams();
+  const topic = AI_CHAPTERS.find(
+    (chapter) => chapter.id === chapterId
+  )?.topics.find((topic) => topic.id === topicId);
 
   if (!topic) return null;
 
@@ -18,7 +20,6 @@ const AIDetail = () => {
             <BsBook />
             {topic.category}
           </S.CategoryBadge>
-          <S.ChapterBadge>{topic.chapter}장</S.ChapterBadge>
           <S.Date>
             <BsCalendar />
             {topic.date}

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { IoArrowForward } from "react-icons/io5";
-import { BiCodeAlt } from "react-icons/bi";
+import { BiCodeAlt, BiMath } from "react-icons/bi";
 import { HiOutlineAcademicCap } from "react-icons/hi";
 import { DiDatabase } from "react-icons/di";
 import * as S from "./style";
 import { AnimatePresence } from "framer-motion";
+import { AiFillRobot } from "react-icons/ai";
 
 interface Activity {
   id: string;
@@ -41,7 +42,14 @@ const activities: Activity[] = [
     name: "인공지능 수업",
     description: "인공지능 수업 프로젝트",
     path: "/ai",
-    icon: <BiCodeAlt size={20} />,
+    icon: <AiFillRobot size={20} />,
+  },
+  {
+    id: "math",
+    name: "수학 수업",
+    description: "수학 수업 프로젝트",
+    path: "/math",
+    icon: <BiMath size={20} />,
   },
 ];
 

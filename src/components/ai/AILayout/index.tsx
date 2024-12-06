@@ -70,7 +70,7 @@ const AILayout = () => {
                         {({ isActive }) => (
                           <>
                             <S.TopicNumber isActive={isActive}>
-                              {topic.number}
+                              {chapter.number}.{topic.number}
                             </S.TopicNumber>
                             <S.TopicTitle isActive={isActive}>
                               {topic.title}

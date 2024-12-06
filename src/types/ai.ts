@@ -6,8 +6,8 @@ export interface AIPrerequiste {
 
 export interface AITopic {
   id: string;
-  chapter: number;
   title: string;
+  number: number;
   category: "기초" | "머신러닝" | "딥러닝";
   description: string;
   date: string;
@@ -18,11 +18,8 @@ export interface AITopic {
 
 export interface AIChapter {
   id: string;
+  number: number;
   title: string;
   isCompleted: boolean;
-  topics: {
-    id: string;
-    number: string;
-    title: string;
-  }[];
+  topics: AITopic[];
 }
