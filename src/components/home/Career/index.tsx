@@ -1,3 +1,4 @@
+import { memo } from "react";
 import * as S from "./style";
 import juniorDeveloper from "../../../assets/images/junior-developer.png";
 
@@ -16,7 +17,7 @@ interface Career {
   details: CareerDetail[];
 }
 
-const CAREER_DATA: Career = {
+const CAREER_DATA: Readonly<Career> = {
   company: "아직 신입 개발자입니다.",
   tags: ["아직 신입 개발자입니다."],
   details: [
@@ -27,60 +28,84 @@ const CAREER_DATA: Career = {
     },
   ],
   logo: juniorDeveloper,
-};
+} as const;
+
+const Header = memo(() => (
+  <S.Header>
+    <S.Title>Career</S.Title>
+    <S.Description>저의 교육 및 학력 사항입니다</S.Description>
+  </S.Header>
+));
+
+Header.displayName = "Header";
+
+const TagList = memo(({ tags }: { tags: readonly string[] }) => (
+  <S.TagList>
+    {tags.map((tag) => (
+      <S.Tag key={tag}>{tag}</S.Tag>
+    ))}
+  </S.TagList>
+));
+
+TagList.displayName = "TagList";
+
+const CompanyCard = memo(({ data }: { data: Readonly<Career> }) => (
+  <S.CompanyCard>
+    <S.LogoWrapper>
+      {data.logo && (
+        <S.Logo src={data.logo} alt={data.company} loading="lazy" />
+      )}
+    </S.LogoWrapper>
+    <S.CompanyInfo>
+      <S.CompanyName>{data.company}</S.CompanyName>
+      {data.period && <S.CompanyPeriod>{data.period}</S.CompanyPeriod>}
+      {data.description && (
+        <S.CompanyDescription>{data.description}</S.CompanyDescription>
+      )}
+      <TagList tags={data.tags} />
+    </S.CompanyInfo>
+  </S.CompanyCard>
+));
+
+CompanyCard.displayName = "CompanyCard";
+
+const TimelineItem = memo(({ detail }: { detail: CareerDetail }) => (
+  <S.TimelineItem>
+    <S.TimelineDot />
+    <S.TimelineContent>
+      <S.TimelineHeader>
+        <S.TimelineTitle>{detail.title}</S.TimelineTitle>
+        <S.TimelinePeriod>{detail.period}</S.TimelinePeriod>
+      </S.TimelineHeader>
+      <S.TimelineDescription>{detail.description}</S.TimelineDescription>
+    </S.TimelineContent>
+  </S.TimelineItem>
+));
+
+TimelineItem.displayName = "TimelineItem";
+
+const Timeline = memo(({ details }: { details: readonly CareerDetail[] }) => (
+  <S.Timeline>
+    {details.map((detail) => (
+      <TimelineItem key={detail.title} detail={detail} />
+    ))}
+  </S.Timeline>
+));
+
+Timeline.displayName = "Timeline";
 
 const Career = () => {
   return (
     <S.Container id="career">
       <S.Inner>
-        <S.Header>
-          <S.Title>Career</S.Title>
-          <S.Description>저의 교육 및 학력 사항입니다</S.Description>
-        </S.Header>
-
+        <Header />
         <S.Content>
-          <S.CompanyCard>
-            <S.LogoWrapper>
-              <S.Logo src={CAREER_DATA.logo} alt={CAREER_DATA.company} />
-            </S.LogoWrapper>
-            <S.CompanyInfo>
-              <S.CompanyName>{CAREER_DATA.company}</S.CompanyName>
-              {CAREER_DATA.period && (
-                <S.CompanyPeriod>{CAREER_DATA.period}</S.CompanyPeriod>
-              )}
-              {CAREER_DATA.description && (
-                <S.CompanyDescription>
-                  {CAREER_DATA.description}
-                </S.CompanyDescription>
-              )}
-              <S.TagList>
-                {CAREER_DATA.tags.map((tag) => (
-                  <S.Tag key={tag}>{tag}</S.Tag>
-                ))}
-              </S.TagList>
-            </S.CompanyInfo>
-          </S.CompanyCard>
-
-          <S.Timeline>
-            {CAREER_DATA.details.map((detail) => (
-              <S.TimelineItem key={detail.title}>
-                <S.TimelineDot />
-                <S.TimelineContent>
-                  <S.TimelineHeader>
-                    <S.TimelineTitle>{detail.title}</S.TimelineTitle>
-                    <S.TimelinePeriod>{detail.period}</S.TimelinePeriod>
-                  </S.TimelineHeader>
-                  <S.TimelineDescription>
-                    {detail.description}
-                  </S.TimelineDescription>
-                </S.TimelineContent>
-              </S.TimelineItem>
-            ))}
-          </S.Timeline>
+          <CompanyCard data={CAREER_DATA} />
+          <Timeline details={CAREER_DATA.details} />
         </S.Content>
       </S.Inner>
     </S.Container>
   );
 };
 
-export default Career;
+export default memo(Career);
