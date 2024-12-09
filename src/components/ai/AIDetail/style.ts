@@ -6,7 +6,6 @@ export const Container = styled.div`
   padding: ${({ theme }) => theme.spacing.lg};
 `;
 
-// Header Styles
 export const Header = styled.header`
   margin-bottom: ${({ theme }) => theme.spacing.xxl};
 `;
@@ -78,7 +77,6 @@ export const Keyword = styled.span`
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
-// Content Styles
 export const Content = styled.div`
   color: ${({ theme }) => theme.colors.text.secondary};
   font-size: ${({ theme }) => theme.fontSize.md};
@@ -153,7 +151,6 @@ export const Content = styled.div`
   }
 `;
 
-// Prerequisites Section Styles
 export const Section = styled.section`
   margin-top: ${({ theme }) => theme.spacing.xxl};
   padding-top: ${({ theme }) => theme.spacing.xxl};
