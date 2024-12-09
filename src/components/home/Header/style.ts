@@ -1,20 +1,56 @@
 import styled from "@emotion/styled";
+import { Theme } from "@emotion/react";
 
+// Types
 interface StyleProps {
-  isScrolled: boolean;
-  isActive?: boolean;
+  readonly isScrolled: boolean;
+  readonly isActive?: boolean;
+  readonly isHidden?: boolean;
 }
 
 interface MobileNavProps {
-  isOpen: boolean;
+  readonly isOpen: boolean;
 }
+
+// Style Utils
+const getTextColor = (
+  theme: Theme,
+  isScrolled: boolean,
+  isActive?: boolean
+) => {
+  if (isScrolled) {
+    return isActive ? theme.colors.text.primary : theme.colors.text.secondary;
+  }
+
+  return theme.mode === "dark"
+    ? isActive
+      ? theme.colors.text.primary
+      : theme.colors.text.secondary
+    : isActive
+    ? theme.colors.text.inverse
+    : "rgba(255, 255, 255, 0.8)";
+};
+
+const getBackgroundColor = (theme: Theme, isScrolled: boolean) => {
+  return isScrolled ? theme.colors.background.default : "transparent";
+};
+
+const getUnderlineColor = (theme: Theme, isScrolled: boolean) => {
+  if (isScrolled) {
+    return theme.colors.text.primary;
+  }
+
+  return theme.mode === "dark"
+    ? theme.colors.text.primary
+    : theme.colors.text.inverse;
+};
 
 export const HeaderWrapper = styled.div`
   position: relative;
   z-index: 1000;
 `;
 
-export const Container = styled.header<{ isScrolled: boolean }>`
+export const Container = styled.header<StyleProps>`
   position: fixed;
   top: 0;
   left: 0;
@@ -24,10 +60,12 @@ export const Container = styled.header<{ isScrolled: boolean }>`
   align-items: center;
   padding: 0 ${({ theme }) => theme.spacing.lg};
   background: ${({ theme, isScrolled }) =>
-    isScrolled ? theme.colors.background.default : "transparent"};
+    getBackgroundColor(theme, isScrolled)};
   border-bottom: ${({ theme, isScrolled }) =>
     isScrolled ? `1px solid ${theme.colors.border.default}` : "none"};
-  transition: all 0.3s;
+  transition: ${({ theme }) => theme.transition.normal};
+  transform: translateY(${({ isHidden }) => (isHidden ? "-100%" : "0")});
+  will-change: transform;
 `;
 
 export const Inner = styled.div`
@@ -37,9 +75,10 @@ export const Inner = styled.div`
   width: 100%;
   max-width: ${({ theme }) => theme.container.lg};
   margin: 0 auto;
+  height: 100%;
 `;
 
-export const Logo = styled.h1<{ isScrolled: boolean }>`
+export const Logo = styled.h1<StyleProps>`
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
   color: ${({ theme, isScrolled }) =>
@@ -48,7 +87,15 @@ export const Logo = styled.h1<{ isScrolled: boolean }>`
       : theme.mode === "dark"
       ? theme.colors.text.primary
       : theme.colors.text.inverse};
-  transition: color 0.3s;
+  transition: ${({ theme }) => theme.transition.fast};
+  cursor: pointer;
+  user-select: none;
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.primary.main};
+    outline-offset: ${({ theme }) => theme.spacing.xxs};
+    border-radius: ${({ theme }) => theme.borderRadius.sm};
+  }
 `;
 
 export const DesktopNav = styled.nav`
@@ -58,6 +105,7 @@ export const DesktopNav = styled.nav`
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.spacing.lg};
+    height: 100%;
   }
 `;
 
@@ -68,21 +116,12 @@ export const NavItem = styled.button<StyleProps>`
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme, isActive }) =>
     isActive ? theme.fontWeight.semibold : theme.fontWeight.normal};
-  color: ${({ theme, isScrolled, isActive }) => {
-    if (isScrolled)
-      return isActive ? theme.colors.text.primary : theme.colors.text.secondary;
-
-    return theme.mode === "dark"
-      ? isActive
-        ? theme.colors.text.primary
-        : theme.colors.text.secondary
-      : isActive
-      ? theme.colors.text.inverse
-      : "rgba(255, 255, 255, 0.8)";
-  }};
+  color: ${({ theme, isScrolled, isActive }) =>
+    getTextColor(theme, isScrolled, isActive)};
   cursor: pointer;
-  transition: all 0.2s;
+  transition: ${({ theme }) => theme.transition.fast};
   position: relative;
+  outline: none;
 
   &::after {
     content: "";
@@ -91,22 +130,15 @@ export const NavItem = styled.button<StyleProps>`
     bottom: -2px;
     width: 100%;
     height: 2px;
-    background: ${({ theme, isScrolled, isActive }) => {
-      if (!isActive) return "transparent";
-
-      if (isScrolled) {
-        return theme.colors.text.primary;
-      }
-
-      return theme.mode === "dark"
-        ? theme.colors.text.primary
-        : theme.colors.text.inverse;
-    }};
+    background: ${({ theme, isScrolled, isActive }) =>
+      !isActive ? "transparent" : getUnderlineColor(theme, isScrolled)};
     transform: scaleX(${({ isActive }) => (isActive ? 1 : 0)});
-    transition: transform 0.2s;
+    transition: ${({ theme }) => theme.transition.fast};
+    transform-origin: left center;
   }
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     color: ${({ theme, isScrolled }) =>
       isScrolled
         ? theme.colors.text.primary
@@ -117,12 +149,14 @@ export const NavItem = styled.button<StyleProps>`
     &::after {
       transform: scaleX(1);
       background: ${({ theme, isScrolled }) =>
-        isScrolled
-          ? theme.colors.text.primary
-          : theme.mode === "dark"
-          ? theme.colors.text.primary
-          : theme.colors.text.inverse};
+        getUnderlineColor(theme, isScrolled)};
     }
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.primary.main};
+    outline-offset: ${({ theme }) => theme.spacing.xxs};
+    border-radius: ${({ theme }) => theme.borderRadius.sm};
   }
 `;
 
@@ -136,7 +170,7 @@ export const MobileControls = styled.div`
   }
 `;
 
-export const ThemeToggle = styled.button<{ isScrolled: boolean }>`
+export const ThemeToggle = styled.button<StyleProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,14 +184,20 @@ export const ThemeToggle = styled.button<{ isScrolled: boolean }>`
       ? theme.colors.text.primary
       : theme.colors.text.inverse};
   cursor: pointer;
-  transition: all 0.2s;
+  transition: ${({ theme }) => theme.transition.fast};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
 
   &:hover {
     opacity: 0.8;
   }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.primary.main};
+    outline-offset: ${({ theme }) => theme.spacing.xxs};
+  }
 `;
 
-export const MenuButton = styled.button<{ isScrolled: boolean }>`
+export const MenuButton = styled.button<StyleProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,6 +211,12 @@ export const MenuButton = styled.button<{ isScrolled: boolean }>`
       ? theme.colors.text.primary
       : theme.colors.text.inverse};
   cursor: pointer;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.primary.main};
+    outline-offset: ${({ theme }) => theme.spacing.xxs};
+  }
 `;
 
 export const MobileNav = styled.nav<MobileNavProps>`
@@ -182,16 +228,17 @@ export const MobileNav = styled.nav<MobileNavProps>`
   background: ${({ theme }) => theme.colors.background.default};
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
   visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
-  transition: all 0.2s;
+  transition: ${({ theme }) => theme.transition.fast};
   border-top: 1px solid ${({ theme }) => theme.colors.border.default};
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
   @media (min-width: 1024px) {
     display: none;
   }
 `;
 
-export const MobileNavItem = styled.button<{ isActive?: boolean }>`
+export const MobileNavItem = styled.button<StyleProps>`
   width: 100%;
   background: none;
   border: none;
@@ -203,10 +250,16 @@ export const MobileNavItem = styled.button<{ isActive?: boolean }>`
     isActive ? theme.colors.text.primary : theme.colors.text.secondary};
   text-align: left;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: ${({ theme }) => theme.transition.fast};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border.default};
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background: ${({ theme }) => theme.colors.background.alt};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.primary.main};
+    outline-offset: -2px;
   }
 `;
