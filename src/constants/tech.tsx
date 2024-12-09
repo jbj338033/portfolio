@@ -30,6 +30,17 @@ export const TECH_STACK: Record<string, TechCategory> = {
           "Spring Boot와 함께 사용하여 백엔드 서버 개발",
         ],
       },
+      {
+        name: "Python",
+        color: "#3776AB",
+        level: 3,
+        experience: "1년",
+        description: [
+          "데이터 분석 및 시각화 라이브러리(Pandas, Matplotlib) 활용",
+          "Baekjoon, LeetCode 등 알고리즘 문제 풀이",
+          "PyTorch를 활용한 딥러닝 모델 구현",
+        ],
+      },
     ],
   },
   Frontend: {
