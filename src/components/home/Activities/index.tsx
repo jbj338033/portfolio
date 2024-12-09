@@ -1,25 +1,46 @@
-import { useState, memo } from "react";
+import { useState, memo, useCallback, useMemo } from "react";
 import * as S from "./style";
 import { BsLink45Deg } from "react-icons/bs";
 import { ACTIVITIES } from "../../../constants/activity";
 import { ActivityDetail } from "../../../types/activity";
 import { IconType } from "react-icons";
 
+// Types
+interface TabItemProps {
+  category: string;
+  icon: IconType;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+interface ActivityDescriptionProps {
+  descriptions: string[];
+}
+
+interface SkillListProps {
+  skills: string[];
+}
+
+interface ProjectLinkProps {
+  link: string;
+}
+
+interface ActivityCardProps {
+  detail: ActivityDetail;
+}
+
+// Memoized Components
 const TabItem = memo(
-  ({
-    category,
-    icon: Icon,
-    isActive,
-    onClick,
-  }: {
-    category: string;
-    icon: IconType;
-    isActive: boolean;
-    onClick: () => void;
-  }) => (
-    <S.TabItem isActive={isActive} onClick={onClick}>
-      <Icon />
-      {category}
+  ({ category, icon: Icon, isActive, onClick }: TabItemProps) => (
+    <S.TabItem
+      isActive={isActive}
+      onClick={onClick}
+      role="tab"
+      aria-selected={isActive}
+      aria-controls={`tabpanel-${category}`}
+    >
+      <Icon aria-hidden="true" />
+      <span>{category}</span>
     </S.TabItem>
   )
 );
@@ -27,10 +48,12 @@ const TabItem = memo(
 TabItem.displayName = "TabItem";
 
 const ActivityDescription = memo(
-  ({ descriptions }: { descriptions: string[] }) => (
-    <S.Description>
+  ({ descriptions }: ActivityDescriptionProps) => (
+    <S.Description role="list">
       {descriptions.map((desc, idx) => (
-        <S.DescriptionItem key={idx}>{desc}</S.DescriptionItem>
+        <S.DescriptionItem key={`desc-${idx}`} role="listitem">
+          {desc}
+        </S.DescriptionItem>
       ))}
     </S.Description>
   )
@@ -38,46 +61,62 @@ const ActivityDescription = memo(
 
 ActivityDescription.displayName = "ActivityDescription";
 
-const SkillList = memo(({ skills }: { skills: string[] }) => (
-  <S.SkillList>
+const SkillList = memo(({ skills }: SkillListProps) => (
+  <S.SkillList role="list" aria-label="Skills used">
     {skills.map((skill) => (
-      <S.Skill key={skill}>{skill}</S.Skill>
+      <S.Skill key={skill} role="listitem">
+        {skill}
+      </S.Skill>
     ))}
   </S.SkillList>
 ));
 
 SkillList.displayName = "SkillList";
 
-const ProjectLink = memo(({ link }: { link: string }) => (
-  <S.ProjectLink href={link} target="_blank" rel="noopener noreferrer">
+const ProjectLink = memo(({ link }: ProjectLinkProps) => (
+  <S.ProjectLink
+    href={link}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="View project details"
+  >
     View Project
-    <BsLink45Deg />
+    <BsLink45Deg aria-hidden="true" />
   </S.ProjectLink>
 ));
 
 ProjectLink.displayName = "ProjectLink";
 
-const ActivityCard = memo(({ detail }: { detail: ActivityDetail }) => (
-  <S.ActivityCard>
-    <S.CardTop>
-      <S.CardHeader>
-        <S.CardTitle>{detail.title}</S.CardTitle>
-        <S.Period>
-          {detail.startDate} ~ {detail.endDate || "진행중"}
-        </S.Period>
-      </S.CardHeader>
+const ActivityCard = memo(({ detail }: ActivityCardProps) => {
+  const isOngoing = !detail.endDate;
 
-      {detail.role && <S.RoleBadge>{detail.role}</S.RoleBadge>}
+  return (
+    <S.ActivityCard>
+      <S.CardTop>
+        <S.CardHeader>
+          <S.CardTitle>{detail.title}</S.CardTitle>
+          <S.Period>
+            {detail.startDate} ~{" "}
+            {isOngoing ? <S.OngoingText>진행중</S.OngoingText> : detail.endDate}
+          </S.Period>
+        </S.CardHeader>
 
-      <ActivityDescription descriptions={detail.description} />
-    </S.CardTop>
+        {detail.role && (
+          <S.RoleBadge role="note" aria-label="Role">
+            {detail.role}
+          </S.RoleBadge>
+        )}
 
-    <S.CardBottom>
-      {detail.skills && <SkillList skills={detail.skills} />}
-      {detail.projectLink && <ProjectLink link={detail.projectLink} />}
-    </S.CardBottom>
-  </S.ActivityCard>
-));
+        <ActivityDescription descriptions={detail.description} />
+      </S.CardTop>
+
+      <S.CardBottom>
+        {detail.skills && <SkillList skills={detail.skills} />}
+        {detail.projectLink && <ProjectLink link={detail.projectLink} />}
+      </S.CardBottom>
+    </S.ActivityCard>
+  );
+});
 
 ActivityCard.displayName = "ActivityCard";
 
@@ -86,38 +125,59 @@ const Activities = () => {
     ACTIVITIES[0].category
   );
 
+  const handleCategoryChange = useCallback((category: string) => {
+    setActiveCategory(category);
+  }, []);
+
+  const renderTabs = useMemo(
+    () => (
+      <S.TabList role="tablist" aria-label="Activity categories">
+        {ACTIVITIES.map((activity) => (
+          <TabItem
+            key={activity.category}
+            category={activity.category}
+            icon={activity.icon}
+            isActive={activeCategory === activity.category}
+            onClick={() => handleCategoryChange(activity.category)}
+          />
+        ))}
+      </S.TabList>
+    ),
+    [activeCategory, handleCategoryChange]
+  );
+
+  const renderContent = useMemo(
+    () => (
+      <S.Content>
+        {ACTIVITIES.map(
+          (activity) =>
+            activity.category === activeCategory && (
+              <S.Grid
+                key={activity.category}
+                role="tabpanel"
+                id={`tabpanel-${activity.category}`}
+                aria-labelledby={activity.category}
+              >
+                {activity.details.map((detail, index) => (
+                  <ActivityCard
+                    key={`${activity.category}-${index}`}
+                    detail={detail}
+                  />
+                ))}
+              </S.Grid>
+            )
+        )}
+      </S.Content>
+    ),
+    [activeCategory]
+  );
+
   return (
     <S.Container id="activities">
       <S.Inner>
         <S.Title>Activities</S.Title>
-
-        <S.TabList>
-          {ACTIVITIES.map((activity) => (
-            <TabItem
-              key={activity.category}
-              category={activity.category}
-              icon={activity.icon}
-              isActive={activeCategory === activity.category}
-              onClick={() => setActiveCategory(activity.category)}
-            />
-          ))}
-        </S.TabList>
-
-        <S.Content>
-          {ACTIVITIES.map(
-            (activity) =>
-              activity.category === activeCategory && (
-                <S.Grid key={activity.category}>
-                  {activity.details.map((detail, index) => (
-                    <ActivityCard
-                      key={`${activity.category}-${index}`}
-                      detail={detail}
-                    />
-                  ))}
-                </S.Grid>
-              )
-          )}
-        </S.Content>
+        {renderTabs}
+        {renderContent}
       </S.Inner>
     </S.Container>
   );

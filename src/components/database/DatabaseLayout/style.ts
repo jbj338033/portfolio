@@ -190,8 +190,7 @@ export const Sidebar = styled.nav<{
 export const MainContainer = styled.main`
   flex: 1;
   min-width: 0;
-  padding: ${({ theme }) => theme.spacing.xl}
-    ${({ theme }) => theme.spacing.xxl};
+  padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.xxl};
   overflow-x: hidden;
 
   @media (max-width: 768px) {

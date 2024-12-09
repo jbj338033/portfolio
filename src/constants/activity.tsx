@@ -5,7 +5,7 @@ import { BsLink45Deg } from "react-icons/bs";
 export const ACTIVITIES: Activity[] = [
   {
     category: "교내 활동",
-    icon: <HiOutlineAcademicCap />,
+    icon: HiOutlineAcademicCap,
     details: [
       {
         title: "24 나르샤 프로젝트",
@@ -46,7 +46,7 @@ export const ACTIVITIES: Activity[] = [
   },
   {
     category: "대외 활동",
-    icon: <BsLink45Deg />,
+    icon: BsLink45Deg,
     details: [
       {
         title: "해커그라운드",
