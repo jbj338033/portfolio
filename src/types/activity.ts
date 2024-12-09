@@ -1,4 +1,6 @@
-interface ActivityDetail {
+import { IconType } from "react-icons";
+
+export interface ActivityDetail {
   title: string;
   startDate: string;
   endDate?: string;
@@ -12,6 +14,6 @@ interface ActivityDetail {
 
 export interface Activity {
   category: string;
-  icon: JSX.Element;
+  icon: IconType;
   details: ActivityDetail[];
 }
