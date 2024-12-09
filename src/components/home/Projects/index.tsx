@@ -1,5 +1,5 @@
+import { useState, useCallback, useEffect, memo, useMemo } from "react";
 import * as S from "./style";
-import { useState, useCallback, useEffect } from "react";
 import { BsGithub } from "react-icons/bs";
 import { BiLinkExternal } from "react-icons/bi";
 import { VscLock } from "react-icons/vsc";
@@ -9,93 +9,370 @@ import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { Project } from "../../../types/project";
 import { PROJECTS } from "../../../constants/project";
 
-const Projects = () => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState(0);
+// Types
+interface TouchState {
+  start: number;
+  end: number;
+  isDragging: boolean;
+  offset: number;
+}
 
-  const featuredProjects = PROJECTS.filter((p) => p.featured);
-  const regularProjects = PROJECTS.filter((p) => !p.featured);
+interface ProjectCardProps {
+  project: Project;
+  onClick: (project: Project) => void;
+  isFeatured?: boolean;
+}
 
-  const handlePrevImage = useCallback(() => {
-    if (!selectedProject?.images || isDragging) return;
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? selectedProject.images!.length - 1 : prev - 1
-    );
-  }, [selectedProject?.images, isDragging]);
+interface ImageSliderProps {
+  images: string[];
+  title: string;
+  currentIndex: number;
+  onIndexChange: (index: number) => void;
+}
 
-  const handleNextImage = useCallback(() => {
-    if (!selectedProject?.images || isDragging) return;
-    setCurrentImageIndex((prev) =>
-      prev === selectedProject.images!.length - 1 ? 0 : prev + 1
-    );
-  }, [selectedProject?.images, isDragging]);
+interface ProjectModalProps {
+  project: Project;
+  onClose: () => void;
+}
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setIsDragging(true);
-    setTouchStart(e.targetTouches[0].clientX);
-    setTouchEnd(e.targetTouches[0].clientX);
+interface PeriodProps {
+  startDate: string;
+  endDate?: string;
+}
+
+interface SkillsListProps {
+  skills: string[];
+  limit?: number;
+}
+
+interface ProjectUrlProps {
+  url: {
+    link: string;
+    deprecated?: boolean;
   };
+}
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging) return;
-    setTouchEnd(e.targetTouches[0].clientX);
-    const offset = touchStart - e.targetTouches[0].clientX;
-    setDragOffset(offset);
-  };
+// Constants
+const MIN_SWIPE_DISTANCE = 50;
+const DESCRIPTION_PREVIEW_LENGTH = 2;
+const SKILLS_PREVIEW_LENGTH = 4;
 
-  const handleTouchEnd = () => {
-    if (!isDragging) return;
-    const distance = touchStart - touchEnd;
-    const minSwipeDistance = 50;
+// Memoized Components
+const Period = memo(({ startDate, endDate }: PeriodProps) => (
+  <S.Period>
+    <SlCalender aria-hidden="true" />
+    <time dateTime={startDate}>{startDate}</time>
+    {" ~ "}
+    {endDate ? <time dateTime={endDate}>{endDate}</time> : "진행중"}
+  </S.Period>
+));
 
-    if (Math.abs(distance) > minSwipeDistance) {
-      if (distance > 0) {
-        handleNextImage();
-      } else {
-        handlePrevImage();
+Period.displayName = "Period";
+
+const SkillsList = memo(({ skills, limit }: SkillsListProps) => {
+  const displaySkills = limit ? skills.slice(0, limit) : skills;
+
+  return (
+    <S.SkillsList role="list">
+      {displaySkills.map((skill) => (
+        <S.SkillItem key={skill} role="listitem">
+          {skill}
+        </S.SkillItem>
+      ))}
+      {limit && skills.length > limit && (
+        <S.SkillItem aria-label={`And ${skills.length - limit} more skills`}>
+          +{skills.length - limit}
+        </S.SkillItem>
+      )}
+    </S.SkillsList>
+  );
+});
+
+SkillsList.displayName = "SkillsList";
+
+const ProjectCard = memo(
+  ({ project, onClick, isFeatured }: ProjectCardProps) => (
+    <S.ProjectCard
+      onClick={() => onClick(project)}
+      tabIndex={0}
+      role="button"
+      aria-label={`View details of ${project.title}`}
+      onKeyPress={(e) => e.key === "Enter" && onClick(project)}
+    >
+      <S.ProjectImage src={project.thumbnail} alt="" loading="lazy" />
+      <S.ProjectContent>
+        <S.ProjectHeader>
+          <S.Category>{project.category}</S.Category>
+          <Period startDate={project.startDate} endDate={project.endDate} />
+        </S.ProjectHeader>
+        <S.ProjectTitle>{project.title}</S.ProjectTitle>
+        <S.ProjectDescription role="list">
+          {project.description
+            .slice(0, isFeatured ? undefined : DESCRIPTION_PREVIEW_LENGTH)
+            .map((desc, i) => (
+              <li key={i} role="listitem">
+                {desc}
+              </li>
+            ))}
+        </S.ProjectDescription>
+        <SkillsList
+          skills={project.skills}
+          limit={isFeatured ? undefined : SKILLS_PREVIEW_LENGTH}
+        />
+      </S.ProjectContent>
+    </S.ProjectCard>
+  )
+);
+
+ProjectCard.displayName = "ProjectCard";
+
+const ImageSlider = memo(
+  ({ images, title, currentIndex, onIndexChange }: ImageSliderProps) => {
+    const [touchState, setTouchState] = useState<TouchState>({
+      start: 0,
+      end: 0,
+      isDragging: false,
+      offset: 0,
+    });
+
+    const handleTouchStart = useCallback((e: React.TouchEvent) => {
+      setTouchState((prev) => ({
+        ...prev,
+        start: e.targetTouches[0].clientX,
+        end: e.targetTouches[0].clientX,
+        isDragging: true,
+      }));
+    }, []);
+
+    const handleTouchMove = useCallback((e: React.TouchEvent) => {
+      setTouchState((prev) => {
+        if (!prev.isDragging) return prev;
+        const end = e.targetTouches[0].clientX;
+        return {
+          ...prev,
+          end,
+          offset: prev.start - end,
+        };
+      });
+    }, []);
+
+    const handleTouchEnd = useCallback(() => {
+      const { start, end, isDragging } = touchState;
+      if (!isDragging) return;
+
+      const distance = start - end;
+      if (Math.abs(distance) > MIN_SWIPE_DISTANCE) {
+        if (distance > 0 && currentIndex < images.length - 1) {
+          onIndexChange(currentIndex + 1);
+        } else if (distance < 0 && currentIndex > 0) {
+          onIndexChange(currentIndex - 1);
+        }
       }
-    }
 
-    setIsDragging(false);
-    setDragOffset(0);
-    setTouchStart(0);
-    setTouchEnd(0);
-  };
+      setTouchState({ start: 0, end: 0, isDragging: false, offset: 0 });
+    }, [touchState, currentIndex, images.length, onIndexChange]);
 
-  useEffect(() => {
-    const body = document.body;
-    if (selectedProject) {
-      body.style.overflow = "hidden";
-    } else {
-      body.style.overflow = "unset";
-    }
-    return () => {
-      body.style.overflow = "unset";
-    };
-  }, [selectedProject]);
+    return (
+      <S.ImageContainer>
+        <S.ImageTrack
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{
+            transform: `translateX(calc(-${currentIndex * 100}% - ${
+              touchState.offset
+            }px))`,
+          }}
+        >
+          {images.map((image, index) => (
+            <S.ImageSlide key={index}>
+              <img src={image} alt={`${title} screenshot ${index + 1}`} />
+            </S.ImageSlide>
+          ))}
+        </S.ImageTrack>
+
+        {images.length > 1 && (
+          <>
+            <S.ImageNavigation>
+              <S.NavButton
+                onClick={() => onIndexChange(currentIndex - 1)}
+                disabled={currentIndex === 0}
+                aria-label="Previous image"
+                className="prev"
+              >
+                <MdNavigateBefore aria-hidden="true" />
+              </S.NavButton>
+              <S.NavButton
+                onClick={() => onIndexChange(currentIndex + 1)}
+                disabled={currentIndex === images.length - 1}
+                aria-label="Next image"
+                className="next"
+              >
+                <MdNavigateNext aria-hidden="true" />
+              </S.NavButton>
+            </S.ImageNavigation>
+            <S.ImageIndicator role="tablist" aria-label="Image navigation">
+              {images.map((_, idx) => (
+                <S.IndicatorDot
+                  key={idx}
+                  active={idx === currentIndex}
+                  onClick={() => onIndexChange(idx)}
+                  role="tab"
+                  aria-selected={idx === currentIndex}
+                  aria-label={`Image ${idx + 1} of ${images.length}`}
+                />
+              ))}
+            </S.ImageIndicator>
+          </>
+        )}
+      </S.ImageContainer>
+    );
+  }
+);
+
+ImageSlider.displayName = "ImageSlider";
+
+const ProjectLinks = memo(
+  ({ github, readme }: { github?: string; readme?: string }) => (
+    <S.ProjectLinks>
+      {readme && (
+        <S.LinkButton href={readme} target="_blank" rel="noopener noreferrer">
+          README
+        </S.LinkButton>
+      )}
+      {github && (
+        <S.LinkButton href={github} target="_blank" rel="noopener noreferrer">
+          <BsGithub aria-hidden="true" /> GitHub
+        </S.LinkButton>
+      )}
+    </S.ProjectLinks>
+  )
+);
+
+ProjectLinks.displayName = "ProjectLinks";
+
+const ProjectUrl = memo(({ url }: ProjectUrlProps) => {
+  if (url.deprecated) {
+    return (
+      <S.DeprecatedUrl>
+        <VscLock aria-hidden="true" />
+        {url.link}
+      </S.DeprecatedUrl>
+    );
+  }
+
+  return (
+    <S.DemoLink href={url.link} target="_blank" rel="noopener noreferrer">
+      <BiLinkExternal aria-hidden="true" />
+      {url.link}
+    </S.DemoLink>
+  );
+});
+
+ProjectUrl.displayName = "ProjectUrl";
+
+const ProjectModal = memo(({ project, onClose }: ProjectModalProps) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (!selectedProject) return;
-      if (e.key === "ArrowLeft") handlePrevImage();
-      if (e.key === "ArrowRight") handleNextImage();
-      if (e.key === "Escape") setSelectedProject(null);
+      switch (e.key) {
+        case "Escape":
+          onClose();
+          break;
+        case "ArrowLeft":
+          if (project.images && currentImageIndex > 0) {
+            setCurrentImageIndex((prev) => prev - 1);
+          }
+          break;
+        case "ArrowRight":
+          if (project.images && currentImageIndex < project.images.length - 1) {
+            setCurrentImageIndex((prev) => prev + 1);
+          }
+          break;
+      }
     };
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [selectedProject, handlePrevImage, handleNextImage]);
+  }, [currentImageIndex, project.images, onClose]);
 
-  const formatPeriod = (startDate: string, endDate?: string) => (
-    <S.Period>
-      <SlCalender />
-      {startDate} ~ {endDate || "진행중"}
-    </S.Period>
+  return (
+    <S.Modal onClick={onClose} role="dialog" aria-modal="true">
+      <S.ModalContent onClick={(e) => e.stopPropagation()}>
+        <S.CloseButton onClick={onClose} aria-label="Close modal">
+          <IoClose aria-hidden="true" />
+        </S.CloseButton>
+        <S.ModalBody>
+          <S.ProjectHeader>
+            <S.Category>{project.category}</S.Category>
+            <Period startDate={project.startDate} endDate={project.endDate} />
+          </S.ProjectHeader>
+
+          <S.ModalTitle>{project.title}</S.ModalTitle>
+          {project.team && <S.ProjectTeam>{project.team}</S.ProjectTeam>}
+
+          {project.images && project.images.length > 0 && (
+            <ImageSlider
+              images={project.images}
+              title={project.title}
+              currentIndex={currentImageIndex}
+              onIndexChange={setCurrentImageIndex}
+            />
+          )}
+
+          <S.ProjectDescription role="list">
+            {project.description.map((desc, i) => (
+              <li key={i} role="listitem">
+                {desc}
+              </li>
+            ))}
+          </S.ProjectDescription>
+
+          {project.url && <ProjectUrl url={project.url} />}
+
+          <S.SkillsSection>
+            <S.SectionTitle>Skills</S.SectionTitle>
+            <SkillsList skills={project.skills} />
+          </S.SkillsSection>
+
+          <ProjectLinks
+            github={project.links.github}
+            readme={project.links.readme}
+          />
+        </S.ModalBody>
+      </S.ModalContent>
+    </S.Modal>
   );
+});
+
+ProjectModal.displayName = "ProjectModal";
+
+const Projects = () => {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const { featuredProjects, regularProjects } = useMemo(
+    () => ({
+      featuredProjects: PROJECTS.filter((p) => p.featured),
+      regularProjects: PROJECTS.filter((p) => !p.featured),
+    }),
+    []
+  );
+
+  useEffect(() => {
+    document.body.style.overflow = selectedProject ? "hidden" : "unset";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedProject]);
+
+  const handleProjectSelect = useCallback((project: Project) => {
+    setSelectedProject(project);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setSelectedProject(null);
+  }, []);
 
   return (
     <S.Container id="projects">
@@ -113,35 +390,12 @@ const Projects = () => {
               <S.SectionTitle>Featured Projects</S.SectionTitle>
               <S.FeaturedGrid>
                 {featuredProjects.map((project) => (
-                  <S.ProjectCard
+                  <ProjectCard
                     key={project.title}
-                    onClick={() => {
-                      setSelectedProject(project);
-                      setCurrentImageIndex(0);
-                    }}
-                  >
-                    <S.ProjectImage
-                      src={project.thumbnail}
-                      alt={project.title}
-                    />
-                    <S.ProjectContent>
-                      <S.ProjectHeader>
-                        <S.Category>{project.category}</S.Category>
-                        {formatPeriod(project.startDate, project.endDate)}
-                      </S.ProjectHeader>
-                      <S.ProjectTitle>{project.title}</S.ProjectTitle>
-                      <S.ProjectDescription>
-                        {project.description.map((desc, i) => (
-                          <li key={i}>{desc}</li>
-                        ))}
-                      </S.ProjectDescription>
-                      <S.SkillsList>
-                        {project.skills.map((skill) => (
-                          <S.SkillItem key={skill}>{skill}</S.SkillItem>
-                        ))}
-                      </S.SkillsList>
-                    </S.ProjectContent>
-                  </S.ProjectCard>
+                    project={project}
+                    onClick={handleProjectSelect}
+                    isFeatured
+                  />
                 ))}
               </S.FeaturedGrid>
             </S.FeaturedSection>
@@ -152,40 +406,11 @@ const Projects = () => {
               <S.SectionTitle>Other Projects</S.SectionTitle>
               <S.ProjectsGrid>
                 {regularProjects.map((project) => (
-                  <S.ProjectCard
+                  <ProjectCard
                     key={project.title}
-                    onClick={() => {
-                      setSelectedProject(project);
-                      setCurrentImageIndex(0);
-                    }}
-                  >
-                    <S.ProjectImage
-                      src={project.thumbnail}
-                      alt={project.title}
-                    />
-                    <S.ProjectContent>
-                      <S.ProjectHeader>
-                        <S.Category>{project.category}</S.Category>
-                        {formatPeriod(project.startDate, project.endDate)}
-                      </S.ProjectHeader>
-                      <S.ProjectTitle>{project.title}</S.ProjectTitle>
-                      <S.ProjectDescription>
-                        {project.description.slice(0, 2).map((desc, i) => (
-                          <li key={i}>{desc}</li>
-                        ))}
-                      </S.ProjectDescription>
-                      <S.SkillsList>
-                        {project.skills.slice(0, 4).map((skill) => (
-                          <S.SkillItem key={skill}>{skill}</S.SkillItem>
-                        ))}
-                        {project.skills.length > 4 && (
-                          <S.SkillItem>
-                            +{project.skills.length - 4}
-                          </S.SkillItem>
-                        )}
-                      </S.SkillsList>
-                    </S.ProjectContent>
-                  </S.ProjectCard>
+                    project={project}
+                    onClick={handleProjectSelect}
+                  />
                 ))}
               </S.ProjectsGrid>
             </S.ProjectsSection>
@@ -194,129 +419,10 @@ const Projects = () => {
       </S.Inner>
 
       {selectedProject && (
-        <S.Modal onClick={() => setSelectedProject(null)}>
-          <S.ModalContent onClick={(e) => e.stopPropagation()}>
-            <S.CloseButton onClick={() => setSelectedProject(null)}>
-              <IoClose />
-            </S.CloseButton>
-            <S.ModalBody>
-              <S.ProjectHeader>
-                <S.Category>{selectedProject.category}</S.Category>
-                {formatPeriod(
-                  selectedProject.startDate,
-                  selectedProject.endDate
-                )}
-              </S.ProjectHeader>
-
-              <S.ModalTitle>{selectedProject.title}</S.ModalTitle>
-              {selectedProject.team && (
-                <S.ProjectTeam>{selectedProject.team}</S.ProjectTeam>
-              )}
-
-              {selectedProject.images && selectedProject.images.length > 0 && (
-                <S.ImageContainer>
-                  <S.ImageTrack
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                    style={{
-                      transform: `translateX(calc(-${
-                        currentImageIndex * 100
-                      }% - ${dragOffset}px))`,
-                    }}
-                  >
-                    {selectedProject.images.map((image, index) => (
-                      <S.ImageSlide key={index}>
-                        <img
-                          src={image}
-                          alt={`${selectedProject.title} ${index + 1}`}
-                        />
-                      </S.ImageSlide>
-                    ))}
-                  </S.ImageTrack>
-
-                  {selectedProject.images.length > 1 && (
-                    <>
-                      <S.ImageNavigation>
-                        <S.NavButton onClick={handlePrevImage} className="prev">
-                          <MdNavigateBefore />
-                        </S.NavButton>
-                        <S.NavButton onClick={handleNextImage} className="next">
-                          <MdNavigateNext />
-                        </S.NavButton>
-                      </S.ImageNavigation>
-                      <S.ImageIndicator>
-                        {selectedProject.images.map((_, idx) => (
-                          <S.IndicatorDot
-                            key={idx}
-                            active={idx === currentImageIndex}
-                            onClick={() => setCurrentImageIndex(idx)}
-                          />
-                        ))}
-                      </S.ImageIndicator>
-                    </>
-                  )}
-                </S.ImageContainer>
-              )}
-
-              <S.ProjectDescription>
-                {selectedProject.description.map((desc, i) => (
-                  <li key={i}>{desc}</li>
-                ))}
-              </S.ProjectDescription>
-
-              {selectedProject.url &&
-                (selectedProject.url.deprecated ? (
-                  <S.DeprecatedUrl>
-                    <VscLock />
-                    {selectedProject.url.link}
-                  </S.DeprecatedUrl>
-                ) : (
-                  <S.DemoLink
-                    href={selectedProject.url.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BiLinkExternal />
-                    {selectedProject.url.link}
-                  </S.DemoLink>
-                ))}
-
-              <S.SkillsSection>
-                <S.SectionTitle>Skills</S.SectionTitle>
-                <S.SkillsList>
-                  {selectedProject.skills.map((skill) => (
-                    <S.SkillItem key={skill}>{skill}</S.SkillItem>
-                  ))}
-                </S.SkillsList>
-              </S.SkillsSection>
-
-              <S.ProjectLinks>
-                {selectedProject.links.readme && (
-                  <S.LinkButton
-                    href={selectedProject.links.readme}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    README
-                  </S.LinkButton>
-                )}
-                {selectedProject.links.github && (
-                  <S.LinkButton
-                    href={selectedProject.links.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BsGithub /> GitHub
-                  </S.LinkButton>
-                )}
-              </S.ProjectLinks>
-            </S.ModalBody>
-          </S.ModalContent>
-        </S.Modal>
+        <ProjectModal project={selectedProject} onClose={handleModalClose} />
       )}
     </S.Container>
   );
 };
 
-export default Projects;
+export default memo(Projects);
