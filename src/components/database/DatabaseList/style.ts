@@ -105,7 +105,6 @@ export const Date = styled.span`
   font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
-// List View Styles
 export const ListItem = styled.div<{ isActive: boolean }>`
   display: flex;
   align-items: center;

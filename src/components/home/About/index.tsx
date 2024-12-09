@@ -22,7 +22,6 @@ interface InfoItemProps {
   value: string;
 }
 
-// 상수 데이터
 const ABOUT_INFO: readonly AboutInfo[] = [
   {
     icon: BsPerson,
@@ -56,7 +55,6 @@ const ABOUT_INFO: readonly AboutInfo[] = [
   },
 ] as const;
 
-// InfoItem 컴포넌트
 const InfoItem = memo(({ icon: Icon, label, value }: InfoItemProps) => (
   <S.InfoItem>
     <S.IconWrapper>
@@ -71,7 +69,6 @@ const InfoItem = memo(({ icon: Icon, label, value }: InfoItemProps) => (
 
 InfoItem.displayName = "InfoItem";
 
-// Header 컴포넌트
 const Header = memo(() => (
   <S.Header>
     <S.Title>About</S.Title>
@@ -81,7 +78,6 @@ const Header = memo(() => (
 
 Header.displayName = "Header";
 
-// 메인 About 컴포넌트
 const About = () => {
   return (
     <S.Container id="about">

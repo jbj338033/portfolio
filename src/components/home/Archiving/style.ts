@@ -22,7 +22,6 @@ export const Title = styled.h2`
   color: ${({ theme }) => theme.colors.text.primary};
   margin: 0 0 ${({ theme }) => theme.spacing.md} 0;
 
-  // 포인트 컬러 적용
   span {
     color: ${({ theme }) => theme.colors.primary.main};
   }
@@ -72,7 +71,6 @@ export const CardUrl = styled.div`
   color: ${({ theme }) => theme.colors.text.secondary};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
 
-  // URL에 포인트 컬러 적용
   &:hover {
     color: ${({ theme }) => theme.colors.primary.main};
   }

@@ -9,7 +9,6 @@ export const Container = styled.div<{ viewMode: "list" | "grid" }>`
   max-width: 100%;
 `;
 
-// Grid View Styles
 export const TopicCard = styled.div<{ isActive: boolean }>`
   background: ${({ theme }) => theme.colors.background.default};
   border: 1px solid
@@ -108,7 +107,6 @@ export const TopicDate = styled.div`
   font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
-// List View Styles
 export const ListItem = styled.div<{ isActive: boolean }>`
   display: flex;
   align-items: center;

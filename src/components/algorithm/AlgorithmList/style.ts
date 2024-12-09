@@ -1,4 +1,3 @@
-// style.ts
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { keyframes } from "@emotion/react";

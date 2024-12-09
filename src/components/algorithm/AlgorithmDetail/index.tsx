@@ -1,4 +1,3 @@
-// index.tsx
 import { useParams } from "react-router-dom";
 import { ALL_ALGORITHMS } from "../../../constants/algorithm";
 import { useMemo } from "react";

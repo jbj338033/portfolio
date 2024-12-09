@@ -7,7 +7,6 @@ export const LayoutContainer = styled.div`
   background: ${({ theme }) => theme.colors.background.default};
 `;
 
-// Sidebar Styles
 export const Sidebar = styled.nav<{ isMobileMenuOpen: boolean }>`
   width: 320px;
   height: 100vh;
@@ -40,7 +39,6 @@ export const TopSection = styled.div`
   }
 `;
 
-// Menu Styles
 export const MenuWrapper = styled.div`
   flex: 1;
   padding: ${({ theme }) => theme.spacing.md} 0;
@@ -157,7 +155,6 @@ export const TopicTitle = styled.div<{ isActive: boolean }>`
   line-height: 1.4;
 `;
 
-// Mobile Header Styles
 export const MobileHeader = styled.header`
   display: none;
 

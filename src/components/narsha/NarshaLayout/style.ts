@@ -7,7 +7,6 @@ export const LayoutContainer = styled.div`
   background: ${({ theme }) => theme.colors.background.default};
 `;
 
-// Sidebar Styles
 export const Sidebar = styled.nav<{ isMobileMenuOpen: boolean }>`
   width: 280px;
   height: 100vh;
@@ -52,7 +51,6 @@ export const TopSection = styled.div`
   }
 `;
 
-// Menu Styles
 export const MenuWrapper = styled.div`
   flex: 1;
   padding: ${({ theme }) => theme.spacing.sm} 0;
@@ -149,7 +147,6 @@ export const MenuLink = styled(NavLink)`
   }
 `;
 
-// Main Container Styles
 export const MainContainer = styled.main`
   flex: 1;
   min-width: 0;
@@ -159,7 +156,6 @@ export const MainContainer = styled.main`
   }
 `;
 
-// Mobile-specific Styles
 export const MobileHeader = styled.header`
   display: none;
 

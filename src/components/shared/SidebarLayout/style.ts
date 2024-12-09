@@ -7,7 +7,6 @@ export const LayoutContainer = styled.div`
   background: ${({ theme }) => theme.colors.background.default};
 `;
 
-// Sidebar
 export const Sidebar = styled.nav<{ isMobileMenuOpen: boolean }>`
   width: 320px;
   height: 100vh;
@@ -32,7 +31,6 @@ export const Sidebar = styled.nav<{ isMobileMenuOpen: boolean }>`
   }
 `;
 
-// Top Section
 export const TopSection = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
 
@@ -41,7 +39,6 @@ export const TopSection = styled.div`
   }
 `;
 
-// Search Styles
 export const SearchWrapper = styled.div`
   padding: ${({ theme }) => theme.spacing.md};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
@@ -128,7 +125,6 @@ export const SuggestionCategory = styled.span`
   border-radius: ${({ theme }) => theme.borderRadius.xs};
 `;
 
-// Menu Styles
 export const MenuWrapper = styled.div`
   flex: 1;
   padding: ${({ theme }) => theme.spacing.md} 0;

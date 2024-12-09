@@ -146,7 +146,7 @@ export const SidebarContent = styled.div`
   flex: 1;
   padding: ${({ theme }) => theme.spacing.lg};
   overflow-y: auto;
-  min-width: 0; // 추가: 자식 요소가 부모를 넘어가지 않도록 함
+  min-width: 0;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -164,7 +164,7 @@ export const Sidebar = styled.nav<{
   isMobileMenuOpen: boolean;
   isDetailView: boolean;
 }>`
-  width: 320px; // 너비를 조금 늘림
+  width: 320px;
   height: 100vh;
   background: ${({ theme }) => theme.colors.background.default};
   border-right: 1px solid ${({ theme }) => theme.colors.border.light};
@@ -190,8 +190,9 @@ export const Sidebar = styled.nav<{
 export const MainContainer = styled.main`
   flex: 1;
   min-width: 0;
-  padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.xxl};
-  overflow-x: hidden; // 가로 스크롤 방지
+  padding: ${({ theme }) => theme.spacing.xl}
+    ${({ theme }) => theme.spacing.xxl};
+  overflow-x: hidden;
 
   @media (max-width: 768px) {
     margin-top: 60px;

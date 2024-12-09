@@ -75,7 +75,6 @@ const JONGSUNG = [
   "ㅎ",
 ];
 
-// 한글 문자를 자모로 분리
 const decomposeHangul = (text: string): string => {
   const result: string[] = [];
 
@@ -83,11 +82,9 @@ const decomposeHangul = (text: string): string => {
     const char = text[i];
     const code = char.charCodeAt(0);
 
-    // 한글 유니코드 범위 체크 (가 ~ 힣)
     if (code >= 0xac00 && code <= 0xd7a3) {
       const normalized = code - 0xac00;
 
-      // 초성, 중성, 종성 추출
       const cho = Math.floor(normalized / (21 * 28));
       const jung = Math.floor((normalized % (21 * 28)) / 28);
       const jong = normalized % 28;
@@ -105,7 +102,6 @@ const decomposeHangul = (text: string): string => {
   return result.join("");
 };
 
-// 초성만 추출
 const getChosung = (text: string): string => {
   return text
     .split("")
@@ -124,7 +120,6 @@ interface SearchItem {
   title: string;
 }
 
-// 검색 함수
 export const getHangulSearch = <T extends SearchItem>(
   query: string,
   items: T[]
@@ -133,7 +128,6 @@ export const getHangulSearch = <T extends SearchItem>(
   const decomposedQuery = decomposeHangul(normalizedQuery);
   const chosungQuery = getChosung(normalizedQuery);
 
-  // 아이템별로 검색용 문자열 생성 및 캐시
   const searchableItems = items.map((item) => ({
     ...item,
     searchStr: item.title.toLowerCase(),
@@ -142,11 +136,10 @@ export const getHangulSearch = <T extends SearchItem>(
   }));
 
   return searchableItems.filter((item) => {
-    // 일반 검색
     if (item.searchStr.includes(normalizedQuery)) return true;
-    // 자모 분리 검색
+
     if (item.decomposed.includes(decomposedQuery)) return true;
-    // 초성 검색
+
     if (item.chosung.includes(chosungQuery)) return true;
     return false;
   });

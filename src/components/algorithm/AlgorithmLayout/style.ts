@@ -13,14 +13,12 @@ const fadeIn = keyframes`
   }
 `;
 
-// Layout Container
 export const LayoutContainer = styled.div`
   display: flex;
   min-height: 100vh;
   background: ${({ theme }) => theme.colors.background.default};
 `;
 
-// Sidebar
 export const Sidebar = styled.nav<{ isMobileMenuOpen: boolean }>`
   width: 320px;
   height: 100vh;
@@ -53,7 +51,6 @@ export const TopSection = styled.div`
   }
 `;
 
-// Search Styles
 export const SearchWrapper = styled.div`
   padding: ${({ theme }) => theme.spacing.md};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
@@ -140,7 +137,6 @@ export const AlgorithmCategory = styled.span`
   border-radius: ${({ theme }) => theme.borderRadius.xs};
 `;
 
-// Menu Styles
 export const MenuWrapper = styled.div`
   flex: 1;
   padding: ${({ theme }) => theme.spacing.md} 0;
@@ -267,7 +263,6 @@ export const HomeLink = styled(Link)`
   }
 `;
 
-// Mobile Styles
 export const MobileHeader = styled.header`
   display: none;
 
@@ -308,7 +303,6 @@ export const MobileMenuToggle = styled.button`
   justify-content: center;
 `;
 
-// Main Container
 export const MainContainer = styled.main`
   flex: 1;
   min-width: 0;

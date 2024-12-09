@@ -94,15 +94,13 @@ export const NavItem = styled.button<StyleProps>`
     background: ${({ theme, isScrolled, isActive }) => {
       if (!isActive) return "transparent";
 
-      // Updated logic for underline color
       if (isScrolled) {
         return theme.colors.text.primary;
       }
 
-      // When not scrolled, use different colors based on theme mode
       return theme.mode === "dark"
-        ? theme.colors.text.primary // Use primary text color in dark mode
-        : theme.colors.text.inverse; // Use inverse color in light mode
+        ? theme.colors.text.primary
+        : theme.colors.text.inverse;
     }};
     transform: scaleX(${({ isActive }) => (isActive ? 1 : 0)});
     transition: transform 0.2s;

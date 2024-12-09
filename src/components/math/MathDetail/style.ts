@@ -116,7 +116,6 @@ export const SectionTitle = styled.h2`
   }
 `;
 
-// Example Styles
 export const ExampleList = styled.div`
   display: flex;
   flex-direction: column;
@@ -166,7 +165,6 @@ export const Explanation = styled.div`
   line-height: 1.6;
 `;
 
-// Prerequisite Styles
 export const PrerequisiteList = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -207,7 +205,6 @@ export const PrerequisiteLink = styled(Link)`
   }
 `;
 
-// Formula Styles
 export const FormulaList = styled.div`
   display: flex;
   flex-direction: column;

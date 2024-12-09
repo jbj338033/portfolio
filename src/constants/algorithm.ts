@@ -19,7 +19,6 @@ export const SORT_ALGORITHMS: Algorithm[] = [
     timeComplexity: "O(n²)",
     spaceComplexity: "O(1)",
   },
-  // ... 나머지 정렬 알고리즘들
 ];
 
 export const GRAPH_ALGORITHMS: Algorithm[] = [
@@ -41,7 +40,6 @@ export const GRAPH_ALGORITHMS: Algorithm[] = [
     timeComplexity: "O(E log V)",
     spaceComplexity: "O(V)",
   },
-  // ... 나머지 그래프 알고리즘들
 ];
 
 export const ALL_ALGORITHMS = [...SORT_ALGORITHMS, ...GRAPH_ALGORITHMS];

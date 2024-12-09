@@ -22,7 +22,6 @@ const NarshaLayout = () => {
     setIsMobileMenuOpen(false);
   };
 
-  // Determine the current active project for mobile header title
   const activeProject = NARSHA_PROJECTS.find((project) =>
     project.entries.some((entry) =>
       window.location.pathname.includes(`/narsha/${project.id}/${entry.id}`)

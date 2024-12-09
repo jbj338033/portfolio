@@ -1,4 +1,3 @@
-// NarshaDetail/index.tsx
 import { useParams, useNavigate } from "react-router-dom";
 import { BsCalendarWeek, BsPeople, BsArrowLeft } from "react-icons/bs";
 import { NARSHA_PROJECTS } from "../../../constants/narsha";

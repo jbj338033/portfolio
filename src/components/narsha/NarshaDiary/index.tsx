@@ -1,4 +1,3 @@
-// NarshaDiary/index.tsx
 import { useState } from "react";
 import { BsCalendarWeek, BsArrowRight } from "react-icons/bs";
 import { NarshaEntry } from "../../../types/narsha";
