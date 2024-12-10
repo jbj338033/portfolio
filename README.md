@@ -1,50 +1,28 @@
-# React + TypeScript + Vite
+# 포트폴리오 사이트
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+여기에 오신 것을 환영합니다! 이 사이트는 제가 직접 만든 포트폴리오를 보여주는 공간입니다. 저의 프로젝트와 경험을 통해 성장해온 저의 경력을 확인해 보세요.
 
-Currently, two official plugins are available:
+## 프로젝트 목록
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+저의 프로젝트 목록이 여기 있습니다. 각 프로젝트에 대한 자세한 정보를 확인하려면 링크를 클릭해 보세요.
 
-## Expanding the ESLint configuration
+- [Solve](https://github.com/NameOfTeam/solve-server)
+- [OpenMusic](https://github.com/Open3r/openmusic-server)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 기술 스택
 
-- Configure the top-level `parserOptions` property like this:
+저는 다음과 같은 기술 스택을 사용합니다.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- 프로그래밍 언어: TypeScript, Kotlin, Python
+- 프론트엔드: React, Next.js, Emotion, Tailwind CSS, Zustand, React Query, Flutter
+- 백엔드: Spring Boot, MySQL, MongoDB, Express
+- DevOps: AWS, Docker, Jenkins, Nginx
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 연락처
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+제 프로젝트에 관심이 있으신가요? 제 경력에 대해 더 알고 싶으신가요? 다음 연락처 정보를 통해 저에게 연락해 보세요.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- 이메일: [jbj338033@gmail.com](mailto:jbj338033@gmail.com)
+- 전화번호: [010-3105-4591]
+
+감사합니다. 제 포트폴리오를 방문해 주셔서 감사합니다.
