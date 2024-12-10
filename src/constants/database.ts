@@ -1,6 +1,6 @@
-import { DatabaseClassEntry } from "../types/database";
+import { DatabaseEntry } from "../types/database";
 
-export const DATABASE_CLASS_ENTRIES: DatabaseClassEntry[] = [
+export const DATABASE_CLASS_ENTRIES: DatabaseEntry[] = [
   {
     id: 1,
     week: 1,
