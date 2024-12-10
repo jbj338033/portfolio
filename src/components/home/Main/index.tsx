@@ -5,6 +5,14 @@ import { BsArrowDownCircle } from "react-icons/bs";
 
 const HEADER_HEIGHT = 60;
 
+interface BackgroundProps {
+  src: string;
+  alt: string;
+  role: "presentation";
+  loading: "eager";
+  fetchpriority: "high" | "low" | "auto";
+}
+
 const MainContent = memo(() => (
   <S.Texts>
     <S.Greeting>Hello, World!</S.Greeting>
@@ -27,13 +35,13 @@ const MainContent = memo(() => (
 MainContent.displayName = "MainContent";
 
 const Main = () => {
-  const backgroundProps = useMemo(
+  const backgroundProps = useMemo<BackgroundProps>(
     () => ({
       src: background,
       alt: "",
       role: "presentation",
-      loading: "eager" as const,
-      fetchPriority: "high" as const,
+      loading: "eager",
+      fetchpriority: "high",
     }),
     []
   );
