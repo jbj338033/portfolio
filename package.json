@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
+    "@types/react-katex": "^3.0.4",
     "@types/react-syntax-highlighter": "^15.5.13",
     "framer-motion": "^11.13.1",
     "katex": "^0.16.11",
@@ -19,6 +20,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
+    "react-katex": "^3.0.1",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^7.0.2",
     "react-syntax-highlighter": "^15.6.1",

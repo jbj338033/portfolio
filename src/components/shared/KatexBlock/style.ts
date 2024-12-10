@@ -16,7 +16,6 @@ export const Container = styled.div<{ isBlock: boolean }>`
 
   .katex-display {
     margin: 0;
-
     > .katex {
       white-space: normal;
       text-align: left;
@@ -25,7 +24,6 @@ export const Container = styled.div<{ isBlock: boolean }>`
 
   .katex-html {
     white-space: normal;
-
     > .tag {
       position: relative;
     }
