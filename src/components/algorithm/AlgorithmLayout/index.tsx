@@ -1,7 +1,5 @@
-import SidebarLayout, {
-  MenuItem,
-  SearchItem,
-} from "../../shared/SidebarLayout";
+import SidebarLayout, { MenuItem } from "../../shared/SidebarLayout";
+import { SearchItem } from "../../../stores/sidebar";
 import {
   SORT_ALGORITHMS,
   GRAPH_ALGORITHMS,
