@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback, memo, useMemo } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   IoArrowBack,
@@ -7,8 +7,12 @@ import {
   IoClose,
   IoSearch,
 } from "react-icons/io5";
+import debounce from "lodash/debounce";
+import { Virtuoso } from "react-virtuoso";
+import { useSidebarStore, SearchItem } from "../../../stores/sidebar";
 import * as S from "./style";
 
+// Types
 export interface MenuItem {
   id: string;
   title: string;
@@ -18,13 +22,6 @@ export interface MenuItem {
     number?: string;
     title: string;
   }[];
-}
-
-export interface SearchItem {
-  id: string;
-  title: string;
-  category: string;
-  categoryLabel?: string;
 }
 
 interface Props {
@@ -38,6 +35,95 @@ interface Props {
   onItemClick?: (menuId: string, itemId: string) => void;
 }
 
+// Memoized Components
+const HomeLink = memo(({ isMobile }: { isMobile: boolean }) => (
+  <S.HomeLink to="/" className={isMobile ? "mobile" : "desktop"}>
+    <IoArrowBack />
+    <span>메인으로</span>
+  </S.HomeLink>
+));
+
+HomeLink.displayName = "HomeLink";
+
+const MenuItem = memo(
+  ({
+    item,
+    defaultPath,
+    menuId,
+    onClick,
+  }: {
+    item: { id: string; number?: string; title: string };
+    defaultPath: string;
+    menuId: string;
+    onClick: (menuId: string, itemId: string) => void;
+  }) => (
+    <S.MenuItem>
+      <S.MenuLink
+        to={`${defaultPath}/${menuId}/${item.id}`}
+        onClick={() => onClick(menuId, item.id)}
+      >
+        {({ isActive }) => (
+          <>
+            {item.number && (
+              <S.ItemNumber isActive={isActive}>{item.number}</S.ItemNumber>
+            )}
+            <S.ItemTitle isActive={isActive}>{item.title}</S.ItemTitle>
+          </>
+        )}
+      </S.MenuLink>
+    </S.MenuItem>
+  )
+);
+
+MenuItem.displayName = "MenuItem";
+
+const MenuSection = memo(
+  ({
+    menu,
+    isOpen,
+    defaultPath,
+    onItemClick,
+  }: {
+    menu: MenuItem;
+    isOpen: boolean;
+    defaultPath: string;
+    onItemClick: (menuId: string, itemId: string) => void;
+  }) => {
+    const store = useSidebarStore();
+
+    return (
+      <S.MenuSection>
+        <S.MenuTitle onClick={() => store.toggleMenu(menu.id)}>
+          <S.MenuTitleText>{menu.title}</S.MenuTitleText>
+          {menu.isCompleted !== undefined && (
+            <S.StatusBadge completed={menu.isCompleted}>
+              {menu.isCompleted ? "완료" : "진행중"}
+            </S.StatusBadge>
+          )}
+          <S.MenuChevron isOpen={isOpen}>
+            <IoChevronDown />
+          </S.MenuChevron>
+        </S.MenuTitle>
+        {isOpen && (
+          <S.MenuList>
+            {menu.items.map((item) => (
+              <MenuItem
+                key={item.id}
+                item={item}
+                defaultPath={defaultPath}
+                menuId={menu.id}
+                onClick={onItemClick}
+              />
+            ))}
+          </S.MenuList>
+        )}
+      </S.MenuSection>
+    );
+  }
+);
+
+MenuSection.displayName = "MenuSection";
+
 const SidebarLayout = ({
   title,
   menuItems,
@@ -49,95 +135,86 @@ const SidebarLayout = ({
 }: Props) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [openMenus, setOpenMenus] = useState<string[]>([]);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [suggestions, setSuggestions] = useState<SearchItem[]>([]);
   const searchRef = useRef<HTMLDivElement>(null);
+  const store = useSidebarStore();
 
   useEffect(() => {
     const pathParts = location.pathname.split("/");
     if (pathParts.length >= 3) {
       const currentSection = pathParts[2];
-      if (!openMenus.includes(currentSection)) {
-        setOpenMenus((prev) => [...prev, currentSection]);
+      if (!store.openMenus.includes(currentSection)) {
+        store.setOpenMenus([...store.openMenus, currentSection]);
       }
     }
-  }, [location.pathname, openMenus]);
+  }, [location.pathname, store]);
 
-  const toggleMenu = (id: string) => {
-    setOpenMenus((prev) =>
-      prev.includes(id) ? prev.filter((menuId) => menuId !== id) : [...prev, id]
-    );
-  };
+  const debouncedSearchFn = useMemo(
+    () =>
+      debounce((value: string) => {
+        if (!value) {
+          store.setSuggestions([]);
+          return;
+        }
+        if (onSearch) {
+          const results = onSearch(value);
+          store.setSuggestions(results);
+        }
+      }, 300),
+    [store, onSearch]
+  );
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      store.setSearchTerm(value);
+      debouncedSearchFn(value);
+    },
+    [store, debouncedSearchFn]
+  );
 
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
+  const handleSearchItemSelect = useCallback(
+    (item: SearchItem) => {
+      navigate(`${defaultPath}/${item.category}/${item.id}`);
+      store.clearSearch();
+      store.setMobileMenuOpen(false);
+    },
+    [navigate, defaultPath, store]
+  );
 
-  const handleItemClick = (menuId: string, itemId: string) => {
-    closeMobileMenu();
-    onItemClick?.(menuId, itemId);
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-
-    if (!value) {
-      setSuggestions([]);
-      return;
-    }
-
-    if (onSearch) {
-      const results = onSearch(value);
-      setSuggestions(results);
-    }
-  };
-
-  const handleSearchItemSelect = (item: SearchItem) => {
-    navigate(`${defaultPath}/${item.category}/${item.id}`);
-    setSearchTerm("");
-    setSuggestions([]);
-    closeMobileMenu();
-  };
+  const handleItemClick = useCallback(
+    (menuId: string, itemId: string) => {
+      store.setMobileMenuOpen(false);
+      onItemClick?.(menuId, itemId);
+    },
+    [store, onItemClick]
+  );
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
-        setSuggestions([]);
+        store.setSuggestions([]);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [store]);
 
   return (
     <S.LayoutContainer>
       <S.MobileHeader>
-        <S.HomeLink to="/" className="mobile">
-          <IoArrowBack />
-          <span>메인으로</span>
-        </S.HomeLink>
-
+        <HomeLink isMobile={true} />
         <S.MobileTitle>{title}</S.MobileTitle>
-
-        <S.MobileMenuToggle onClick={toggleMobileMenu}>
-          {isMobileMenuOpen ? <IoClose /> : <IoMenu />}
+        <S.MobileMenuToggle
+          onClick={() => store.setMobileMenuOpen(!store.isMobileMenuOpen)}
+        >
+          {store.isMobileMenuOpen ? <IoClose /> : <IoMenu />}
         </S.MobileMenuToggle>
       </S.MobileHeader>
 
-      <S.Sidebar isMobileMenuOpen={isMobileMenuOpen}>
+      <S.Sidebar isMobileMenuOpen={store.isMobileMenuOpen}>
         <S.TopSection>
-          <S.HomeLink to="/" className="desktop">
-            <IoArrowBack />
-            <span>메인으로</span>
-          </S.HomeLink>
+          <HomeLink isMobile={false} />
         </S.TopSection>
 
         {enableSearch && (
@@ -146,22 +223,30 @@ const SidebarLayout = ({
               <IoSearch />
               <S.SearchInput
                 placeholder={searchPlaceholder}
-                value={searchTerm}
+                value={store.searchTerm}
                 onChange={handleSearchChange}
               />
-              {suggestions.length > 0 && (
+              {store.suggestions.length > 0 && (
                 <S.SuggestionList>
-                  {suggestions.map((item) => (
-                    <S.SuggestionItem
-                      key={`${item.category}-${item.id}`}
-                      onClick={() => handleSearchItemSelect(item)}
-                    >
-                      <S.SuggestionTitle>{item.title}</S.SuggestionTitle>
-                      <S.SuggestionCategory>
-                        {item.categoryLabel || item.category}
-                      </S.SuggestionCategory>
-                    </S.SuggestionItem>
-                  ))}
+                  <Virtuoso
+                    style={{ height: "200px" }}
+                    totalCount={store.suggestions.length}
+                    itemContent={(index) => (
+                      <S.SuggestionItem
+                        onClick={() =>
+                          handleSearchItemSelect(store.suggestions[index])
+                        }
+                      >
+                        <S.SuggestionTitle>
+                          {store.suggestions[index].title}
+                        </S.SuggestionTitle>
+                        <S.SuggestionCategory>
+                          {store.suggestions[index].categoryLabel ||
+                            store.suggestions[index].category}
+                        </S.SuggestionCategory>
+                      </S.SuggestionItem>
+                    )}
+                  />
                 </S.SuggestionList>
               )}
             </S.SearchContainer>
@@ -169,46 +254,19 @@ const SidebarLayout = ({
         )}
 
         <S.MenuWrapper onClick={(e) => e.stopPropagation()}>
-          {menuItems.map((menu) => (
-            <S.MenuSection key={menu.id}>
-              <S.MenuTitle onClick={() => toggleMenu(menu.id)}>
-                <S.MenuTitleText>{menu.title}</S.MenuTitleText>
-                {menu.isCompleted !== undefined && (
-                  <S.StatusBadge completed={menu.isCompleted}>
-                    {menu.isCompleted ? "완료" : "진행중"}
-                  </S.StatusBadge>
-                )}
-                <S.MenuChevron isOpen={openMenus.includes(menu.id)}>
-                  <IoChevronDown />
-                </S.MenuChevron>
-              </S.MenuTitle>
-              {openMenus.includes(menu.id) && (
-                <S.MenuList>
-                  {menu.items.map((item) => (
-                    <S.MenuItem key={item.id}>
-                      <S.MenuLink
-                        to={`${defaultPath}/${menu.id}/${item.id}`}
-                        onClick={() => handleItemClick(menu.id, item.id)}
-                      >
-                        {({ isActive }) => (
-                          <>
-                            {item.number && (
-                              <S.ItemNumber isActive={isActive}>
-                                {item.number}
-                              </S.ItemNumber>
-                            )}
-                            <S.ItemTitle isActive={isActive}>
-                              {item.title}
-                            </S.ItemTitle>
-                          </>
-                        )}
-                      </S.MenuLink>
-                    </S.MenuItem>
-                  ))}
-                </S.MenuList>
-              )}
-            </S.MenuSection>
-          ))}
+          <Virtuoso
+            style={{ height: "calc(100vh - 200px)" }}
+            totalCount={menuItems.length}
+            itemContent={(index) => (
+              <MenuSection
+                key={menuItems[index].id}
+                menu={menuItems[index]}
+                isOpen={store.openMenus.includes(menuItems[index].id)}
+                defaultPath={defaultPath}
+                onItemClick={handleItemClick}
+              />
+            )}
+          />
         </S.MenuWrapper>
       </S.Sidebar>
 
@@ -219,4 +277,4 @@ const SidebarLayout = ({
   );
 };
 
-export default SidebarLayout;
+export default memo(SidebarLayout);
