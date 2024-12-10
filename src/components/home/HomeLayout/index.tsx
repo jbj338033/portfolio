@@ -18,5 +18,4 @@ const HomeLayout = () => {
   );
 };
 
-// 상위 컴포넌트로부터의 props 변화가 없으므로 메모이제이션
 export default memo(HomeLayout);
