@@ -5,7 +5,6 @@ import { ACTIVITIES } from "../../../constants/activity";
 import { ActivityDetail } from "../../../types/activity";
 import { IconType } from "react-icons";
 
-// Types
 interface TabItemProps {
   category: string;
   icon: IconType;
@@ -29,7 +28,6 @@ interface ActivityCardProps {
   detail: ActivityDetail;
 }
 
-// Memoized Components
 const TabItem = memo(
   ({ category, icon: Icon, isActive, onClick }: TabItemProps) => (
     <S.TabItem
