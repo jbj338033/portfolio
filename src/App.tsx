@@ -11,7 +11,7 @@ import AlgorithmLayout from "./components/algorithm/AlgorithmLayout";
 import AlgorithmList from "./components/algorithm/AlgorithmList";
 import { AlgorithmDetail } from "./components/algorithm/AlgorithmDetail";
 import { ThemeProvider } from "@emotion/react";
-import { useThemeStore } from "./stores/themeStore";
+import { useThemeStore } from "./stores/theme";
 import { THEMES } from "./constants/theme";
 import AILayout from "./components/ai/AILayout";
 import AIList from "./components/ai/AIList";
@@ -27,24 +27,18 @@ function App() {
     <ThemeProvider theme={THEMES[theme]}>
       <BrowserRouter>
         <Routes>
-          {/* 홈 레이아웃 및 메인 페이지 */}
           <Route path="/" element={<RootLayout />}>
             <Route index element={<Home />} />
           </Route>
 
-          {/* 나르샤 섹션 */}
           <Route path="/narsha" element={<NarshaLayout />}>
-            {/* 프로젝트 목록 */}
             <Route index element={<NarshaList />} />
 
-            {/* 특정 프로젝트의 일지 목록 */}
             <Route path=":projectId" element={<NarshaDiaryContainer />} />
 
-            {/* 특정 프로젝트의 특정 일지 상세 */}
             <Route path=":projectId/:entryId" element={<NarshaDetail />} />
           </Route>
 
-          {/* 데이터베이스 섹션 */}
           <Route path="/database" element={<DatabaseLayout />}>
             <Route path=":id" element={<DatabaseDetail />} />
           </Route>
