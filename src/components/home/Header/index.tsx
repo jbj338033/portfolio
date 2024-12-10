@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, memo, useMemo, useRef } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { BsSun, BsMoon } from "react-icons/bs";
 import * as S from "./style";
-import { useThemeStore } from "../../../stores/themeStore";
+import { useThemeStore } from "../../../stores/theme";
 import { debounce } from "lodash";
 
 // Types
