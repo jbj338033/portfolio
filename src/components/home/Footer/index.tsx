@@ -64,7 +64,7 @@ Copyright.displayName = "Copyright";
 
 const Footer = () => {
   return (
-    <S.Container>
+    <S.Container id="footer">
       <S.Inner>
         <ContactLinks />
         <Copyright />
