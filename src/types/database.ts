@@ -1,4 +1,4 @@
-export interface DatabaseClassEntry {
+export interface DatabaseEntry {
   id: number;
   week: number;
   date: string;
