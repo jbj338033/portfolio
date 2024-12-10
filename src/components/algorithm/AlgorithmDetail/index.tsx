@@ -17,7 +17,7 @@ const ComplexityCard = ({ title, value }: ComplexityProps) => (
   </S.ComplexityCard>
 );
 
-export const AlgorithmDetail = () => {
+const AlgorithmDetail = () => {
   const { id } = useParams();
 
   const algorithm = useMemo(
@@ -84,3 +84,5 @@ export const AlgorithmDetail = () => {
     </S.Container>
   );
 };
+
+export default AlgorithmDetail;

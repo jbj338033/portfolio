@@ -9,7 +9,7 @@ import NarshaList from "./components/narsha/NarshaList";
 import NarshaDiaryContainer from "./components/narsha/NarshaDiaryContainer";
 import AlgorithmLayout from "./components/algorithm/AlgorithmLayout";
 import AlgorithmList from "./components/algorithm/AlgorithmList";
-import { AlgorithmDetail } from "./components/algorithm/AlgorithmDetail";
+import AlgorithmDetail from "./components/algorithm/AlgorithmDetail";
 import { ThemeProvider } from "@emotion/react";
 import { useThemeStore } from "./stores/theme";
 import { THEMES } from "./constants/theme";
