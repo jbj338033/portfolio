@@ -125,7 +125,7 @@ const DatabaseDetail = () => {
         <MarkdownRenderer content={entry.content} />
       </S.Content>
 
-      {entry.assignments?.length > 0 && (
+      {entry.assignments && entry.assignments?.length > 0 && (
         <S.Section>
           <S.SectionTitle>
             <BsClock aria-hidden="true" />
@@ -139,7 +139,7 @@ const DatabaseDetail = () => {
         </S.Section>
       )}
 
-      {entry.resources?.length > 0 && (
+      {entry.resources && entry.resources?.length > 0 && (
         <S.Section>
           <S.SectionTitle>
             <BsBook aria-hidden="true" />
