@@ -1,3 +1,4 @@
+import { memo, useMemo, useCallback } from "react";
 import SidebarLayout, { MenuItem } from "../../shared/SidebarLayout";
 import { SearchItem } from "../../../stores/sidebar";
 import {
@@ -6,44 +7,58 @@ import {
 } from "../../../constants/algorithm";
 import { getHangulSearch } from "../../../utils/hangulSearch";
 
-const menuItems: MenuItem[] = [
-  {
-    id: "sort",
-    title: "정렬 알고리즘",
-    items: SORT_ALGORITHMS.map((algo) => ({
-      id: algo.id,
-      title: algo.title,
-    })),
-  },
-  {
-    id: "graph",
-    title: "그래프 알고리즘",
-    items: GRAPH_ALGORITHMS.map((algo) => ({
-      id: algo.id,
-      title: algo.title,
-    })),
-  },
-];
-
-const searchItems: SearchItem[] = [
-  ...SORT_ALGORITHMS.map((algo) => ({
-    id: algo.id,
-    title: algo.title,
-    category: "sort",
-    categoryLabel: "정렬",
-  })),
-  ...GRAPH_ALGORITHMS.map((algo) => ({
-    id: algo.id,
-    title: algo.title,
-    category: "graph",
-    categoryLabel: "그래프",
-  })),
-];
+interface Algorithm {
+  id: string;
+  title: string;
+}
 
 const AlgorithmLayout = () => {
-  const handleSearch = (term: string) => {
-    return getHangulSearch(term, searchItems);
-  };
+  const menuItems: MenuItem[] = useMemo(
+    () => [
+      {
+        id: "sort",
+        title: "정렬 알고리즘",
+        items: SORT_ALGORITHMS.map((algo) => ({
+          id: algo.id,
+          title: algo.title,
+        })),
+      },
+      {
+        id: "graph",
+        title: "그래프 알고리즘",
+        items: GRAPH_ALGORITHMS.map((algo) => ({
+          id: algo.id,
+          title: algo.title,
+        })),
+      },
+    ],
+    []
+  );
+
+  const searchItems: SearchItem[] = useMemo(
+    () => [
+      ...SORT_ALGORITHMS.map((algo: Algorithm) => ({
+        id: algo.id,
+        title: algo.title,
+        category: "sort",
+        categoryLabel: "정렬",
+      })),
+      ...GRAPH_ALGORITHMS.map((algo: Algorithm) => ({
+        id: algo.id,
+        title: algo.title,
+        category: "graph",
+        categoryLabel: "그래프",
+      })),
+    ],
+    []
+  );
+
+  const handleSearch = useCallback(
+    (term: string) => {
+      return getHangulSearch(term, searchItems);
+    },
+    [searchItems]
+  );
 
   return (
     <SidebarLayout
@@ -57,4 +72,4 @@ const AlgorithmLayout = () => {
   );
 };
 
-export default AlgorithmLayout;
+export default memo(AlgorithmLayout);
