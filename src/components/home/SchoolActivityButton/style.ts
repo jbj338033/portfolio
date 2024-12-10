@@ -13,14 +13,14 @@ export const ButtonWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-end; // 오른쪽 정렬로 변경
+  align-items: flex-end;
 `;
 
 export const EmphasisHint = styled(motion.div)`
   position: absolute;
   top: -48px;
-  right: 0; // 오른쪽 정렬로 변경
-  transform: none; // transform 제거
+  right: 0;
+  transform: none;
   background: ${({ theme }) => theme.colors.primary.main};
   color: ${({ theme }) => theme.colors.text.inverse};
   padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.md}`};

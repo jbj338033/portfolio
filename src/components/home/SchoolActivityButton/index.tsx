@@ -7,7 +7,6 @@ import { AiFillRobot } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
 import * as S from "./style";
 
-// Types
 interface Activity {
   readonly id: string;
   readonly name: string;
@@ -20,10 +19,8 @@ interface ActivityItemProps extends Omit<Activity, "id"> {
   onClick?: () => void;
 }
 
-// Constants
-const EMPHASIS_THRESHOLD = 0.9; // 90% for emphasis
+const EMPHASIS_THRESHOLD = 0.9;
 
-// Animation variants
 const menuVariants = {
   hidden: { opacity: 0, y: 20, scale: 0.95 },
   visible: {
@@ -159,7 +156,7 @@ const SchoolActivityButton = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial check
+    handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
