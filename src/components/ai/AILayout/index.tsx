@@ -1,17 +1,23 @@
+import { memo, useMemo } from "react";
 import SidebarLayout from "../../shared/SidebarLayout";
 import { AI_CHAPTERS } from "../../../constants/ai";
+import { AIChapter } from "../../../types/ai";
 
 const AILayout = () => {
-  const menuItems = AI_CHAPTERS.map((chapter) => ({
-    id: chapter.id,
-    title: chapter.title,
-    isCompleted: chapter.isCompleted,
-    items: chapter.topics.map((topic) => ({
-      id: topic.id,
-      number: `${chapter.number}.${topic.number}`,
-      title: topic.title,
-    })),
-  }));
+  const menuItems = useMemo(
+    () =>
+      AI_CHAPTERS.map((chapter: AIChapter) => ({
+        id: chapter.id,
+        title: chapter.title,
+        isCompleted: chapter.isCompleted,
+        items: chapter.topics.map((topic) => ({
+          id: topic.id,
+          number: `${chapter.number}.${topic.number}`,
+          title: topic.title,
+        })),
+      })),
+    []
+  );
 
   return (
     <SidebarLayout
@@ -22,4 +28,4 @@ const AILayout = () => {
   );
 };
 
-export default AILayout;
+export default memo(AILayout);
