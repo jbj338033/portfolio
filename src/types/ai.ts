@@ -8,7 +8,7 @@ export interface AITopic {
   id: string;
   title: string;
   number: number;
-  category: "기초" | "머신러닝" | "딥러닝";
+  category: "기초" | "머신러닝" | "딥러닝" | "프로젝트";
   description: string;
   date: string;
   content: string;
