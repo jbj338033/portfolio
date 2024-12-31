@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.13.5",
     "@types/react-katex": "^3.0.4",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/three": "^0.171.0",
     "framer-motion": "^11.13.1",
     "katex": "^0.16.11",
     "lodash": "^4.17.21",
@@ -25,6 +26,8 @@
     "react-router-dom": "^7.0.2",
     "react-syntax-highlighter": "^15.6.1",
     "react-virtuoso": "^4.12.3",
+    "three": "^0.172.0",
+    "troika-three-text": "^0.52.3",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
