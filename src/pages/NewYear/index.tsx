@@ -1,4 +1,3 @@
-// index.tsx
 import React, { useEffect, useRef, useState } from "react";
 import * as S from "./style";
 
@@ -280,6 +279,7 @@ const NewYearCounter: React.FC = () => {
         cancelAnimationFrame(rafId.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <S.Canvas ref={canvasRef} />;
