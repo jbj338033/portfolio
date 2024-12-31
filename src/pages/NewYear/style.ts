@@ -129,9 +129,6 @@ export const Message = styled(motion.div)`
   padding: 0.8em 2em;
   text-shadow: 0 0 7px rgba(255, 255, 255, 0.4),
     0 0 10px rgba(255, 255, 255, 0.2), 0 0 21px rgba(51, 51, 255, 0.2);
-  border: 1px solid rgba(51, 51, 255, 0.3);
-  border-radius: 100px;
-  box-shadow: 0 0 15px rgba(51, 51, 255, 0.1);
 
   &::before {
     content: "";
@@ -139,16 +136,6 @@ export const Message = styled(motion.div)`
     inset: 0;
     border-radius: 100px;
     padding: 1px;
-    background: linear-gradient(
-      90deg,
-      rgba(51, 51, 255, 0),
-      rgba(51, 51, 255, 0.5),
-      rgba(51, 51, 255, 0)
-    );
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
     mask-composite: exclude;
   }
 `;
