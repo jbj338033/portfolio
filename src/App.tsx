@@ -19,6 +19,7 @@ import AIDetail from "./components/ai/AIDetail";
 import MathLayout from "./components/math/MathLayout";
 import MathList from "./components/math/MathList";
 import MathDetail from "./components/math/MathDetail";
+import NewYearCounter from "./pages/NewYear";
 
 function App() {
   const theme = useThemeStore((state) => state.theme);
@@ -69,6 +70,8 @@ function App() {
               element={<Navigate to="/math/polynomial" replace />}
             />
           </Route>
+
+          <Route path="/newyear" element={<NewYearCounter />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
